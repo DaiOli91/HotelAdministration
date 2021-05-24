@@ -96,4 +96,18 @@ public class Booking {
     private void setTotalCost() {
         this.totalCost = room.getCategory().getPrice() * getAmountOfNights();
     }
+
+    @Override
+    public String toString() {
+        return "╔═  Booking ID: " + id + "   ══════════════════════════" + '\n' +
+                "╠═ Room:" + room + '\n' +
+                "╠═ Main Passenger:" + mainPassenger + '\n' +
+                "╠═ Optional Passenger:" + optionalPassenger + '\n' +
+                "╠═ Start Date:" + startDate + '\n' +
+                "╠═ End Date:" + endDate + '\n' +
+                "╠═ Amount Of Nights:" + amountOfNights + '\n' +
+                "╠═ State:" + state + '\n' +
+                "╠═ Total Cost:" + totalCost + '\n' +
+                "╚══════════════════════════════════════";
+    }
 }
