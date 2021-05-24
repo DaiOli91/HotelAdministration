@@ -40,10 +40,9 @@ public class Room {
 
     @Override
     public String toString() {
-        return "╔═  Room Data   ══════════════════════════" + '\n' +
-                "╠═ Number=" + number + '\n' +
-                "╠═ Category=" + category + '\n' +
-                "╠═ Availability=" + availability + '\n' +
+        return "╔═  Room Number: " + number + "   ══════════════════════════" + '\n' +
+                "╠═ Category:" + category + '\n' +
+                "╠═ Availability:" + availability + '\n' +
                 "╚══════════════════════════════════════";
     }
 }

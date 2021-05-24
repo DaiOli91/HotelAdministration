@@ -98,10 +98,8 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "╔═  User Data   ══════════════════════════" + '\n' +
+        return "╔═  User Name: " + firstName + " " + lastName + "   ══════════════════════════" + '\n' +
                 "╠═ DNI: " + dni + '\n' +
-                "╠═ First Name: " + firstName + '\n' +
-                "╠═ Last Name: " + lastName + '\n' +
                 "╠═ Age:" + age + '\n' +
                 "╠═ Gender:" + gender + '\n' +
                 "╠═ Address: " + address + '\n' +
