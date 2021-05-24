@@ -8,17 +8,17 @@ public enum Category {
     Executive("Executive", "King", 1, true, true, true, 4800);
 
     private String name;
-    private String bedType;
+    private String bedSize;
     private int numberOfBeds;
     private boolean hasPrivBathroom;
     private boolean hasFridge;
     private boolean hasTV;
     private int price;
 
-    private Category(String name, String bedType, int numberOfBeds, boolean hasPrivBathroom, boolean hasFridge, boolean hasTV, int price) {
+    private Category(String name, String bedSize, int numberOfBeds, boolean hasPrivBathroom, boolean hasFridge, boolean hasTV, int price) {
 
         this.name = name;
-        this.bedType = bedType;
+        this.bedSize = bedSize;
         this.numberOfBeds = numberOfBeds;
         this.hasPrivBathroom = hasPrivBathroom;
         this.hasFridge = hasFridge;
@@ -30,8 +30,8 @@ public enum Category {
         return name;
     }
 
-    public String getBedType() {
-        return bedType;
+    public String getBedSize() {
+        return bedSize;
     }
 
     public int getNumberOfBeds() {
