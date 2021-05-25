@@ -11,6 +11,6 @@ public class Manager extends Employee {
     public String toString() {
         return super.toString() +
                 "╠═ Role: Manager" + '\n' +
-                "╚══════════════════════════════════════";
+                "╚══════════════════════════════════════" + '\n';
     }
 }

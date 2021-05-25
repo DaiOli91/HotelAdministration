@@ -21,6 +21,6 @@ public class Receptionist extends Employee{
         return super.toString() +
                 "╠═ Role: Receptionist" + '\n' +
                 "╠═ Shift: "+ shift + '\n' +
-                "╚══════════════════════════════════════";
+                "╚══════════════════════════════════════" + '\n';
     }
 }

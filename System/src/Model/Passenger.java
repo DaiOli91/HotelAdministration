@@ -21,6 +21,6 @@ public class Passenger extends User{
     public String toString() {
         return super.toString() +
                 "╠═  Origin: " + origin + '\n' +
-                "╚══════════════════════════════════════";
+                "╚══════════════════════════════════════" + '\n';
     }
 }
