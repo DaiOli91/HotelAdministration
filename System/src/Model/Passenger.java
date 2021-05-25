@@ -9,6 +9,12 @@ public class Passenger extends User{
         this.origin = origin;
     }
 
+    public Passenger(String dni, String password) {
+        super(dni, password);
+        this.origin = "";
+    }
+
+
     public String getOrigin() {
         return origin;
     }

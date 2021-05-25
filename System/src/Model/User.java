@@ -23,6 +23,17 @@ public abstract class User {
         this.email = email;
         this.password = password;
     }
+    public User(String dni, String password) {
+        this.dni = dni;
+        this.firstName = "";
+        this.lastName = "";
+        this.age = 0;
+        this.gender = Gender.FEMALE;
+        this.address = "";
+        this.telephone = "";
+        this.email = "";
+        this.password = password;
+    }
 
     public String getDni() {
         return dni;
