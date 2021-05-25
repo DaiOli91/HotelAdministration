@@ -6,7 +6,7 @@ import Model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomRepository /*implements IRepository<Room>*/ {
+public class RoomRepository implements IRepository<Room, Integer> {
     private List<Room> rooms;
 
     public RoomRepository() {
@@ -20,4 +20,23 @@ public class RoomRepository /*implements IRepository<Room>*/ {
         return rooms.toString();
     }
 
+    @Override
+    public String add(Room room) {
+        return "";
+    }
+
+    @Override
+    public void delete(Integer integer) {
+
+    }
+
+    @Override
+    public Room search(Integer integer) {
+        return null;
+    }
+
+    @Override
+    public void edit(Room room) {
+
+    }
 }

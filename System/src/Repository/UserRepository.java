@@ -6,7 +6,7 @@ import Model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository /*implements IRepository<User>*/ {
+public class UserRepository implements IRepository<User, String> {
     private List<User> users;
 
     public UserRepository() {
@@ -21,6 +21,7 @@ public class UserRepository /*implements IRepository<User>*/ {
         return users.toString();
     }
 
+
     // ╔═══════════════════════════════ End User Methods
     //TODO Password should be 10 characters long
     public String add(User user) {
@@ -33,6 +34,21 @@ public class UserRepository /*implements IRepository<User>*/ {
         } else this.users.add(user);
 
         return message;
+    }
+
+    @Override
+    public void delete(String s) {
+
+    }
+
+    @Override
+    public User search(String s) {
+        return null;
+    }
+
+    @Override
+    public void edit(User user) {
+
     }
 
     public void addSuperAdmin() {
