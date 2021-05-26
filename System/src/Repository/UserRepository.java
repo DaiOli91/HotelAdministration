@@ -5,6 +5,7 @@ import Model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserRepository implements IRepository<User, String> {
     private List<User> users;
@@ -19,6 +20,49 @@ public class UserRepository implements IRepository<User, String> {
 
     public String getUsersData() {
         return users.toString();
+    }
+
+    public List<User> getActiveEmployees(){
+        List<User> activeEmployees = users
+                .stream()
+                .filter(user -> user instanceof Employee)
+                .filter(employee -> ((Employee) employee)
+                        .getActive())
+                .collect(Collectors.toList());
+        return activeEmployees;
+    }
+
+    public List<User> getFormerEmployees(){
+        List<User> formerEmployees = users
+                .stream()
+                .filter(user -> user instanceof Employee)
+                .filter(employee -> ((Employee) employee)
+                        .getActive() == false)
+                .collect(Collectors.toList());
+
+        return formerEmployees;
+    }
+
+    public List<User> getActiveReceptionists(){
+        List<User> activeReceptionist = users
+                .stream()
+                .filter(user -> user instanceof Receptionist)
+                .filter(receptionist -> ((Receptionist) receptionist)
+                        .getActive())
+                .collect(Collectors
+                        .toList());
+        return activeReceptionist;
+    }
+
+
+
+    public List<User> getPassengers(){
+        List<User> passengers = users
+                .stream()
+                .filter(user -> user instanceof Passenger)
+                .collect(Collectors
+                        .toList());
+        return passengers;
     }
 
 
@@ -36,18 +80,57 @@ public class UserRepository implements IRepository<User, String> {
         return message;
     }
 
+    public String addEmployee(Employee employee){
+        String message = "User has been added successfully";
+        if (this.users.isEmpty()) {
+            this.addSuperAdmin();
+            this.users.add(employee);
+        } else if (this.users.contains(employee)) {
+            message = "Employee already exists";
+        } else this.users.add(employee);
+
+        return message;
+    }
+
     @Override
     public void delete(String s) {
+        if(!this.users.isEmpty()){
+            for (User aux_user : users
+                 ) {
+                if (aux_user.getDni().equals(s)){
+                    users.remove(aux_user);
+                }
 
+            }
+        }
     }
 
     @Override
     public User search(String s) {
-        return null;
+        User returnUser = null;
+        if (!this.users.isEmpty()) {
+            for (User aux_user : users
+            ) {
+                if (aux_user.getDni().equals(s)) {
+                    returnUser = aux_user;
+                }
+
+            }
+        }
+        return returnUser;
     }
 
     @Override
     public void edit(User user) {
+        if (!this.users.isEmpty()) {
+            for (User aux_user : users
+            ) {
+                if (aux_user.getDni().equals(user.getDni())) {
+                    users.add(users.indexOf(aux_user), user);
+                }
+
+            }
+        }
 
     }
 
