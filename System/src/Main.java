@@ -16,10 +16,13 @@ public class Main {
                 , "oliveratup@gmail.com"
                 , "pass456");
 
-        System.out.println(hotel1.logInHotel(user1.getDni(), user1.getPassword()));
-        System.out.println(hotel1.register(user1));
-        System.out.println(hotel1.getUsersData());
-        System.out.println(hotel1.logInHotel(user1.getDni(), user1.getPassword()));
+      //  System.out.println(hotel1.logInHotel(user1.getDni(), user1.getPassword()));
+     //   System.out.println(hotel1.register(user1));
+      //  System.out.println(hotel1.getUsersData());
+      //  System.out.println(hotel1.logInHotel(user1.getDni(), user1.getPassword()));
+
+        System.out.println(hotel1.getUserRepo().getFormerEmployees().toString());
+
 
     }
 }
