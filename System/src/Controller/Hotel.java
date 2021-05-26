@@ -31,6 +31,10 @@ public class Hotel {
         return users.getUsersData();
     }
 
+    public UserRepository getUserRepo(){
+        return users;
+    }
+
     public List<Booking> getBookings() {
         return bookings.getRoomBookings();
     }
