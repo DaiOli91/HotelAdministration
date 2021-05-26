@@ -42,7 +42,7 @@ public class RoomRepository implements IRepository<Room, Integer> {
     @Override
     public void edit(Room room) {
 
-        System.out.println("No se que carajo hacer aca. La clase no se edita y la chupan todos. Odio la facultad");
+        //@Wally possibly to overwrite an object with another
     }
 
     public String getRoomsData() {
