@@ -1,7 +1,7 @@
-import Controller.Hotel;
-import Model.*;
-import Repository.UserRepository;
-import Utils.Log;
+import controller.Hotel;
+import model.*;
+import util.Log;
+import menues.MenuPassenger;
 
 import java.util.Scanner;
 
@@ -120,7 +120,11 @@ public class Main {
                     User loggedUser = Log.LogIn(dni, password, OlivandersHotel.getUsers());
                     if (loggedUser != null) {
 
-                        System.out.println("\n" + loggedUser.toString() + "\n");
+                        if (loggedUser instanceof Passenger) {
+
+                            System.out.println("\nPassenger found. Welcome to Hotel Olivanders!");
+                            MenuPassenger.menuPassenger(scan, OlivandersHotel, loggedUser);
+                        }
                     } else {
 
                         System.out.println("\nUser not found. Please register or try to log in again\n");
@@ -142,6 +146,7 @@ public class Main {
                     break;
                 }
             }
+            scan.close();
         }
 
 
