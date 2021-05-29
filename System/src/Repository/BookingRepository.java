@@ -21,9 +21,8 @@ public class BookingRepository implements IRepository<Booking, Integer>
 
 
     @Override
-    public String add(Booking booking) {
+    public void add(Booking booking) {
         this.roomBookings.add(booking);
-        return "Booking successfully created";
     }
 
     @Override
