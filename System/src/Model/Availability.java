@@ -3,6 +3,7 @@ package Model;
 public enum Availability {
 
     FREE("Free"),
+    OCCUPIED("Occupied"),
     CLEANING("Cleaning"),
     IN_DESINFECTION("In Desinfection"),
     UNDER_REPAIR("Under Repair");
