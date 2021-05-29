@@ -1,15 +1,15 @@
-package Controller;
+package controller;
 
-import Model.*;
-import Repository.BookingRepository;
-import Repository.RoomRepository;
-import Repository.UserRepository;
+import model.*;
+import repository.BookingRepository;
+import repository.RoomRepository;
+import repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Hotel {
+
     private final UserRepository users;
     private final BookingRepository bookings;
     private final RoomRepository rooms;
@@ -43,70 +43,70 @@ public class Hotel {
         }
     }
 
-    public boolean deleteUser(String dni){
+    public boolean deleteUser(String dni) {
         return this.users.delete(dni);
     }
 
-    public User changeFirstName(String dni, String firstName){
+    public User changeFirstName(String dni, String firstName) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setFirstName(firstName);
         return this.users.edit(aux_user);
     }
 
-    public User changeLastName(String dni, String lastName){
+    public User changeLastName(String dni, String lastName) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setLastName(lastName);
         return this.users.edit(aux_user);
     }
 
-    public User changeAge(String dni, int age){
+    public User changeAge(String dni, int age) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setAge(age);
         return this.users.edit(aux_user);
     }
 
-    public User changeGender(String dni, Gender gender){
+    public User changeGender(String dni, Gender gender) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setGender(gender);
         return this.users.edit(aux_user);
     }
 
-    public User changeAddres(String dni, String address){
+    public User changeAddress(String dni, String address) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setAddress(address);
         return this.users.edit(aux_user);
     }
 
-    public User changeTelephone(String dni, String telephone){
+    public User changeTelephone(String dni, String telephone) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setTelephone(telephone);
         return this.users.edit(aux_user);
     }
 
-    public User changeEmail(String dni, String email){
+    public User changeEmail(String dni, String email) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setEmail(email);
         return this.users.edit(aux_user);
     }
 
-    public User changePassword(String dni, String password){
+    public User changePassword(String dni, String password) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
         aux_user.setPassword(password);
         return this.users.edit(aux_user);
     }
 
-    public User deactivateAccount(String dni){
+    public User deactivateAccount(String dni) {
         boolean flag = false;
         User aux_user = (User) this.users.search(dni);
-        if(aux_user != null){
+        if (aux_user != null) {
             aux_user.setActive();
             aux_user = users.edit(aux_user);
         }
@@ -153,15 +153,17 @@ public class Hotel {
     }
 
 
-
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
-    public boolean createBooking(Booking booking){
+    public boolean createBooking(Booking booking) {
         //TODO logic here to find available dates
+
+
         return this.bookings.add(booking);
     }
-    public boolean deleteBooking(Integer idbooking){
+
+    public boolean deleteBooking(Integer idBooking) {
         //TODO logic not to cancel booking on the same day- at least 48hs
-        return this.bookings.delete(idbooking);
+        return this.bookings.delete(idBooking);
     }
 
 
