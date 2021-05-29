@@ -7,8 +7,7 @@ import Model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingRepository implements IRepository<Booking, Integer>
-{
+public class BookingRepository implements IRepository<Booking, Integer> {
     private List<Booking> roomBookings;
 
     public BookingRepository() {
@@ -21,32 +20,40 @@ public class BookingRepository implements IRepository<Booking, Integer>
 
 
     @Override
-    public void add(Booking booking) {
-        this.roomBookings.add(booking);
+    public boolean add(Booking booking) {
+
+        return this.roomBookings.add(booking);
     }
 
     @Override
-    public void delete(Integer id) {
-        roomBookings.remove(roomBookings.stream().filter(booking1 -> booking1.getId() == id));
+    public boolean delete(Integer id) {
 
+        return roomBookings.remove(roomBookings.stream().filter(booking1 -> booking1.getId() == id));
     }
 
     @Override
     public Booking search(Integer id) {
-        Booking booking = (Booking) roomBookings.stream().filter(booking1 ->booking1.getId() == id);
+
+        Booking booking = (Booking) roomBookings.stream().filter(booking1 -> booking1.getId() == id);
+
         return booking;
     }
 
     @Override
-    public void edit(Booking booking) {
-        if (!this.roomBookings.isEmpty()) {
-            for (Booking aux_booking : roomBookings
-            ) {
-                if (aux_booking.getId() == booking.getId()) {
-                    roomBookings.add(roomBookings.indexOf(aux_booking), booking);
-                }
+    public Booking edit(Booking booking) {
 
+        if (!this.roomBookings.isEmpty()) {
+
+            for (Booking aux_booking : roomBookings) {
+
+                if (aux_booking.getId() == booking.getId()) {
+
+                    booking = roomBookings.set(roomBookings.indexOf(aux_booking), booking);
+
+                }
             }
         }
+
+        return booking;
     }
 }

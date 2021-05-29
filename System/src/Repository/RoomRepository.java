@@ -21,14 +21,15 @@ public class RoomRepository implements IRepository<Room, Integer> {
     }
 
     @Override
-    public void add(Room room) {
-        rooms.add(room);
+    public boolean add(Room room) {
+
+        return rooms.add(room);
     }
 
     @Override
-    public void delete(Integer roomNumber) {
+    public boolean delete(Integer roomNumber) {
 
-        rooms.remove((Room) rooms.stream().filter(room1 -> room1.getNumber() == roomNumber));
+        return rooms.remove((Room) rooms.stream().filter(room1 -> room1.getNumber() == roomNumber));
     }
 
     @Override
@@ -39,16 +40,20 @@ public class RoomRepository implements IRepository<Room, Integer> {
     }
 
     @Override
-    public void edit(Room room) {
-        if (!this.rooms.isEmpty()) {
-            for (Room aux_room : rooms
-            ) {
-                if (aux_room.getNumber() == room.getNumber()) {
-                    rooms.add(rooms.indexOf(aux_room), room);
-                }
+    public Room edit(Room room) {
 
+        if (!this.rooms.isEmpty()) {
+
+            for (Room aux_room : rooms) {
+
+                if (aux_room.getNumber() == room.getNumber()) {
+
+                    room = rooms.set(rooms.indexOf(aux_room), room);
+                }
             }
         }
+
+        return room;
     }
 
 }
