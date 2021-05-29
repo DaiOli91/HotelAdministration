@@ -6,9 +6,9 @@ public class Booking {
 
     private int id;
     private static int contId;
-    private Room room;
-    private Passenger mainPassenger;
-    private Passenger optionalPassenger;
+    private int idRoom;
+    private int idMainPassenger;
+    private int idOptionalPassenger;
     private LocalDate startDate;
     private LocalDate endDate;
     private int amountOfNights;
@@ -16,33 +16,33 @@ public class Booking {
     private double totalCost;
 
 
-    public Booking(Room room, Passenger mainPassenger, Passenger optionalPassenger, LocalDate startDate, LocalDate endDate, int amountOfNights, State state, double totalCost) {
+    public Booking(int idRoom, int idMainPassenger, int idOptionalPassenger, LocalDate startDate, LocalDate endDate, int amountOfNights, State state, double totalCost) {
 
         this.id = ++contId;
-        this.room = room;
-        this.mainPassenger = mainPassenger;
-        this.optionalPassenger = optionalPassenger;
+        this.idRoom = idRoom;
+        this.idMainPassenger = idMainPassenger;
+        this.idOptionalPassenger = idOptionalPassenger;
         this.startDate = startDate;
         this.endDate = endDate;
         this.amountOfNights = amountOfNights;
         this.state = state;
-        setTotalCost();
+        this.totalCost = 0;
     }
 
     public int getId() {
         return id;
     }
 
-    public Room getRoom() {
-        return room;
+    public int getIdRoom() {
+        return idRoom;
     }
 
-    public Passenger getMainPassenger() {
-        return mainPassenger;
+    public int getIdMainPassenger() {
+        return idMainPassenger;
     }
 
-    public Passenger getOptionalPassenger() {
-        return optionalPassenger;
+    public int getIdOptionalPassenger() {
+        return idOptionalPassenger;
     }
 
     public LocalDate getStartDate() {
@@ -65,16 +65,16 @@ public class Booking {
         return totalCost;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setIdRoom(int idRoom) {
+        this.idRoom = idRoom;
     }
 
-    public void setMainPassenger(Passenger mainPassenger) {
-        this.mainPassenger = mainPassenger;
+    public void setIdMainPassenger(int idMainPassenger) {
+        this.idMainPassenger = idMainPassenger;
     }
 
-    public void setOptionalPassenger(Passenger optionalPassenger) {
-        this.optionalPassenger = optionalPassenger;
+    public void setIdOptionalPassenger(int idOptionalPassenger) {
+        this.idOptionalPassenger = idOptionalPassenger;
     }
 
     public void setStartDate(LocalDate startDate) {
@@ -93,16 +93,16 @@ public class Booking {
         this.state = state;
     }
 
-    private void setTotalCost() {
-        this.totalCost = room.getCategory().getPrice() * getAmountOfNights();
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
     }
 
     @Override
     public String toString() {
         return "╔═  Booking ID: " + id + "   ══════════════════════════" + '\n' +
-                "╠═ Room:" + room + '\n' +
-                "╠═ Main Passenger:" + mainPassenger + '\n' +
-                "╠═ Optional Passenger:" + optionalPassenger + '\n' +
+                "╠═ Room:" + idRoom + '\n' +
+                "╠═ Main Passenger:" + idMainPassenger + '\n' +
+                "╠═ Optional Passenger:" + idOptionalPassenger + '\n' +
                 "╠═ Start Date:" + startDate + '\n' +
                 "╠═ End Date:" + endDate + '\n' +
                 "╠═ Amount Of Nights:" + amountOfNights + '\n' +
