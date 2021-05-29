@@ -7,12 +7,12 @@ import java.util.List;
 
 public class Log {
 
-    public User LogIn(String dni, String Password, List<User> users){
+    public static User LogIn(String dni, String Password, List<User> users){
         //bring data to memory from json
 
         User user = new Passenger(dni, Password);
         User returnUser = null;
-        if (users.isEmpty()) {
+        if (!users.isEmpty()) {
             for (User aux_user : users
             ) {
                 if ((aux_user.getDni().equals(user.getDni()))
