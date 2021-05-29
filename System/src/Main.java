@@ -1,6 +1,7 @@
 import Controller.Hotel;
 import Model.*;
 import Repository.UserRepository;
+import Utils.Log;
 
 import java.util.Scanner;
 
@@ -13,9 +14,8 @@ public class Main {
 
         Hotel OlivandersHotel = new Hotel();
 
-        UserRepository userRepository = new UserRepository();
-        userRepository.add(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
-        userRepository.add(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "tuvieja213"));
+        OlivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
+        OlivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "tuvieja123"));
 
         int z = 0, option = 0;
 
@@ -25,84 +25,106 @@ public class Main {
 
         while (z == 0) {
 
-            System.out.println("Welcome to Olivanders Hotel\n===========================\n");
+            System.out.println("\nWelcome to Olivanders Hotel\n===========================\n");
             System.out.println("1. Register\n2. Log In");
             System.out.println("0. Exit\n");
-            System.out.println("Option: ");
+            System.out.print("Option: ");
+            System.out.flush();
             option = scan.nextInt();
             switch (option) {
                 case 1: {
-                    System.out.println("Please, complete the next form\n");
-                    System.out.println("DNI: ");
+                    System.out.println("\nPlease, complete the next form\n");
+                    System.out.print("DNI: ");
                     dni = scan.next();
-                    System.out.println("First Name: ");
+                    System.out.print("First Name: ");
                     firstName = scan.next();
-                    System.out.println("Last Name: ");
+                    System.out.print("Last Name: ");
                     lastName = scan.next();
-                    System.out.println("Age: ");
+                    System.out.print("Age: ");
                     age = scan.nextInt();
 
                     if (age >= 18) {
 
-                        System.out.println("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
-                        genderOption = scan.nextInt();
-                        switch (genderOption) {
-                            case 1: {
-                                gender = Gender.MALE;
-                            }
-                            case 2: {
-                                gender = Gender.FEMALE;
-                                break;
-                            }
-                            case 3: {
-                                gender = Gender.OTHER;
-                            }
-                            case 4: {
+                        while (genderOption == 0 || genderOption > 4) {
+                            System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                            genderOption = scan.nextInt();
 
-                                gender = Gender.NA;
-                            }
-                            default: {
+                            switch (genderOption) {
+                                case 1: {
+                                    gender = Gender.MALE;
+                                    break;
+                                }
+                                case 2: {
+                                    gender = Gender.FEMALE;
+                                    break;
+                                }
+                                case 3: {
+                                    gender = Gender.OTHER;
+                                    break;
+                                }
+                                case 4: {
 
-                                System.out.println("Please select a valid option number\n");
-                                break;
+                                    gender = Gender.NA;
+                                    break;
+                                }
+                                default: {
+
+                                    System.out.println("\nPlease select a valid option number\n");
+                                    break;
+                                }
                             }
                         }
-                        System.out.println("Address: ");
+                        System.out.print("Address: ");
                         address = scan.nextLine();
                         address = scan.nextLine();
-                        System.out.println("Telephone: ");
+                        System.out.print("Telephone: ");
                         telephone = scan.next();
-                        System.out.println("Email: ");
+                        System.out.print("Email: ");
                         email = scan.next();
                         if (email.contains("@")) {
 
-                            System.out.println("Password: ");
+                            System.out.print("Password: ");
                             password = scan.next();
-                            System.out.println("Origin (City): ");
+                            System.out.print("Origin (City): ");
                             origin = scan.nextLine();
                             origin = scan.nextLine();
 
 
                             User user = new Passenger(dni, firstName, lastName, age, gender, address, telephone, email, password, origin);
+
                             if (OlivandersHotel.register(user) == true) {
 
-                                System.out.println("User successfully registered\n");
+                                System.out.println("\nUser successfully registered\n");
                             } else {
 
-                                System.out.println("User already exist. Please, try to log in\n");
+                                System.out.println("\nUser already exist. Please, try to log in\n");
                             }
                         } else {
 
-                            System.out.println("Not a valid email\n");
+                            System.out.println("\nNot a valid email\n");
                         }
                     } else {
 
-                        System.out.println("You need to be at least 18 years old to register\n");
+                        System.out.println("\nYou need to be at least 18 years old to register\n");
                     }
                     break;
                 }
                 case 2: {
 
+                    System.out.println("\nPlease, enter your DNI and Password\n");
+                    System.out.print("DNI: ");
+                    dni = scan.next();
+                    System.out.print("Password: ");
+                    password = scan.next();
+
+                    User loggedUser = Log.LogIn(dni, password, OlivandersHotel.getUsers());
+                    if (loggedUser != null) {
+
+                        System.out.println("\n" + loggedUser.toString() + "\n");
+                    } else {
+
+                        System.out.println("\nUser not found. Please register or try to log in again\n");
+                    }
                     break;
                 }
                 case 742617000: {
@@ -111,12 +133,12 @@ public class Main {
                     break;
                 }
                 case 0: {
-                    System.out.println("See you soon :)\n");
+                    System.out.println("\nSee you soon :)\n");
                     z++;
                     break;
                 }
                 default: {
-                    System.out.println("Please, choose a valid option\n");
+                    System.out.println("\nPlease, choose a valid option\n");
                     break;
                 }
             }
