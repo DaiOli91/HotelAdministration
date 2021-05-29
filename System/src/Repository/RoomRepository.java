@@ -2,6 +2,7 @@ package Repository;
 
 import Interface.IRepository;
 import Model.Room;
+import Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,8 @@ public class RoomRepository implements IRepository<Room, Integer> {
     }
 
     @Override
-    public String add(Room room) {
-
+    public void add(Room room) {
         rooms.add(room);
-        return "The room was added correctly";
     }
 
     @Override
@@ -41,11 +40,15 @@ public class RoomRepository implements IRepository<Room, Integer> {
 
     @Override
     public void edit(Room room) {
+        if (!this.rooms.isEmpty()) {
+            for (Room aux_room : rooms
+            ) {
+                if (aux_room.getNumber() == room.getNumber()) {
+                    rooms.add(rooms.indexOf(aux_room), room);
+                }
 
-        //@Wally possibly to overwrite an object with another
+            }
+        }
     }
 
-    public String getRoomsData() {
-        return rooms.toString();
-    }
 }
