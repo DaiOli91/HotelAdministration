@@ -18,55 +18,6 @@ public class UserRepository implements IRepository<User, String> {
         return users;
     }
 
-    public String getUsersData() {
-        return users.toString();
-    }
-
-    public List<User> getActiveEmployees(){
-        List<User> activeEmployees = users
-                .stream()
-                .filter(user -> user instanceof Employee)
-                .filter(employee -> ((Employee) employee)
-                        .getActive())
-                .collect(Collectors.toList());
-        return activeEmployees;
-    }
-
-    public List<User> getFormerEmployees(){
-        List<User> formerEmployees = users
-                .stream()
-                .filter(user -> user instanceof Employee)
-                .filter(employee -> ((Employee) employee)
-                        .getActive() == false)
-                .collect(Collectors.toList());
-
-        return formerEmployees;
-    }
-
-    public List<User> getActiveReceptionists(){
-        List<User> activeReceptionist = users
-                .stream()
-                .filter(user -> user instanceof Receptionist)
-                .filter(receptionist -> ((Receptionist) receptionist)
-                        .getActive())
-                .collect(Collectors
-                        .toList());
-        return activeReceptionist;
-    }
-
-
-
-    public List<User> getPassengers(){
-        List<User> passengers = users
-                .stream()
-                .filter(user -> user instanceof Passenger)
-                .collect(Collectors
-                        .toList());
-        return passengers;
-    }
-
-
-    // ╔═══════════════════════════════ End User Methods
 
     @Override
     public String add(User user) {
@@ -115,14 +66,5 @@ public class UserRepository implements IRepository<User, String> {
         }
 
     }
-
-
-/*
-    public User logIn(User user) {
-        //TODO fix log in
-
-
-    }
-*/
 
 }
