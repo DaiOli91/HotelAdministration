@@ -47,7 +47,6 @@ public class UserRepository implements IRepository<User, String> {
                 }
             }
         }
-
         return returnUser;
     }
 

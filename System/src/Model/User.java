@@ -127,6 +127,7 @@ public abstract class User {
                 "╠═ Gender:" + gender + '\n' +
                 "╠═ Address: " + address + '\n' +
                 "╠═ Telephone: " + telephone + '\n' +
-                "╠═ Email: " + email + '\n';
+                "╠═ Email: " + email + '\n' +
+                "╠═ Active: " + active + '\n';
     }
 }
