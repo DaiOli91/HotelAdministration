@@ -1,9 +1,12 @@
 package Interface;
 
-public interface IRepository<T, J> {
+public interface IRepository<T, S> {
 
-    public void add(T t);
-    public void delete(J j);
-    public T search(J j);
-    public void edit(T t);
+    public boolean add(T t);
+
+    public boolean delete(S s);
+
+    public T search(S s);
+
+    public T edit(T t);
 }
