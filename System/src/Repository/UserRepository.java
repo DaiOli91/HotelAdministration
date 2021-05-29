@@ -20,9 +20,8 @@ public class UserRepository implements IRepository<User, String> {
 
 
     @Override
-    public String add(User user) {
+    public void add(User user) {
         this.users.add(user);
-        return "User successfully added";
     }
 
     @Override
