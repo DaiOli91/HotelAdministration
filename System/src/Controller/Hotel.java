@@ -6,6 +6,7 @@ import Repository.RoomRepository;
 import Repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Hotel {
@@ -35,12 +36,7 @@ public class Hotel {
         return rooms.getRooms();
     }
 
-    public void register(User user){
-        if(this.users.search(user.getDni()) == null){
-            this.users.add(user);
-        }
 
-    }
 
     public List<User> getActiveEmployees(){
         return users.getUsers()
@@ -67,7 +63,6 @@ public class Hotel {
                 .collect(Collectors
                         .toList());
     }
-
     public List<User> getPassengers(){
         return users.getUsers()
                 .stream()
@@ -77,7 +72,12 @@ public class Hotel {
                         .toList());
     }
 
-
+    // ╔═══════════════════════════════ User Methods
+    public void register(User user){
+        if(this.users.search(user.getDni()) == null){
+            this.users.add(user);
+        }
+    }
     public String addEmployee(Employee employee){
         String message = "User has been added successfully";
         if (this.users.getUsers().isEmpty()) {
@@ -90,6 +90,17 @@ public class Hotel {
         return message;
     }
 
+    public void deactivateAccount(String dni){
+        User aux_user = (User) this.users.getUsers().stream().filter(user -> user.getDni().equals(dni));
+        if(aux_user != null){
+            aux_user.setActive();
+            users.edit(aux_user);
+        }
+    }
+
+    // ╠═══════════════════════════════ Booking Methods
+    // ╠═══════════════════════════════ Room Methods
+    // ╚═══════════════════════════════ HC Methods
     public void addSuperAdmin() {
         User superAdmin = new Manager("11111111"
                 , "Super"
@@ -171,11 +182,6 @@ public class Hotel {
                 , "bossy123"));
 
     }
-
-
-
-    // ╠═══════════════════════════════ Administrative Methods
-    // ╚═══════════════════════════════ Management Methods
 
 
 }
