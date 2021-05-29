@@ -172,22 +172,5 @@ public class Hotel {
     // ╠═══════════════════════════════ Administrative Methods
     // ╚═══════════════════════════════ Management Methods
 
-    //TODO menuManager
-    public String menuManager() {
-        //insert code here
-        return "Manager Menu";
-    }
-
-    //TODO menuReceptionist
-    public String menuReceptionist() {
-        //insert code here
-        return "Receptionist Menu";
-    }
-
-    //TODO menuPassenger
-    public String menuPassenger() {
-        //insert code here
-        return "Passenger Menu";
-    }
 
 }
