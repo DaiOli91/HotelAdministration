@@ -1,12 +1,10 @@
-package Repository;
+package repository;
 
 import Interface.IRepository;
-import Model.Room;
-import Model.User;
+import model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 
 public class RoomRepository implements IRepository<Room, Integer> {
 

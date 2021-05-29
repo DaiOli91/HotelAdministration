@@ -1,11 +1,10 @@
-package Repository;
+package repository;
 
 import Interface.IRepository;
-import Model.*;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserRepository implements IRepository<User, String> {
 

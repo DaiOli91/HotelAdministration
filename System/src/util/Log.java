@@ -1,7 +1,7 @@
-package Utils;
+package util;
 
-import Model.Passenger;
-import Model.User;
+import model.Passenger;
+import model.User;
 
 import java.util.List;
 

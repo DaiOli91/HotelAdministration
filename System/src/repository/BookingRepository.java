@@ -1,13 +1,13 @@
-package Repository;
+package repository;
 
 import Interface.IRepository;
-import Model.Booking;
-import Model.Room;
+import model.Booking;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingRepository implements IRepository<Booking, Integer> {
+
     private List<Booking> roomBookings;
 
     public BookingRepository() {
