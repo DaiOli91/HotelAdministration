@@ -146,9 +146,8 @@ public class Main {
                     break;
                 }
             }
-            scan.close();
         }
-
+        scan.close();
 
         /*User user1 = new Manager("35892293"
                 , "Daiana"
