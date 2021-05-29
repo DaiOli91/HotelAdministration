@@ -111,8 +111,8 @@ public abstract class User {
         this.password = password;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setActive() {
+        this.active = !active;
     }
 
     @Override
