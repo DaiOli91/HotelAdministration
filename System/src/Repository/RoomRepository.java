@@ -36,6 +36,7 @@ public class RoomRepository implements IRepository<Room, Integer> {
     public Room search(Integer roomNumber) {
 
         Room room = (Room) rooms.stream().filter(room1 -> room1.getNumber() == roomNumber);
+
         return room;
     }
 

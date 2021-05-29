@@ -59,7 +59,6 @@ public class UserRepository implements IRepository<User, String> {
 
             for (User aux_user : users) {
 
-
                 if (aux_user.getDni().equals(user.getDni())) {
 
                     user = users.set(users.indexOf(aux_user), user);
