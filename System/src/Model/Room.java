@@ -8,7 +8,6 @@ public class Room {
     private Availability availability;
 
     public Room(Category category, Availability availability) {
-
         this.number = ++contnumber;
         this.category = category;
         this.availability = availability;
