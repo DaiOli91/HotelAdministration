@@ -15,7 +15,6 @@ public class Hotel {
     private final RoomRepository rooms;
 
 
-
     public Hotel() {
         this.users = new UserRepository();
         this.bookings = new BookingRepository();
@@ -37,8 +36,7 @@ public class Hotel {
     }
 
 
-
-    public List<User> getActiveEmployees(){
+    public List<User> getActiveEmployees() {
         return users.getUsers()
                 .stream()
                 .filter(user -> user.getActive())
@@ -46,7 +44,7 @@ public class Hotel {
                 .collect(Collectors.toList());
     }
 
-    public List<User> getFormerEmployees(){
+    public List<User> getFormerEmployees() {
         return users.getUsers()
                 .stream()
                 .filter(user -> !user.getActive())
@@ -54,7 +52,7 @@ public class Hotel {
                 .collect(Collectors.toList());
     }
 
-    public List<User> getActiveReceptionists(){
+    public List<User> getActiveReceptionists() {
         return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Receptionist)
@@ -63,7 +61,8 @@ public class Hotel {
                 .collect(Collectors
                         .toList());
     }
-    public List<User> getPassengers(){
+
+    public List<User> getPassengers() {
         return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Passenger)
@@ -73,12 +72,18 @@ public class Hotel {
     }
 
     // ╔═══════════════════════════════ User Methods
-    public void register(User user){
-        if(this.users.search(user.getDni()) == null){
-            this.users.add(user);
+    public boolean register(User user) {
+
+        if (this.users.search(user.getDni()) == null) {
+
+            return users.add(user);
+        } else {
+
+            return false;
         }
     }
-    public String addEmployee(Employee employee){
+
+    public String addEmployee(Employee employee) {
         String message = "User has been added successfully";
         if (this.users.getUsers().isEmpty()) {
             this.addSuperAdmin();
@@ -90,9 +95,9 @@ public class Hotel {
         return message;
     }
 
-    public void deactivateAccount(String dni){
+    public void deactivateAccount(String dni) {
         User aux_user = (User) this.users.getUsers().stream().filter(user -> user.getDni().equals(dni));
-        if(aux_user != null){
+        if (aux_user != null) {
             aux_user.setActive();
             users.edit(aux_user);
         }
