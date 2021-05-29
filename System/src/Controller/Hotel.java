@@ -8,6 +8,7 @@ import Repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Hotel {
     private UserRepository users;
@@ -28,7 +29,7 @@ public class Hotel {
         return users.getUsers();
     }
     public String getUsersData() {
-        return users.getUsersData();
+        return users.getUsers().toString();
     }
 
     public UserRepository getUserRepo(){
@@ -57,9 +58,55 @@ public class Hotel {
         return message;
     }
 */
-    public String register(User user){
-        return this.users.add(user);
+    public void register(User user){
+        if(this.users.search(user.getDni()) == null){
+            this.users.add(user);
+        }
+
     }
+
+    public List<User> getActiveEmployees(){
+        List<User> activeEmployees = users.getUsers()
+                .stream()
+                .filter(user -> user instanceof Employee)
+                .filter(employee -> ((Employee) employee)
+                        .getActive())
+                .collect(Collectors.toList());
+        return activeEmployees;
+    }
+
+    public List<User> getFormerEmployees(){
+        List<User> formerEmployees = users.getUsers()
+                .stream()
+                .filter(user -> user.getActive() == false)
+                .filter(user -> user instanceof Employee)
+                .collect(Collectors.toList());
+
+        return formerEmployees;
+    }
+
+    public List<User> getActiveReceptionists(){
+        List<User> activeReceptionist = users.getUsers()
+                .stream()
+                .filter(user -> user instanceof Receptionist)
+                .filter(receptionist -> ((Receptionist) receptionist)
+                        .getActive())
+                .collect(Collectors
+                        .toList());
+        return activeReceptionist;
+    }
+
+
+
+    public List<User> getPassengers(){
+        List<User> passengers = users.getUsers()
+                .stream()
+                .filter(user -> user instanceof Passenger)
+                .collect(Collectors
+                        .toList());
+        return passengers;
+    }
+
 
     public void addSuperAdmin() {
         User superAdmin = new Manager("11111111"
