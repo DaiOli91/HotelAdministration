@@ -4,16 +4,14 @@ import Model.*;
 import Repository.BookingRepository;
 import Repository.RoomRepository;
 import Repository.UserRepository;
-//import Model.Booking;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Hotel {
-    private UserRepository users;
-    private BookingRepository bookings;
-    private RoomRepository rooms;
+    private final UserRepository users;
+    private final BookingRepository bookings;
+    private final RoomRepository rooms;
 
 
 
@@ -28,36 +26,15 @@ public class Hotel {
     public List<User> getUsers() {
         return users.getUsers();
     }
-    public String getUsersData() {
-        return users.getUsers().toString();
-    }
-
-    public UserRepository getUserRepo(){
-        return users;
-    }
 
     public List<Booking> getBookings() {
         return bookings.getRoomBookings();
-    }
-
-    public String getBookingsData() {
-        return bookings.getRoomBookingsData();
     }
 
     public List<Room> getRooms() {
         return rooms.getRooms();
     }
 
-    public String getRoomsData() {
-        return rooms.getRoomsData();
-    }
-/*
-    public String logInHotel(String DNI, String pass){
-        String message = "User not found. Please, try again or register.";
-
-        return message;
-    }
-*/
     public void register(User user){
         if(this.users.search(user.getDni()) == null){
             this.users.add(user);
@@ -66,47 +43,52 @@ public class Hotel {
     }
 
     public List<User> getActiveEmployees(){
-        List<User> activeEmployees = users.getUsers()
+        return users.getUsers()
                 .stream()
+                .filter(user -> user.getActive())
                 .filter(user -> user instanceof Employee)
-                .filter(employee -> ((Employee) employee)
-                        .getActive())
                 .collect(Collectors.toList());
-        return activeEmployees;
     }
 
     public List<User> getFormerEmployees(){
-        List<User> formerEmployees = users.getUsers()
+        return users.getUsers()
                 .stream()
-                .filter(user -> user.getActive() == false)
+                .filter(user -> !user.getActive())
                 .filter(user -> user instanceof Employee)
                 .collect(Collectors.toList());
-
-        return formerEmployees;
     }
 
     public List<User> getActiveReceptionists(){
-        List<User> activeReceptionist = users.getUsers()
+        return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Receptionist)
-                .filter(receptionist -> ((Receptionist) receptionist)
+                .filter(receptionist -> receptionist
                         .getActive())
                 .collect(Collectors
                         .toList());
-        return activeReceptionist;
     }
-
-
 
     public List<User> getPassengers(){
-        List<User> passengers = users.getUsers()
+        return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Passenger)
+                .filter(user -> user.getActive())
                 .collect(Collectors
                         .toList());
-        return passengers;
     }
 
+
+    public String addEmployee(Employee employee){
+        String message = "User has been added successfully";
+        if (this.users.getUsers().isEmpty()) {
+            this.addSuperAdmin();
+            this.users.add(employee);
+        } else if (this.users.getUsers().contains(employee)) {
+            message = "Employee already exists";
+        } else this.users.add(employee);
+
+        return message;
+    }
 
     public void addSuperAdmin() {
         User superAdmin = new Manager("11111111"
@@ -188,30 +170,6 @@ public class Hotel {
                 , "natybossy@gmail.com"
                 , "bossy123"));
 
-    }
-
-    public String add(User user) {
-        String message = "User has been added successfully";
-        if (this.users.getUsers().isEmpty()) {
-            this.addSuperAdmin();
-            this.users.add(user);
-        } else if (this.users.getUsers().contains(user)) {
-            message = "User already exists";
-        } else this.users.add(user);
-
-        return message;
-    }
-
-    public String addEmployee(Employee employee){
-        String message = "User has been added successfully";
-        if (this.users.getUsers().isEmpty()) {
-            this.addSuperAdmin();
-            this.users.add(employee);
-        } else if (this.users.getUsers().contains(employee)) {
-            message = "Employee already exists";
-        } else this.users.add(employee);
-
-        return message;
     }
 
 
