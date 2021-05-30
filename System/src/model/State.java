@@ -4,7 +4,8 @@ public enum State {
 
     ACTIVE("Active"),
     CANCELLED("Cancelled"),
-    CHECKED("Checked");
+    CHECKED("Checked"),
+    CHECK_OUT("Checked Out");
 
     private String state;
 
