@@ -5,7 +5,9 @@ import repository.BookingRepository;
 import repository.RoomRepository;
 import repository.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Hotel {
@@ -154,16 +156,122 @@ public class Hotel {
 
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
-    public boolean createBooking(Booking booking) {
-        //TODO logic here to find available dates
-
-
-        return this.bookings.add(booking);
+    public String createBooking(Booking booking) {
+        //TODO logic here to find available dates. Also set TotalCost and AmountOfNights in booking
+        String message = "So far, booking created successfully";
+        Room aux_room = this.rooms.search(booking.getIdRoom());
+        booking.setTotalCost(aux_room.getCategory().getPrice() * booking.getAmountOfNights()); //TODO set approppriate price
+        this.bookings.add(booking);
+        return message;
     }
 
     public boolean deleteBooking(Integer idBooking) {
         //TODO logic not to cancel booking on the same day- at least 48hs
         return this.bookings.delete(idBooking);
+    }
+
+    public String cancelBooking(Integer idBooking) {
+        //TODO same logic as deleteBooking method above
+        String message = "Booking not found";
+        Booking aux_booking = this.bookings.search(idBooking);
+        if (aux_booking != null) {
+            aux_booking.setState(State.CANCELLED);
+            aux_booking = this.bookings.edit(aux_booking);
+            message = "Booking cancelled successfully";
+        }
+        return message;
+    }
+
+    public String checkBooking(String dniPassenger, Integer idBooking) { //checkIn
+        String message = "Booking not found";
+        Booking aux_booking = this.bookings.search(idBooking);
+        if (aux_booking != null) {
+            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+                message = "Booking found. Passenger CheckedIn";
+                aux_booking.setState(State.CHECKED);
+                aux_booking = this.bookings.edit(aux_booking);
+            } else {
+                message = "Passenger's ID and Booking's Id do not match";
+            }
+        }
+
+        return message;
+    }
+
+    public String changeRoomBooking(Integer idBooking, String dniPassenger, Integer roomId) {
+        String message = "Booking not found";
+        Booking aux_booking = this.bookings.search(idBooking);
+        if (aux_booking != null) {
+            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+                message = "Booking found. Room changed successfully.";
+                aux_booking.setIdRoom(roomId);
+                aux_booking = this.bookings.edit(aux_booking);
+            } else {
+                message = "Passenger's ID and Booking's Id do not match";
+            }
+        }
+
+        return message;
+    }
+
+    public String changeIdMainPassenger(Integer idBooking, String dniPassenger, String idNewPassenger) {
+        String message = "Booking not found";
+        Booking aux_booking = this.bookings.search(idBooking);
+        User aux_user = this.users.search(idNewPassenger);
+        if (aux_user != null) {
+            if (aux_booking != null) {
+                if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+                    message = "Booking found. Passenger Changed";
+                    aux_booking.setIdMainPassenger(idNewPassenger);
+                    aux_booking = this.bookings.edit(aux_booking);
+                } else {
+                    message = "Passenger's ID and Booking's Id do not match";
+                }
+            }
+        } else {
+            message = "User not found. Please, register the new Passenger first";
+        }
+
+        return message;
+    }
+
+    public String changeIdOptionalPassenger(Integer idBooking, String dniPassenger, String idNewPassenger) {
+        String message = "Booking not found";
+        Booking aux_booking = this.bookings.search(idBooking);
+        User aux_user = this.users.search(idNewPassenger);
+        if (aux_user != null) {
+            if (aux_booking != null) {
+                if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+                    message = "Booking found. Passenger Changed";
+                    aux_booking.setIdOptionalPassenger(idNewPassenger);
+                    aux_booking = this.bookings.edit(aux_booking);
+                } else {
+                    message = "Passenger's ID and Booking's Id do not match";
+                }
+            }
+
+        } else {
+            message = "User not found. Please, register the new Passenger first";
+        }
+        return message;
+    }
+
+    public String changeDates(Booking booking) {
+        //TODO edit StartDate or EndDate implies cancelling the actual booking and create a new one
+        String message = "Booking not found";
+        Booking aux_booking = this.bookings.search(booking.getId());
+        if (aux_booking != null) {
+            if ((aux_booking.getIdMainPassenger().equals(booking.getIdMainPassenger()))
+                    || (aux_booking.getIdOptionalPassenger().equals(booking.getIdOptionalPassenger()))) {
+                this.cancelBooking(booking.getId());
+                message = this.createBooking(booking);
+                this.bookings.edit(aux_booking);
+            } else {
+                message = "Passenger's ID and Booking's Id do not match";
+            }
+        }
+        return message;
+
     }
 
 
