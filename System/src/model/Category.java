@@ -3,9 +3,9 @@ package model;
 public enum Category {
 
     GUEST("Guest", "Twin", 1, false, false, false, 1200),
-    Junior("Junior", "Twin", 2, false, false, true, 2800),
-    Presidential("Presidential", "Queen", 1, true, false, true, 3500),
-    Executive("Executive", "King", 1, true, true, true, 4800);
+    JUNIOR("Junior", "Twin", 2, false, false, true, 2800),
+    PRESIDENTIAL("Presidential", "Queen", 1, true, false, true, 3500),
+    EXECUTIVE("Executive", "King", 1, true, true, true, 4800);
 
     private String name;
     private String bedSize;
