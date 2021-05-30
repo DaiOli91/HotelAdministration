@@ -33,7 +33,7 @@ public class RoomRepository implements IRepository<Room, Integer> {
     @Override
     public Room search(Integer roomNumber) {
 
-        Room room = (Room) rooms.stream().filter(room1 -> room1.getNumber() == roomNumber);
+        Room room = (Room) rooms.stream().filter(room1 -> room1.getNumber() == roomNumber).findFirst().orElse(null);
 
         return room;
     }

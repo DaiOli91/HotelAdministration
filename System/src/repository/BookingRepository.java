@@ -34,7 +34,7 @@ public class BookingRepository implements IRepository<Booking, Integer> {
     @Override
     public Booking search(Integer id) {
 
-        Booking booking = (Booking) roomBookings.stream().filter(booking1 -> booking1.getId() == id);
+        Booking booking = (Booking) roomBookings.stream().filter(booking1 -> booking1.getId() == id).findFirst().orElse(null);
 
         return booking;
     }
