@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Log {
 
-    public static User LogIn(String dni, String Password, List<User> users) {
+    public static User logIn(String dni, String Password, List<User> users) {
         //bring data to memory from json
 
         User user = new Passenger(dni, Password);
@@ -19,7 +19,10 @@ public class Log {
 
                 if ((aux_user.getDni().equals(user.getDni())) && (aux_user.getPassword().equals(user.getPassword()))) {
 
-                    returnUser = aux_user;
+                    if (aux_user.getActive()) {
+
+                        returnUser = aux_user;
+                    }
                 }
             }
         }
