@@ -1,4 +1,6 @@
 import controller.Hotel;
+import menues.MenuManager;
+import menues.MenuReceptionist;
 import model.*;
 import util.Log;
 import menues.MenuPassenger;
@@ -122,8 +124,16 @@ public class Main {
 
                         if (loggedUser instanceof Passenger) {
 
-                            System.out.println("\nPassenger found. Welcome to Hotel Olivanders!");
+                            System.out.println("\nPassenger found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + " to Hotel Olivanders!\n");
                             MenuPassenger.menuPassenger(scan, OlivandersHotel, loggedUser);
+                        } else if (loggedUser instanceof Receptionist) {
+
+                            System.out.println("User found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + "\n");
+                            MenuReceptionist.menuReceptionist(scan, OlivandersHotel, loggedUser);
+                        } else {
+
+                            System.out.println("User found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + "\n");
+                            MenuManager.menuManager(scan, OlivandersHotel, loggedUser);
                         }
                     } else {
 
