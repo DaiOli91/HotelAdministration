@@ -6,7 +6,8 @@ public enum Availability {
     OCCUPIED("Occupied"),
     CLEANING("Cleaning"),
     IN_DESINFECTION("In Desinfection"),
-    UNDER_REPAIR("Under Repair");
+    UNDER_REPAIR("Under Repair"),
+    OUT_OF_SERVICE("Out of Service");
 
     private String availability;
 
