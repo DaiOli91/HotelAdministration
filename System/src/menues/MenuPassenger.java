@@ -16,7 +16,7 @@ public class MenuPassenger {
             System.out.println("\nMenu Passenger\n=================\n");
             System.out.println("1. See available rooms\n2. New booking\n3. My Bookings");
             System.out.println("4. Edit Account\n5. Deactivate Account\n");
-            System.out.println("0. Log off");
+            System.out.println("0. Log Out");
             System.out.print("Option: ");
             option = scan.nextInt();
             switch (option) {
@@ -37,17 +37,15 @@ public class MenuPassenger {
                     break;
                 }
                 case 5: {
-
                     System.out.println("\nDeactivate Account\n");
                     break;
                 }
                 case 0: {
-
-                    System.out.println("\nLogged out\n");
+                    System.out.println("\nLogged out successfully\n");
                     z++;
+                    break;
                 }
                 default: {
-
                     System.out.println("\nPlease, choose a valid option\n");
                     break;
                 }
