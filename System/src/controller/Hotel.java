@@ -24,7 +24,6 @@ public class Hotel {
         this.rooms = new RoomRepository();
         this.userHC();
         this.roomHC();
-
     }
 
     public List<Booking> getBookings() {
@@ -158,7 +157,8 @@ public class Hotel {
 
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
-    public String createBooking(Booking booking) {
+    public String createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
+        Booking booking = new Booking(idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
         String message = "Booking created successfully";
         List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
         if (checkBookings.isEmpty()) {
@@ -362,9 +362,7 @@ public class Hotel {
             if (aux_booking.getIdMainPassenger().equals(dni)) {
 
                 this.cancelBooking(idBooking);
-                aux_booking.setStartDate(newStartDate);
-                aux_booking.setEndDate(newEndDate);
-                message = this.createBooking(aux_booking);
+                message = this.createBooking(aux_booking.getIdRoom(), aux_booking.getIdMainPassenger(), aux_booking.getIdOptionalPassenger(), newStartDate, newEndDate);
                 this.bookings.edit(aux_booking);
             } else {
 
@@ -718,7 +716,7 @@ public class Hotel {
 
     public void userHC() {
         addSuperAdmin();
-        register(new Passenger("14785969"
+        register(new Passenger("14874804"
                 , "Andrea"
                 , "Carrizo"
                 , 60
@@ -729,7 +727,7 @@ public class Hotel {
                 , "pass123"
                 , "Mar del Plata"));
 
-        register(new Passenger("14785972"
+        register(new Passenger("14589623"
                 , "Miguel"
                 , "Toyota"
                 , 60
@@ -741,10 +739,10 @@ public class Hotel {
                 , "Mar del Plata"));
         deactivateAccount("14785972");
 
-        register(new Passenger("14874623"
+        register(new Passenger("38530953"
                 , "Felipe"
                 , "Graziano"
-                , 60
+                , 25
                 , Gender.MALE
                 , "Mexico 3536"
                 , "4651236"
@@ -856,7 +854,13 @@ public class Hotel {
 
     public void bookingHC(){
         if(getBookings().isEmpty()){
-            //TODO create bookings
+            createBooking(101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7));
+            createBooking(101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7));
+            createBooking(102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7));
+            createBooking(102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7));
+            createBooking(103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7));
+            createBooking(103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7));
+            cancelBooking(3);
         }
     }
 

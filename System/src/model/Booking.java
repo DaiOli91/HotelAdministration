@@ -16,7 +16,7 @@ public class Booking {
     private double totalCost;
 
 
-    public Booking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate, int amountOfNights, State state, double totalCost) {
+    public Booking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
 
         this.id = ++contId;
         this.idRoom = idRoom;
@@ -24,8 +24,8 @@ public class Booking {
         this.idOptionalPassenger = idOptionalPassenger;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.amountOfNights = amountOfNights;
-        this.state = state;
+        this.amountOfNights = 0;
+        this.state = State.ACTIVE;
         this.totalCost = 0;
     }
 
