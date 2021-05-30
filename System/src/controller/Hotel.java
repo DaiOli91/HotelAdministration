@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class Hotel {
 
     private final UserRepository users;
@@ -157,12 +159,12 @@ public class Hotel {
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
     public String createBooking(Booking booking) {
-        //TODO set TotalCost and AmountOfNights in booking
         String message = "Booking created successfully";
         List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
         if(checkBookings.isEmpty()) {
             Room aux_room = this.rooms.search(booking.getIdRoom());
-            booking.setTotalCost(aux_room.getCategory().getPrice() * booking.getAmountOfNights()); //TODO set approppriate price
+            booking.setAmountOfNights((int) DAYS.between(booking.getStartDate(), booking.getEndDate()));
+            booking.setTotalCost(aux_room.getCategory().getPrice() * booking.getAmountOfNights());
             this.bookings.add(booking);
         } else {
             message = "The room is not available for those dates. Please choose another room"; //TODO return message in Exception
@@ -170,22 +172,43 @@ public class Hotel {
         return message;
     }
 
-    public boolean deleteBooking(Integer idBooking) {
-        //TODO logic not to cancel booking on the same day- at least 48hs
+    public String deleteBooking(Integer idBooking) {
+
+        String message = "";
         Booking aux_booking = this.bookings.search(idBooking);
 
-        return this.bookings.delete(idBooking);
+        if(aux_booking != null) {
+            if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
+                    || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
+                this.bookings.delete(idBooking);
+                message = "Booking successfully deleted";
+
+            } else {
+                message = "Error. There should be at least 48hs before booking Start Date. You cannot delete this booking";
+            }
+        } else {
+            message = "Booking not found";
+        }
+        return message;
     }
 
     public String cancelBooking(Integer idBooking) {
-        //TODO same logic as deleteBooking method above
-        String message = "Booking not found";
+
+        String message = "";
         Booking aux_booking = this.bookings.search(idBooking);
         if (aux_booking != null) {
-            aux_booking.setState(State.CANCELLED);
-            aux_booking = this.bookings.edit(aux_booking);
-            message = "Booking cancelled successfully";
-        }
+            if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
+                    || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
+                //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
+                aux_booking.setState(State.CANCELLED);
+                aux_booking = this.bookings.edit(aux_booking);
+                message = "Booking cancelled";
+            } else {
+                    message = "Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking";
+                }
+            } else {
+                message = "Booking not found";
+            }
         return message;
     }
 
@@ -193,7 +216,9 @@ public class Hotel {
         String message = "Booking not found";
         Booking aux_booking = this.bookings.search(idBooking);
         if (aux_booking != null) {
-            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+            if ((aux_booking.getIdMainPassenger().equals(dniPassenger))
+                    || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+                //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
                 message = "Booking found. Passenger CheckedIn";
                 aux_booking.setState(State.CHECKED);
                 aux_booking = this.bookings.edit(aux_booking);
