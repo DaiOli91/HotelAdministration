@@ -119,7 +119,7 @@ public class Main {
                     System.out.print("Password: ");
                     password = scan.next();
 
-                    User loggedUser = Log.LogIn(dni, password, OlivandersHotel.getUsers());
+                    User loggedUser = Log.logIn(dni, password, OlivandersHotel.getUsers());
                     if (loggedUser != null) {
 
                         if (loggedUser instanceof Passenger) {
