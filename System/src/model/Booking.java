@@ -7,8 +7,8 @@ public class Booking {
     private int id;
     private static int contId;
     private int idRoom;
-    private int idMainPassenger;
-    private int idOptionalPassenger;
+    private String idMainPassenger;
+    private String idOptionalPassenger;
     private LocalDate startDate;
     private LocalDate endDate;
     private int amountOfNights;
@@ -16,7 +16,7 @@ public class Booking {
     private double totalCost;
 
 
-    public Booking(int idRoom, int idMainPassenger, int idOptionalPassenger, LocalDate startDate, LocalDate endDate, int amountOfNights, State state, double totalCost) {
+    public Booking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate, int amountOfNights, State state, double totalCost) {
 
         this.id = ++contId;
         this.idRoom = idRoom;
@@ -37,11 +37,11 @@ public class Booking {
         return idRoom;
     }
 
-    public int getIdMainPassenger() {
+    public String getIdMainPassenger() {
         return idMainPassenger;
     }
 
-    public int getIdOptionalPassenger() {
+    public String getIdOptionalPassenger() {
         return idOptionalPassenger;
     }
 
@@ -69,11 +69,11 @@ public class Booking {
         this.idRoom = idRoom;
     }
 
-    public void setIdMainPassenger(int idMainPassenger) {
+    public void setIdMainPassenger(String idMainPassenger) {
         this.idMainPassenger = idMainPassenger;
     }
 
-    public void setIdOptionalPassenger(int idOptionalPassenger) {
+    public void setIdOptionalPassenger(String idOptionalPassenger) {
         this.idOptionalPassenger = idOptionalPassenger;
     }
 
