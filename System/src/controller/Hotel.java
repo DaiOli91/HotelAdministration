@@ -7,6 +7,7 @@ import repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -62,11 +63,14 @@ public class Hotel {
 
             if (auxUser != null) {
 
-                if (ifNameContainsNumbers(firstName) || ifNameContainsNumbers(lastName)) {
+                // TODO Check if this validation works. If not, try this ones and maybe they need modifications.
+                // !ifNameContainsNumbers(firstName) || !ifNameContainsNumbers(lastName)
+                // !firstName.matches("^[0-9]+$") || !lastName.matches("^[0-9]+$"
+                if (!(firstName.matches(".*\\d.*") || !(lastName.matches(".*\\d.*")))) {
 
-                    if (firstName.isEmpty() || firstName.isBlank()) {
+                    if (!firstName.isEmpty() || firstName.isBlank()) {
 
-                        if (lastName.isEmpty() || lastName.isBlank()) {
+                        if (!lastName.isEmpty() || lastName.isBlank()) {
 
                             auxUser.setFirstName(firstName);
                             auxUser.setLastName(lastName);
@@ -97,6 +101,7 @@ public class Hotel {
         return message;
     }
 
+    // TODO Probably delete "ifNameContainsNumbers" method.
     public boolean ifNameContainsNumbers(String name) {
 
         if (name.contains("0") || name.contains("1") || name.contains("2")
@@ -111,7 +116,6 @@ public class Hotel {
         }
     }
 
-
     public String changeAge(String dni, int age) {
 
         String message = "";
@@ -119,10 +123,17 @@ public class Hotel {
 
         if (auxUser != null) {
 
-            auxUser.setAge(age);
-            auxUser = users.edit(auxUser);
+            if (age > 18) {
 
-            message = "The changes were made successfully";
+                auxUser.setAge(age);
+                auxUser = users.edit(auxUser);
+
+                message = "The changes were made successfully";
+
+            } else {
+
+                message = "Sorry but you need to be at least 18 to change your age";
+            }
         } else {
 
             message = "User not found";
@@ -172,45 +183,95 @@ public class Hotel {
     public String changeTelephone(String dni, String telephone) {
 
         String message = "";
-        //TODO Redo this method.
+        User auxUser = users.search(dni);
+
+        if (auxUser != null) {
+
+            String PATTERN = "((?=.*[a-z])(?=.*[A-Z]))";
+            Pattern pattern = Pattern.compile(PATTERN);
+            /*
+            String PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20})";
+            Pattern pattern = Pattern.compile(PATTERN);
+             */
+
+            // TODO Validation does not work.
+            if (!(telephone.matches(".*\\c.*"))) {
+
+                auxUser.setTelephone(telephone);
+                auxUser = users.edit(auxUser);
+
+                message = "The changes were made successfully";
+
+            } else {
+
+                message = "Not a valid phone number. Please try again";
+            }
+        } else {
+
+            message = "User not found";
+        }
 
         return message;
     }
 
-    public String ifTelephoneContainsCharacters(String number) {
+    // TODO Finish this method or needs to be deleted.
+    public boolean ifStringContainsLetters(String telephone) {
+
+        return true;
+    }
+
+    public String changeEmail(String dni, String email) {
 
         String message = "";
-        // TODO This method for changeTelephone.
+        User auxUser = users.search(dni);
+
+        if (auxUser != null) {
+
+            if (email.contains("@") && email.contains(".com")) {
+
+                auxUser.setEmail(email);
+                auxUser = users.edit(auxUser);
+
+                message = "The changes were made successfully";
+
+            } else {
+
+                message = "Not a valid email. Please try again";
+            }
+        } else {
+
+            message = "User not found";
+        }
 
         return message;
     }
 
-    public User changeEmail(String dni, String email) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setEmail(email);
-        return this.users.edit(aux_user);
-    }
+    public String changePassword(String dni, String password) {
 
-    public User changePassword(String dni, String password) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setPassword(password);
-        return this.users.edit(aux_user);
-    }
+        String message = "";
+        User auxUser = users.search(dni);
 
-    public User deactivateAccount(String dni) {
+        if (auxUser != null) {
 
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        if (aux_user != null) {
-            aux_user.setActive();
-            aux_user = users.edit(aux_user);
+            if (password.length() > 3) {
+
+                auxUser.setPassword(password);
+                auxUser = users.edit(auxUser);
+
+                message = "The changes were made successfully";
+            } else {
+
+                message = "Password too short. Please try again";
+            }
+        } else {
+
+            message = "User not found";
         }
-        return aux_user;
+
+        return message;
     }
 
-    public String deactivateThisAccount(String dni) {
+    public String deactivateAccount(String dni) {
 
         String message = "";
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
@@ -280,6 +341,7 @@ public class Hotel {
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
     public String createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
+
         Booking booking = new Booking(idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
         String message = "Booking created successfully";
         List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
@@ -602,12 +664,13 @@ public class Hotel {
      * @return List of all active bookings for specific Room in a specific period of time- to validate
      */
     public List<Booking> getActiveBookingsByRoomAndDate(LocalDate startDate, LocalDate endDate, Integer idRoom) {
+
+        // TODO Maybe need changes.
         return this.getActiveBookingsByRoom(idRoom)
                 .stream()
-                .filter(b -> ((b.getStartDate().isAfter(startDate))
-                        && (b.getStartDate().isBefore(endDate))
-                        || ((b.getEndDate().isAfter(startDate))
-                        && (b.getEndDate().isBefore(endDate)))))
+                .filter(b -> ((b.getStartDate().isAfter(startDate)) && (b.getStartDate().isBefore(endDate))
+                        || ((b.getEndDate().isAfter(startDate)) && (b.getEndDate().isBefore(endDate))
+                        || (b.getStartDate().isEqual(startDate)) && (b.getEndDate().isEqual(endDate)))))
                 .collect(Collectors.toList());
     }
 
