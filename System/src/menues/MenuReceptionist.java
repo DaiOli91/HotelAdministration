@@ -17,8 +17,10 @@ public class MenuReceptionist {
             System.out.println("1. Check In\n2. Check Out");
             System.out.println("3. See Bookings\n4. Edit Booking\n5. Cancel Booking\n6. See Booking by User ID");
             System.out.println("7. See Rooms");
+            System.out.println("8. Edit Account\n");
             System.out.println("0. Log Out");
             System.out.print("Option: ");
+            System.out.flush();
             option = scan.nextInt();
             switch (option) {
                 case 1: {
@@ -47,6 +49,13 @@ public class MenuReceptionist {
                 }
                 case 7: {
                     System.out.println("\nSee Rooms\n");
+                    break;
+                }
+                case 8: {
+                    System.out.println("\nEdit Account\n");
+
+                    // TODO This is a test. If works, we need to add it.
+                    MenuEditAccount.menuEditAccount(scan, OlivandersHotel, loggedUser);
                     break;
                 }
                 case 0: {
