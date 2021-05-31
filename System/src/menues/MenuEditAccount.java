@@ -20,15 +20,19 @@ public class MenuEditAccount {
 
         // TODO See if we can implement auxUser to avoid duplicate code.
 
+        // TODO Need to add exceptions.
+
         while (z == 0) {
 
             System.out.println("\nMenu Edit Account\n==============\n");
-            System.out.println("1. Edit Full Name\n2. Edit Age\n3. Edit Gender");
-            System.out.println("4. Edit Address\n5. Edit Telephone\n6. Edit email");
-            System.out.println("7. Edit Password");
+            System.out.println("1. See my Info");
+            System.out.println("2. Edit Full Name\n3. Edit Age\n4. Edit Gender");
+            System.out.println("5. Edit Address\n6. Edit Telephone");
+            System.out.println("7. Edit email\n8. Edit Password");
             if (user instanceof Manager) {
 
-                System.out.println("8. Edit Receptionist Shift");
+                // TODO Needs a method
+                System.out.println("9. Edit Receptionist Shift");
             }
             System.out.println("\n0. Back");
             System.out.print("Option: ");
@@ -36,6 +40,12 @@ public class MenuEditAccount {
             option = scan.nextInt();
             switch (option) {
                 case 1: {
+                    System.out.println("\nSee my Info\n");
+
+                    System.out.println("\n" + user.toString() + "\n");
+                    break;
+                }
+                case 2: {
                     System.out.println("\nEdit Full Name\n");
 
                     if (user instanceof Receptionist || user instanceof Manager) {
@@ -53,7 +63,7 @@ public class MenuEditAccount {
                     }
                     break;
                 }
-                case 2: {
+                case 3: {
                     System.out.println("\nEdit Age\n");
 
                     if (user instanceof Receptionist || user instanceof Manager) {
@@ -69,7 +79,7 @@ public class MenuEditAccount {
                     }
                     break;
                 }
-                case 3: {
+                case 4: {
                     System.out.println("\nEdit Gender\n");
 
                     if (user instanceof Receptionist || user instanceof Manager) {
@@ -111,7 +121,7 @@ public class MenuEditAccount {
                     }
                     break;
                 }
-                case 4: {
+                case 5: {
                     System.out.println("\nEdit Address\n");
 
                     if (user instanceof Receptionist || user instanceof Manager) {
@@ -128,7 +138,7 @@ public class MenuEditAccount {
                     }
                     break;
                 }
-                case 5: {
+                case 6: {
                     System.out.println("\nEdit Telephone\n");
 
                     if (user instanceof Receptionist || user instanceof Manager) {
@@ -140,29 +150,44 @@ public class MenuEditAccount {
                         System.out.print("Enter new telephone: ");
                         telephone = scan.next();
 
-                        // TODO Need to finish this method.
-                        System.out.println("\n" + OlivandersHotel.changeAddress(user.getDni(), telephone + "\n"));
+                        System.out.println("\n" + OlivandersHotel.changeTelephone(user.getDni(), telephone + "\n"));
                     }
                     break;
                 }
-                case 6: {
-                    System.out.println("\nEdit email\n");
-                    System.out.print("Enter new email: ");
-                    email = scan.next();
-
-                    // TODO We need to create a new method. Change methods maybe wrong.
-
-                    break;
-                }
                 case 7: {
-                    System.out.println("\nEdit Password\n");
-                    System.out.print("New Password: ");
+                    System.out.println("\nEdit email\n");
 
-                    // TODO We need to create a new method. Change methods maybe wrong.
+                    if (user instanceof Receptionist || user instanceof Manager) {
 
+                        // TODO validations for Receptionist and Manager.
+
+                    } else {
+
+                        // TODO Need an exception. I think "InputMismatchException".
+                        System.out.print("Enter new email: ");
+                        email = scan.next();
+
+                        System.out.println("\n" + OlivandersHotel.changeEmail(user.getDni(), email) + "\n");
+                    }
                     break;
                 }
                 case 8: {
+                    System.out.println("\nEdit Password\n");
+
+                    if (user instanceof Receptionist || user instanceof Manager) {
+
+                        // TODO validations for Receptionist and Manager.
+
+                    } else {
+
+                        System.out.print("New Password: ");
+                        password = scan.next();
+
+                        System.out.println("\n" + OlivandersHotel.changePassword(user.getDni(), password) + "\n");
+                    }
+                    break;
+                }
+                case 9: {
                     if (user instanceof Manager) {
 
                         System.out.println("\nEdit Receptionist Shift\n");
