@@ -99,7 +99,7 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "╔═  Booking ID: " + id + "   ══════════════════════════" + '\n' +
+        return "\n╔═  Booking ID: " + id + "   ══════════════════════════" + '\n' +
                 "╠═ Room:" + idRoom + '\n' +
                 "╠═ Main Passenger:" + idMainPassenger + '\n' +
                 "╠═ Optional Passenger:" + idOptionalPassenger + '\n' +
@@ -108,6 +108,6 @@ public class Booking {
                 "╠═ Amount Of Nights:" + amountOfNights + '\n' +
                 "╠═ State:" + state + '\n' +
                 "╠═ Total Cost:" + totalCost + '\n' +
-                "╚══════════════════════════════════════";
+                "╚══════════════════════════════════════\n";
     }
 }

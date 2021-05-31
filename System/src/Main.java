@@ -112,7 +112,6 @@ public class Main {
                     break;
                 }
                 case 2: {
-
                     System.out.println("\nPlease, enter your DNI and Password\n");
                     System.out.print("DNI: ");
                     dni = scan.next();
@@ -137,7 +136,8 @@ public class Main {
                         }
                     } else {
 
-                        System.out.println("\nUser not found. Please register or try to log in again\n");
+                        System.out.println("\nUser not found or user deactivated. Please register or try to log in again.");
+                        System.out.println("If your account was deactivated, please reach one of our managers\n");
                     }
                     break;
                 }
