@@ -57,6 +57,47 @@ public class Hotel {
         return this.users.edit(aux_user);
     }
 
+    public String changeFullName(String dni, String firstName, String lastName) {
+
+        String message = "";
+        List<Booking> activeBookings = getActiveBookingsByUser(dni);
+
+        if (activeBookings.size() == 0) {
+
+
+            User auxUser = this.users.search(dni);
+
+            if (auxUser != null) {
+
+                if (firstName.isBlank()) {
+
+                    if (lastName.isBlank()) {
+
+                        auxUser.setFirstName(firstName);
+                        auxUser.setLastName(lastName);
+                        auxUser = users.edit(auxUser);
+
+                        message = "The changes were made successfully";
+                    } else {
+
+                        message = "You do not enter a valid last name. Please try again";
+                    }
+                } else {
+
+                    message = "You do not enter a valid first name. Please try again";
+                }
+            } else {
+
+                message = "User not found";
+            }
+        } else {
+
+            message = "You can not change your name. There are active bookings";
+        }
+
+        return message;
+    }
+
     public User changeLastName(String dni, String lastName) {
         boolean flag = false;
         User aux_user = this.users.search(dni);
