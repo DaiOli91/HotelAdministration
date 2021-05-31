@@ -3,6 +3,7 @@ package menues;
 import controller.Hotel;
 import model.Gender;
 import model.Manager;
+import model.Receptionist;
 import model.User;
 
 import java.util.Scanner;
@@ -34,13 +35,20 @@ public class MenuEditAccount {
             switch (option) {
                 case 1: {
                     System.out.println("\nEdit Full Name\n");
-                    System.out.print("Enter your first name: ");
-                    firstName = scan.next();
-                    System.out.print("Enter your last name: ");
-                    lastName = scan.next();
 
-                    // TODO We need to create a new method. Change methods maybe wrong.
+                    if (user instanceof Receptionist || user instanceof Manager) {
 
+                        //TODO validations for Receptionist and Manager.
+
+                    } else {
+
+                        System.out.print("Enter your first name: ");
+                        firstName = scan.next();
+                        System.out.print("Enter your last name: ");
+                        lastName = scan.next();
+
+                        System.out.println("\n" + OlivandersHotel.changeFullName(user.getDni(), firstName, lastName + "\n"));
+                    }
                     break;
                 }
                 case 2: {
