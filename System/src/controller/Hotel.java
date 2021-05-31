@@ -102,7 +102,7 @@ public class Hotel {
     }
 
     // TODO Probably delete "ifNameContainsNumbers" method.
-    public boolean ifNameContainsNumbers(String name) {
+    public boolean ifStringContainsNumbers(String name) {
 
         if (name.contains("0") || name.contains("1") || name.contains("2")
                 || name.contains("3") || name.contains("4") || name.contains("5")
@@ -187,24 +187,16 @@ public class Hotel {
 
         if (auxUser != null) {
 
-            String PATTERN = "((?=.*[a-z])(?=.*[A-Z]))";
-            Pattern pattern = Pattern.compile(PATTERN);
-            /*
-            String PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20})";
-            Pattern pattern = Pattern.compile(PATTERN);
-             */
+            if (ifStringContainsLetters(telephone)) {
 
-            // TODO Validation does not work.
-            if (!(telephone.matches(".*\\c.*"))) {
+                message = "Not a valid phone number. Please try again";
+
+            } else {
 
                 auxUser.setTelephone(telephone);
                 auxUser = users.edit(auxUser);
 
                 message = "The changes were made successfully";
-
-            } else {
-
-                message = "Not a valid phone number. Please try again";
             }
         } else {
 
@@ -214,10 +206,21 @@ public class Hotel {
         return message;
     }
 
-    // TODO Finish this method or needs to be deleted.
     public boolean ifStringContainsLetters(String telephone) {
 
-        return true;
+        boolean flag = false;
+
+        char[] chars = telephone.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+
+            if (Character.isLetter(chars[i])) {
+
+                flag = true;
+            }
+        }
+
+        return flag;
     }
 
     public String changeEmail(String dni, String email) {
