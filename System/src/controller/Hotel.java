@@ -107,6 +107,7 @@ public class Hotel {
     }
 
     public User deactivateAccount(String dni) {
+
         boolean flag = false;
         User aux_user = this.users.search(dni);
         if (aux_user != null) {
@@ -114,6 +115,34 @@ public class Hotel {
             aux_user = users.edit(aux_user);
         }
         return aux_user;
+    }
+
+    public String deactivateThisAccount(String dni) {
+
+        String message = "";
+        List<Booking> activeBookings = getActiveBookingsByUser(dni);
+
+        if (activeBookings.size() == 0) {
+
+
+            User auxUser = this.users.search(dni);
+
+            if (auxUser != null) {
+
+                auxUser.setActive();
+                auxUser = users.edit(auxUser);
+
+                message = "Your account has been deactivated. To activate it again, please reach to one of our managers";
+            } else {
+
+                message = "User not found";
+            }
+        } else {
+
+            message = "You can not deactivate your account. There are active bookings";
+        }
+
+        return message;
     }
 
     public List<User> getUsers() {
@@ -629,7 +658,6 @@ public class Hotel {
 
     public List<Room> getAvailableRooms(LocalDate startDate, LocalDate endDate) {
 
-        String message = "";
         List<Room> auxRooms = getRooms();
         List<Booking> activeBookings = getActiveBookingsByDate(startDate, endDate);
 
@@ -646,6 +674,18 @@ public class Hotel {
         auxRooms = auxRooms.stream().filter(room -> room.getAvailability().equals(Availability.FREE)).collect(Collectors.toList());
 
         return auxRooms;
+    }
+
+    public boolean isRoomPresent(List<Room> roomList, int idRoom) {
+
+        Room room = roomList.stream().filter(room1 -> room1.getNumber() == idRoom).findFirst().orElse(null);
+        if (room != null) {
+
+            return true;
+        } else {
+
+            return false;
+        }
     }
 
     public List<Room> getAllFreeRooms() {
@@ -806,54 +846,54 @@ public class Hotel {
                 , "bossy123"));
     }
 
-    public void roomHC(){
-        if(getRooms().isEmpty()){
-            createRoom(Category.EXECUTIVE,Availability.FREE);
-            createRoom(Category.GUEST,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.FREE);
-            createRoom(Category.GUEST,Availability.CLEANING);
-            createRoom(Category.GUEST,Availability.OCCUPIED);
-            createRoom(Category.GUEST,Availability.IN_DESINFECTION);
-            createRoom(Category.GUEST,Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE,Availability.FREE);
-            createRoom(Category.GUEST,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.CLEANING);
-            createRoom(Category.JUNIOR,Availability.OCCUPIED);
-            createRoom(Category.JUNIOR,Availability.IN_DESINFECTION);
-            createRoom(Category.JUNIOR,Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE,Availability.FREE);
-            createRoom(Category.GUEST,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.CLEANING);
-            createRoom(Category.PRESIDENTIAL,Availability.OCCUPIED);
-            createRoom(Category.PRESIDENTIAL,Availability.IN_DESINFECTION);
-            createRoom(Category.PRESIDENTIAL,Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE,Availability.FREE);
-            createRoom(Category.GUEST,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.FREE);
-            createRoom(Category.EXECUTIVE,Availability.CLEANING);
-            createRoom(Category.EXECUTIVE,Availability.OCCUPIED);
-            createRoom(Category.EXECUTIVE,Availability.IN_DESINFECTION);
-            createRoom(Category.EXECUTIVE,Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE,Availability.FREE);
-            createRoom(Category.GUEST,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.FREE);
-            createRoom(Category.EXECUTIVE,Availability.FREE);
-            createRoom(Category.GUEST,Availability.FREE);
-            createRoom(Category.JUNIOR,Availability.FREE);
-            createRoom(Category.PRESIDENTIAL,Availability.FREE);
+    public void roomHC() {
+        if (getRooms().isEmpty()) {
+            createRoom(Category.EXECUTIVE, Availability.FREE);
+            createRoom(Category.GUEST, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.FREE);
+            createRoom(Category.GUEST, Availability.CLEANING);
+            createRoom(Category.GUEST, Availability.OCCUPIED);
+            createRoom(Category.GUEST, Availability.IN_DESINFECTION);
+            createRoom(Category.GUEST, Availability.OUT_OF_SERVICE);
+            createRoom(Category.EXECUTIVE, Availability.FREE);
+            createRoom(Category.GUEST, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.CLEANING);
+            createRoom(Category.JUNIOR, Availability.OCCUPIED);
+            createRoom(Category.JUNIOR, Availability.IN_DESINFECTION);
+            createRoom(Category.JUNIOR, Availability.OUT_OF_SERVICE);
+            createRoom(Category.EXECUTIVE, Availability.FREE);
+            createRoom(Category.GUEST, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.CLEANING);
+            createRoom(Category.PRESIDENTIAL, Availability.OCCUPIED);
+            createRoom(Category.PRESIDENTIAL, Availability.IN_DESINFECTION);
+            createRoom(Category.PRESIDENTIAL, Availability.OUT_OF_SERVICE);
+            createRoom(Category.EXECUTIVE, Availability.FREE);
+            createRoom(Category.GUEST, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.FREE);
+            createRoom(Category.EXECUTIVE, Availability.CLEANING);
+            createRoom(Category.EXECUTIVE, Availability.OCCUPIED);
+            createRoom(Category.EXECUTIVE, Availability.IN_DESINFECTION);
+            createRoom(Category.EXECUTIVE, Availability.OUT_OF_SERVICE);
+            createRoom(Category.EXECUTIVE, Availability.FREE);
+            createRoom(Category.GUEST, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.FREE);
+            createRoom(Category.EXECUTIVE, Availability.FREE);
+            createRoom(Category.GUEST, Availability.FREE);
+            createRoom(Category.JUNIOR, Availability.FREE);
+            createRoom(Category.PRESIDENTIAL, Availability.FREE);
         }
 
     }
 
-    public void bookingHC(){
-        if(getBookings().isEmpty()){
+    public void bookingHC() {
+        if (getBookings().isEmpty()) {
             createBooking(101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7));
             createBooking(101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7));
             createBooking(102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7));
