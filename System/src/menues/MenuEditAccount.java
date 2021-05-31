@@ -18,6 +18,8 @@ public class MenuEditAccount {
         int age = 0, genderOption = 0;
         Gender gender = null;
 
+        // TODO See if we can implement auxUser to avoid duplicate code.
+
         while (z == 0) {
 
             System.out.println("\nMenu Edit Account\n==============\n");
@@ -53,66 +55,95 @@ public class MenuEditAccount {
                 }
                 case 2: {
                     System.out.println("\nEdit Age\n");
-                    System.out.print("Enter your age: ");
-                    age = scan.nextInt();
 
-                    // TODO We need to create a new method. Change methods maybe wrong.
+                    if (user instanceof Receptionist || user instanceof Manager) {
 
+                        // TODO validations for Receptionist and Manager.
+
+                    } else {
+
+                        System.out.print("Enter your age: ");
+                        age = scan.nextInt();
+
+                        System.out.println("\n" + OlivandersHotel.changeAge(user.getDni(), age) + "\n");
+                    }
                     break;
                 }
                 case 3: {
                     System.out.println("\nEdit Gender\n");
-                    while (genderOption == 0 || genderOption > 4) {
-                        System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
-                        genderOption = scan.nextInt();
 
-                        switch (genderOption) {
-                            case 1: {
-                                gender = Gender.MALE;
-                                break;
-                            }
-                            case 2: {
-                                gender = Gender.FEMALE;
-                                break;
-                            }
-                            case 3: {
-                                gender = Gender.OTHER;
-                                break;
-                            }
-                            case 4: {
+                    if (user instanceof Receptionist || user instanceof Manager) {
 
-                                gender = Gender.NA;
-                                break;
-                            }
-                            default: {
+                        // TODO validations for Receptionist and Manager.
 
-                                System.out.println("\nPlease select a valid option number\n");
-                                break;
+                    } else {
+
+                        while (genderOption == 0 || genderOption > 4) {
+                            System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                            genderOption = scan.nextInt();
+                            switch (genderOption) {
+                                case 1: {
+                                    gender = Gender.MALE;
+                                    break;
+                                }
+                                case 2: {
+                                    gender = Gender.FEMALE;
+                                    break;
+                                }
+                                case 3: {
+                                    gender = Gender.OTHER;
+                                    break;
+                                }
+                                case 4: {
+
+                                    gender = Gender.NA;
+                                    break;
+                                }
+                                default: {
+
+                                    System.out.println("\nPlease select a valid option number\n");
+                                    break;
+                                }
                             }
                         }
+
+                        System.out.println("\n" + OlivandersHotel.changeGender(user.getDni(), gender) + "\n");
                     }
-
-                    // TODO We need to create a new method. Change methods maybe wrong.
-
                     break;
                 }
                 case 4: {
                     System.out.println("\nEdit Address\n");
-                    System.out.print("Enter new address: ");
-                    address = scan.nextLine();
-                    address = scan.nextLine();
 
-                    // TODO We need to create a new method. Change methods maybe wrong.
+                    if (user instanceof Receptionist || user instanceof Manager) {
 
+                        // TODO validations for Receptionist and Manager.
+
+                    } else {
+
+                        System.out.print("Enter new address: ");
+                        address = scan.nextLine();
+                        address = scan.nextLine();
+
+                        System.out.println("\n" + OlivandersHotel.changeAddress(user.getDni(), address + "\n"));
+                    }
                     break;
                 }
                 case 5: {
                     System.out.println("\nEdit Telephone\n");
-                    System.out.print("Enter new telephone: ");
-                    telephone = scan.next();
 
-                    // TODO We need to create a new method. Change methods maybe wrong.
+                    if (user instanceof Receptionist || user instanceof Manager) {
 
+                        // TODO validations for Receptionist and Manager.
+
+                    } else {
+
+                        System.out.print("Enter new telephone: ");
+                        telephone = scan.next();
+
+                        // TODO Need to finish this method.
+                        System.out.println("\n" + OlivandersHotel.changeAddress(user.getDni(), telephone + "\n"));
+                    }
+                    break;
                 }
                 case 6: {
                     System.out.println("\nEdit email\n");
