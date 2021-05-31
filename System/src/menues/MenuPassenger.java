@@ -177,7 +177,7 @@ public class MenuPassenger {
                 }
                 case 5: {
                     System.out.println("\nDeactivate Account\n");
-                    System.out.println(OlivandersHotel.deactivateThisAccount(loggedUser.getDni()) + "\n");
+                    System.out.println(OlivandersHotel.deactivateAccount(loggedUser.getDni()) + "\n");
                     z++;
                     break;
                 }
