@@ -50,13 +50,6 @@ public class Hotel {
         return this.users.delete(dni);
     }
 
-    public User changeFirstName(String dni, String firstName) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setFirstName(firstName);
-        return this.users.edit(aux_user);
-    }
-
     public String changeFullName(String dni, String firstName, String lastName) {
 
         String message = "";
@@ -69,22 +62,28 @@ public class Hotel {
 
             if (auxUser != null) {
 
-                if (firstName.isBlank()) {
+                if (ifNameContainsNumbers(firstName) || ifNameContainsNumbers(lastName)) {
 
-                    if (lastName.isBlank()) {
+                    if (firstName.isEmpty() || firstName.isBlank()) {
 
-                        auxUser.setFirstName(firstName);
-                        auxUser.setLastName(lastName);
-                        auxUser = users.edit(auxUser);
+                        if (lastName.isEmpty() || lastName.isBlank()) {
 
-                        message = "The changes were made successfully";
+                            auxUser.setFirstName(firstName);
+                            auxUser.setLastName(lastName);
+                            auxUser = users.edit(auxUser);
+
+                            message = "The changes were made successfully";
+                        } else {
+
+                            message = "You do not enter a valid last name. Please try again";
+                        }
                     } else {
 
-                        message = "You do not enter a valid last name. Please try again";
+                        message = "You do not enter a valid first name. Please try again";
                     }
                 } else {
 
-                    message = "You do not enter a valid first name. Please try again";
+                    message = "Your name can not contains numbers. Please try again";
                 }
             } else {
 
@@ -98,39 +97,92 @@ public class Hotel {
         return message;
     }
 
-    public User changeLastName(String dni, String lastName) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setLastName(lastName);
-        return this.users.edit(aux_user);
+    public boolean ifNameContainsNumbers(String name) {
+
+        if (name.contains("0") || name.contains("1") || name.contains("2")
+                || name.contains("3") || name.contains("4") || name.contains("5")
+                || name.contains("6") || name.contains("7") || name.contains("8")
+                || name.contains("9")) {
+
+            return true;
+        } else {
+
+            return false;
+        }
     }
 
-    public User changeAge(String dni, int age) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setAge(age);
-        return this.users.edit(aux_user);
+
+    public String changeAge(String dni, int age) {
+
+        String message = "";
+        User auxUser = users.search(dni);
+
+        if (auxUser != null) {
+
+            auxUser.setAge(age);
+            auxUser = users.edit(auxUser);
+
+            message = "The changes were made successfully";
+        } else {
+
+            message = "User not found";
+        }
+
+        return message;
     }
 
-    public User changeGender(String dni, Gender gender) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setGender(gender);
-        return this.users.edit(aux_user);
+    public String changeGender(String dni, Gender gender) {
+
+        String message = "";
+        User auxUser = users.search(dni);
+
+        if (auxUser != null) {
+
+            auxUser.setGender(gender);
+            auxUser = users.edit(auxUser);
+
+            message = "The changes were made successfully";
+        } else {
+
+            message = "User not found";
+        }
+
+        return message;
     }
 
-    public User changeAddress(String dni, String address) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setAddress(address);
-        return this.users.edit(aux_user);
+    public String changeAddress(String dni, String address) {
+
+        String message = "";
+        User auxUser = users.search(dni);
+
+        if (auxUser != null) {
+
+            auxUser.setAddress(address);
+            auxUser = users.edit(auxUser);
+
+            message = "The changes were made successfully";
+        } else {
+
+            message = "User not found";
+        }
+
+        return message;
     }
 
-    public User changeTelephone(String dni, String telephone) {
-        boolean flag = false;
-        User aux_user = this.users.search(dni);
-        aux_user.setTelephone(telephone);
-        return this.users.edit(aux_user);
+    public String changeTelephone(String dni, String telephone) {
+
+        String message = "";
+        //TODO Redo this method.
+
+        return message;
+    }
+
+    public String ifTelephoneContainsCharacters(String number) {
+
+        String message = "";
+        // TODO This method for changeTelephone.
+
+        return message;
     }
 
     public User changeEmail(String dni, String email) {
