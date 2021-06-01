@@ -1,9 +1,7 @@
 package menues;
 
 import controller.Hotel;
-import model.Availability;
-import model.Booking;
-import model.User;
+import model.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +12,7 @@ public class MenuReceptionist {
 
         int z = 0, option = 0;
 
-        int idRoom = 0, availabilityOption = 0;
+        int idBooking = 0, idRoom = 0, availabilityOption = 0;
         String dni;
         Availability availability = null;
 
@@ -22,7 +20,7 @@ public class MenuReceptionist {
 
             System.out.println("\nMenu Receptionist\n==============\n");
             System.out.println("1. Check In\n2. Check Out");
-            System.out.println("3. See Bookings\n4. Edit Booking\n5. Cancel Booking\n6. See Booking by User ID");
+            System.out.println("3. See Bookings\n4. See Booking by User ID\n5. Edit Booking\n6. Cancel Booking");
             System.out.println("7. See Rooms\n8. Edit Room Availability");
             System.out.println("9. Edit Account\n");
             System.out.println("0. Log Out");
@@ -33,25 +31,111 @@ public class MenuReceptionist {
             switch (option) {
                 case 1: {
                     System.out.println("\nCheck In\n");
+                    System.out.print("Enter the Passenger DNI: ");
+                    dni = scan.next();
+                    System.out.print("Enter the Booking ID: ");
+                    idBooking = scan.nextInt();
+
+                    if (idBooking != -1) {
+
+                        System.out.println("\n" + OlivandersHotel.checkIn(dni, idBooking) + "\n");
+                    }
                     break;
                 }
                 case 2: {
                     System.out.println("\nCheck Out\n");
+                    System.out.print("Enter the Passenger DNI: ");
+                    dni = scan.next();
+                    System.out.print("Enter the Booking ID: ");
+                    idBooking = scan.nextInt();
+
+                    if (idBooking != -1) {
+
+                        System.out.println("\n" + OlivandersHotel.checkOut(dni, idBooking) + "\n");
+                    }
                     break;
                 }
                 case 3: {
                     System.out.println("\nSee Bookings\n");
+
+                    List<Booking> bookingsByState = null;
+                    State state = null;
+
+                    System.out.println("1. All Bookings\n2. Active Bookings\n3. Cancelled Bookings\n4. Checked Bookings\n5. Check Out Bookings\n");
+                    System.out.print("Option: ");
+                    int bookingOption = scan.nextInt();
+                    //TODO Need to implement "InputMismatchException".
+                    switch (bookingOption) {
+                        case 1: {
+                            System.out.println("\nAll Bookings\n");
+                            // TODO Check if we need to add toString or not.
+                            System.out.println("\n" + OlivandersHotel.getBookings().toString() + "\n");
+                            break;
+                        }
+                        case 2: {
+                            System.out.println("\nActive Bookings\n");
+                            state = State.ACTIVE;
+                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+
+                            if (bookingsByState.size() != 0) {
+
+                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                            } else {
+
+                                System.out.println("\nThere is no bookings with this State at the moment\n");
+                            }
+                            break;
+                        }
+                        case 3: {
+                            System.out.println("\nCancelled Bookings\n");
+                            state = State.CANCELLED;
+                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+
+                            if (bookingsByState.size() != 0) {
+
+                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                            } else {
+
+                                System.out.println("\nThere is no bookings with this State at the moment\n");
+                            }
+                            break;
+                        }
+                        case 4: {
+                            System.out.println("\nChecked Bookings\n");
+                            state = State.CHECKED;
+                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+
+                            if (bookingsByState.size() != 0) {
+
+                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                            } else {
+
+                                System.out.println("\nThere is no bookings with this State at the moment\n");
+                            }
+                            break;
+                        }
+                        case 5: {
+                            System.out.println("\nCheck Out Bookings\n");
+                            state = State.CHECK_OUT;
+                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+
+                            if (bookingsByState.size() != 0) {
+
+                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                            } else {
+
+                                System.out.println("\nThere is no bookings with this State at the moment\n");
+                            }
+                            break;
+                        }
+                        default: {
+                            System.out.println("\nPlease, choose a valid option\n");
+                            break;
+                        }
+                    }
                     break;
                 }
                 case 4: {
-                    System.out.println("\n4Edit Booking\n");
-                    break;
-                }
-                case 5: {
-                    System.out.println("\nCancel Booking\n");
-                    break;
-                }
-                case 6: {
                     System.out.println("\nSee Booking by User ID\n");
 
                     List<Booking> userBookings = null;
@@ -69,7 +153,7 @@ public class MenuReceptionist {
                             dni = scan.next();
                             userBookings = OlivandersHotel.getBookingsByUser(dni);
 
-                            if (userBookings.size() == 0) {
+                            if (userBookings.size() != 0) {
 
                                 System.out.println("\n" + OlivandersHotel.getBookingsByUser(dni) + "\n");
                             } else {
@@ -85,7 +169,7 @@ public class MenuReceptionist {
                             dni = scan.next();
                             userBookings = OlivandersHotel.getActiveBookingsByUser(dni);
 
-                            if (userBookings.size() == 0) {
+                            if (userBookings.size() != 0) {
 
                                 System.out.println("\n" + OlivandersHotel.getActiveBookingsByUser(dni) + "\n");
                             } else {
@@ -102,8 +186,26 @@ public class MenuReceptionist {
                     }
                     break;
                 }
+                case 5: {
+                    System.out.println("\n4Edit Booking\n");
+
+                    //TODO Don't know if there is a method for this already.
+
+                    break;
+                }
+                case 6: {
+                    System.out.println("\nCancel Booking\n");
+
+                    System.out.print("Enter the Booking ID: ");
+                    idBooking = scan.nextInt();
+
+                    System.out.println("\n" + OlivandersHotel.cancelBooking(idBooking) + "\n");
+                    break;
+                }
                 case 7: {
                     System.out.println("\nSee Rooms\n");
+
+                    MenuSeeRooms.menuSeeRooms(scan, OlivandersHotel);
                     break;
                 }
                 case 8: {
@@ -151,8 +253,27 @@ public class MenuReceptionist {
                 case 9: {
                     System.out.println("\nEdit Account\n");
 
-                    // TODO This is a test. If works, we need to add it.
-                    MenuEditAccount.menuEditAccount(scan, OlivandersHotel, loggedUser);
+                    // TODO Maybe needs changes.
+
+                    System.out.print("1. Edit my Account\n2. Edit Passenger Account\n");
+                    // TODO Maybe needs an Exception.
+                    int editOption = scan.nextInt();
+
+                    if (editOption == 1) {
+
+                        MenuEditAccount.menuEditAccount(scan, OlivandersHotel, loggedUser);
+                    } else if (editOption == 2) {
+
+                        System.out.print("Enter the Passenger DNI: ");
+                        dni = scan.next();
+                        User pUser = new Passenger(dni, "xxxx", "xxxx", 18, Gender.NA, "xxxx", "1234", "email@gmail.com", "1234", "xxxx");
+
+                        MenuEditAccount.menuEditAccount(scan, OlivandersHotel, pUser);
+                    } else {
+
+                        System.out.println("\nPlease, choose a valid option\n");
+                    }
+
                     break;
                 }
                 case 0: {
