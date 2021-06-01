@@ -3,7 +3,6 @@ package menues;
 import controller.Hotel;
 import model.Availability;
 import model.Booking;
-import model.Gender;
 import model.User;
 
 import java.util.List;
