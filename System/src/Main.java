@@ -32,6 +32,7 @@ public class Main {
             System.out.println("0. Exit\n");
             System.out.print("Option: ");
             System.out.flush();
+            //TODO Need to implement "InputMismatchException".
             option = scan.nextInt();
             switch (option) {
                 case 1: {
@@ -50,7 +51,7 @@ public class Main {
                         while (genderOption == 0 || genderOption > 4) {
                             System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
                             genderOption = scan.nextInt();
-
+                            //TODO Need to implement "InputMismatchException".
                             switch (genderOption) {
                                 case 1: {
                                     gender = Gender.MALE;

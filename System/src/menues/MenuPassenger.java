@@ -28,6 +28,7 @@ public class MenuPassenger {
             System.out.println("0. Log Out");
             System.out.print("Option: ");
             System.out.flush();
+            //TODO Need to implement "InputMismatchException".
             option = scan.nextInt();
             switch (option) {
                 case 1: {
@@ -128,6 +129,7 @@ public class MenuPassenger {
                                             System.out.print("Enter the DNI of the added passenger: ");
                                             String dniOptionalPassenger = scan.next();
 
+                                            //TODO Check if there are 7 days between startDate and EndDate.
                                             System.out.println("\n" + OlivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate) + "\n");
                                         } else if (answer.toLowerCase().equals("no")) {
 
