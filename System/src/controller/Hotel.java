@@ -384,9 +384,12 @@ public class Hotel {
 
     public String cancelBooking(Integer idBooking) {
 
+        // TODO Maybe needs changes.
         String message = "";
         Booking aux_booking = this.bookings.search(idBooking);
+
         if (aux_booking != null) {
+
             if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
                     || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
                 //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
@@ -394,25 +397,30 @@ public class Hotel {
                 aux_booking = this.bookings.edit(aux_booking);
                 message = "Booking cancelled";
             } else {
+
                 message = "Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking";
             }
         } else {
+
             message = "Booking not found";
         }
+
         return message;
     }
 
     public String checkIn(String dniPassenger, Integer idBooking) {
 
+        //TODO Maybe needs changes.
         String message = "";
         Booking aux_booking = this.bookings.search(idBooking);
-        if (aux_booking != null) {
-            if ((aux_booking.getIdMainPassenger().equals(dniPassenger))
-                    || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
 
-                message = "Booking found. Passenger Checked In";
+        if (aux_booking != null) {
+            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+
                 changeStateBooking(idBooking, State.CHECKED);
                 aux_booking = this.bookings.edit(aux_booking);
+
+                message = "Booking found. Passenger Checked In";
 
                 Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
                 changeRoomAvailability(aux_room.getNumber(), Availability.OCCUPIED);
@@ -431,6 +439,7 @@ public class Hotel {
 
     public String checkOut(String dniPassenger, Integer idBooking) {
 
+        //TODO Maybe needs changes.
         String message = "";
         Booking aux_booking = this.bookings.search(idBooking);
 
@@ -843,52 +852,52 @@ public class Hotel {
         }
     }
 
-    public List<Room> getAllFreeRooms() {
+    public List<Room> getAllFreeRooms(Availability availability) {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.FREE)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllOccupiedRooms() {
+    public List<Room> getAllOccupiedRooms(Availability availability) {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.OCCUPIED)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllCleaningRooms() {
+    public List<Room> getAllCleaningRooms(Availability availability) {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.CLEANING)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllInDesinfectionRooms() {
+    public List<Room> getAllInDesinfectionRooms(Availability availability) {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.IN_DESINFECTION)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllUnderRepairRooms() {
+    public List<Room> getAllUnderRepairRooms(Availability availability) {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.UNDER_REPAIR)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllOutOfServiceRooms() {
+    public List<Room> getAllOutOfServiceRooms(Availability availability) {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.OUT_OF_SERVICE)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllGuestRooms() {
+    public List<Room> getAllGuestRooms(Category category) {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.GUEST)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllJuniorRooms() {
+    public List<Room> getAllJuniorRooms(Category category) {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.JUNIOR)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllPresidentialRooms() {
+    public List<Room> getAllPresidentialRooms(Category category) {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.PRESIDENTIAL)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllExecutiveRooms() {
+    public List<Room> getAllExecutiveRooms(Category category) {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.EXECUTIVE)).collect(Collectors.toList());
     }
