@@ -124,7 +124,7 @@ public abstract class User {
         return "╔═  User Name: " + firstName + " " + lastName + "   ══════════════════════════" + '\n' +
                 "╠═ DNI: " + dni + '\n' +
                 "╠═ Age:" + age + '\n' +
-                "╠═ Gender:" + gender + '\n' +
+                "╠═ Gender:" + gender.getGender() + '\n' +
                 "╠═ Address: " + address + '\n' +
                 "╠═ Telephone: " + telephone + '\n' +
                 "╠═ Email: " + email + '\n' +

@@ -106,7 +106,7 @@ public class Booking {
                 "╠═ Start Date:" + startDate + '\n' +
                 "╠═ End Date:" + endDate + '\n' +
                 "╠═ Amount Of Nights:" + amountOfNights + '\n' +
-                "╠═ State:" + state + '\n' +
+                "╠═ State:" + state.getState() + '\n' +
                 "╠═ Total Cost:" + totalCost + '\n' +
                 "╚══════════════════════════════════════\n";
     }

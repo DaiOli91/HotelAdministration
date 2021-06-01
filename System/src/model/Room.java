@@ -40,8 +40,8 @@ public class Room {
     @Override
     public String toString() {
         return "\n╔═  Room Number: " + number + "   ══════════════════════════" + '\n' +
-                "╠═ Category:" + category + '\n' +
-                "╠═ Availability:" + availability + '\n' +
+                "╠═ Category:" + category.toString() + '\n' +
+                "╠═ Availability:" + availability.getAvailability() + '\n' +
                 "╚══════════════════════════════════════\n";
     }
 }

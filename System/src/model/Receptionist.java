@@ -1,6 +1,6 @@
 package model;
 
-public class Receptionist extends Employee{
+public class Receptionist extends Employee {
     private Shift shift;
 
     public Receptionist(String dni, String firstName, String lastName, int age, Gender gender, String address, String telephone, String email, String password, Shift shift) {
@@ -20,7 +20,7 @@ public class Receptionist extends Employee{
     public String toString() {
         return super.toString() +
                 "╠═ Role: Receptionist" + '\n' +
-                "╠═ Shift: "+ shift + '\n' +
+                "╠═ Shift: " + shift.getShift() + '\n' +
                 "╚══════════════════════════════════════" + '\n';
     }
 }
