@@ -306,6 +306,7 @@ public class Hotel {
     }
 
     public List<User> getActiveEmployees() {
+
         return users.getUsers()
                 .stream()
                 .filter(user -> user.getActive())
@@ -314,6 +315,7 @@ public class Hotel {
     }
 
     public List<User> getFormerEmployees() {
+
         return users.getUsers()
                 .stream()
                 .filter(user -> !user.getActive())
@@ -322,16 +324,17 @@ public class Hotel {
     }
 
     public List<User> getActiveReceptionists() {
+
         return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Receptionist)
-                .filter(receptionist -> receptionist
-                        .getActive())
+                .filter(receptionist -> receptionist.getActive())
                 .collect(Collectors
                         .toList());
     }
 
     public List<User> getPassengers() {
+
         return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Passenger)
@@ -606,6 +609,7 @@ public class Hotel {
      * @return list of all bookings that contains that DNI as main passenger ID
      */
     public List<Booking> getBookingsByUser(String userDni) {
+
         return getBookings()
                 .stream()
                 .filter(b -> b.getIdMainPassenger().equals(userDni))
@@ -618,6 +622,7 @@ public class Hotel {
      * @return list of all bookings that contains that DNI as main passenger ID
      */
     public List<Booking> getActiveBookingsByUser(String userDni) {
+
         return getBookings()
                 .stream()
                 .filter(b -> b.getIdMainPassenger().equals(userDni))
@@ -626,16 +631,27 @@ public class Hotel {
     }
 
     public List<Booking> getBookingsByState(State state) {
+
         return getBookings()
                 .stream()
                 .filter(b -> b.getState().equals(state))
                 .collect(Collectors.toList());
     }
 
+    public List<Booking> getActiveBookingByPassenger(String dni) {
+
+        return getBookings().stream()
+                .filter(booking -> booking.getIdMainPassenger().equals(dni))
+                .filter(booking -> booking.getState().equals(State.ACTIVE))
+                .collect(Collectors.toList());
+    }
+
+
     /**
      * @return List of all active bookings for a Specific room- to validate
      */
     public List<Booking> getActiveBookingsByRoom(Integer roomId) {
+
         return getBookings()
                 .stream()
                 .filter(b -> b.getIdRoom() == roomId)
@@ -648,7 +664,7 @@ public class Hotel {
      */
     public List<Booking> getActiveBookingsByRoomAndDate(LocalDate startDate, LocalDate endDate, Integer idRoom) {
 
-        // TODO Maybe needs changes.
+        // TODO Maybe need changes.
         return this.getActiveBookingsByRoom(idRoom)
                 .stream()
                 .filter(b -> ((b.getStartDate().isAfter(startDate)) && (b.getStartDate().isBefore(endDate))
@@ -661,10 +677,10 @@ public class Hotel {
      * @return List of all active bookings for specific Room in a specific period of time- to validate
      */
     public List<Booking> getActiveBookingsByDate(LocalDate startDate, LocalDate endDate) {
-        return this.getBookings()
+
+        return getBookings()
                 .stream()
-                .filter(b -> ((b.getStartDate().isAfter(startDate))
-                        && (b.getEndDate().isBefore(endDate))))
+                .filter(b -> ((b.getStartDate().isAfter(startDate)) && (b.getEndDate().isBefore(endDate))))
                 .filter(b -> (b.getState().equals(State.ACTIVE)))
                 .collect(Collectors.toList());
     }
