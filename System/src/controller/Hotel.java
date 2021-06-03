@@ -34,6 +34,7 @@ public class Hotel {
         return rooms.getRooms();
     }
 
+
     // ╔═══════════════════════════════ User Methods // 'ABML' order
     public boolean register(User user) {
 
@@ -44,10 +45,6 @@ public class Hotel {
 
             return false;
         }
-    }
-
-    public boolean deleteUser(String dni) {
-        return this.users.delete(dni);
     }
 
     public String changeFullName(String dni, String firstName, String lastName) {
@@ -273,6 +270,28 @@ public class Hotel {
         return message;
     }
 
+    public String changeReceptionistShift(String dni, Shift shift) {
+
+        String message = "";
+        User auxRecep = users.search(dni);
+
+        if (auxRecep != null) {
+
+            if (auxRecep instanceof Receptionist) {
+
+                ((Receptionist) auxRecep).setShift(shift);
+                auxRecep = users.edit(auxRecep);
+
+                message = "The changes were made successfully";
+            }
+        } else {
+
+            message = "Receptionist not found";
+        }
+
+        return message;
+    }
+
     public String deactivateAccount(String dni) {
 
         String message = "";
@@ -285,10 +304,14 @@ public class Hotel {
 
             if (auxUser != null) {
 
+                if (auxUser instanceof Receptionist) {
+
+                    ((Receptionist) auxUser).setShift(Shift.UNASIGNED);
+                }
                 auxUser.setActive();
                 auxUser = users.edit(auxUser);
 
-                message = "Your account has been deactivated. To activate it again, please reach to one of our managers";
+                message = "The account has been deactivated. To activate it again, please reach one of our managers";
             } else {
 
                 message = "User not found";
@@ -361,6 +384,7 @@ public class Hotel {
         return message;
     }
 
+    // TODO Probably will be deleted.
     public String deleteBooking(Integer idBooking) {
 
         String message = "";
@@ -695,7 +719,7 @@ public class Hotel {
     }
 
 
-    // ╠═══════════════════════════════ Room Methods // 'ABML' order
+    // ╠═══════════════════════════════ Room Methods // 'ABML' order ═══════════════════════════════╣
     public String createRoom(Category category, Availability availability) {
 
         rooms.add(new Room(category, availability));
@@ -731,38 +755,6 @@ public class Hotel {
         } else {
 
             message = "The room cannot be deactivated because there are current bookings on";
-        }
-
-        return message;
-    }
-
-    public String deleteRoom(int idRoom) {
-
-        String message = "";
-        List<Booking> checkBooking = getActiveBookingsByRoom(idRoom);
-
-        if (checkBooking == null) {
-
-            Room auxRoom = rooms.search(idRoom);
-            if (auxRoom != null) {
-
-                if (auxRoom.getAvailability() != Availability.OCCUPIED) {
-
-                    rooms.delete(idRoom);
-
-                    message = "Room successfully deleted";
-                } else {
-
-                    message = "Room is occupied. Please, try later";
-                }
-
-            } else {
-
-                message = "Room not found";
-            }
-        } else {
-
-            message = "The room cannot be deleted because there are current bookings on";
         }
 
         return message;
