@@ -4,7 +4,8 @@ public enum Shift {
 
     MORNING("Morning", "05:00am - 13:00pm"),
     AFTERNOON("Afternoon", "13:00pm - 21:00pm"),
-    NIGHT("Night", "21:00pm - 05:00am");
+    NIGHT("Night", "21:00pm - 05:00am"),
+    UNASIGNED("Unasigned", "Not have an assigned shift for the moment");
 
     private String shift;
     private String description;

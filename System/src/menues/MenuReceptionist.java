@@ -188,9 +188,7 @@ public class MenuReceptionist {
                 }
                 case 5: {
                     System.out.println("\n4Edit Booking\n");
-
                     //TODO Don't know if there is a method for this already.
-
                     break;
                 }
                 case 6: {
@@ -204,7 +202,6 @@ public class MenuReceptionist {
                 }
                 case 7: {
                     System.out.println("\nSee Rooms\n");
-
                     MenuSeeRooms.menuSeeRooms(scan, OllivandersHotel);
                     break;
                 }
@@ -217,9 +214,7 @@ public class MenuReceptionist {
                     while (availabilityOption == 0 || availabilityOption > 4) {
                         System.out.print("Availability (1. Free, 2. Cleaning, 3. In Desinfection, 4. Under repair): ");
                         availabilityOption = scan.nextInt();
-
                         //TODO Need to implement "InputMismatchException".
-
                         switch (availabilityOption) {
                             case 1: {
                                 availability = Availability.FREE;

@@ -3,6 +3,7 @@ package menues;
 import controller.Hotel;
 import model.Gender;
 import model.Manager;
+import model.Shift;
 import model.User;
 
 import java.util.Scanner;
@@ -14,12 +15,9 @@ public class MenuEditAccount {
         int z = 0, option = 0;
 
         String dni, firstName, lastName, address, telephone, email, password, origin;
-        int age = 0, genderOption = 0;
+        int age = 0, genderOption = 0, shiftOption = 0;
         Gender gender = null;
-
-        // TODO See if we can implement auxUser to avoid duplicate code.
-
-        // TODO Need to add exceptions.
+        Shift shift = null;
 
         while (z == 0) {
 
@@ -30,7 +28,6 @@ public class MenuEditAccount {
             System.out.println("7. Edit email\n8. Edit Password");
             if (user instanceof Manager) {
 
-                // TODO Needs a method
                 System.out.println("9. Edit Receptionist Shift");
             }
             System.out.println("\n0. Back");
@@ -70,6 +67,7 @@ public class MenuEditAccount {
 
                     while (genderOption == 0 || genderOption > 4) {
                         System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                        //TODO Need to implement "InputMismatchException".
                         genderOption = scan.nextInt();
                         switch (genderOption) {
                             case 1: {
@@ -117,12 +115,11 @@ public class MenuEditAccount {
                     telephone = scan.next();
 
                     System.out.println("\n" + OlivandersHotel.changeTelephone(user.getDni(), telephone + "\n"));
+                    break;
                 }
-                break;
                 case 7: {
                     System.out.println("\nEdit email\n");
 
-                    // TODO Need an exception. I think "InputMismatchException".
                     System.out.print("Enter new email: ");
                     email = scan.next();
 
@@ -143,8 +140,31 @@ public class MenuEditAccount {
 
                         System.out.println("\nEdit Receptionist Shift\n");
 
-                        // TODO Don't know is there is a method for this already.
+                        while (shiftOption == 0 || shiftOption > 3) {
+                            System.out.print("Shift (1. Morning, 2. Afternoon, 3. Night): ");
+                            //TODO Need to implement "InputMismatchException".
+                            shiftOption = scan.nextInt();
+                            switch (shiftOption) {
+                                case 1: {
+                                    shift = Shift.MORNING;
+                                    break;
+                                }
+                                case 2: {
+                                    shift = Shift.AFTERNOON;
+                                    break;
+                                }
+                                case 3: {
+                                    shift = Shift.NIGHT;
+                                    break;
+                                }
+                                default: {
+                                    System.out.println("\nPlease select a valid option number\n");
+                                    break;
+                                }
+                            }
+                        }
 
+                        System.out.println("\n" + OlivandersHotel.changeReceptionistShift(user.getDni(), shift) + "\n");
                     } else {
 
                         System.out.println("\nPlease, choose a valid option\n");
