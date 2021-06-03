@@ -14,10 +14,10 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
-        Hotel OlivandersHotel = new Hotel();
+        Hotel OllivandersHotel = new Hotel();
 
-        OlivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
-        OlivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "tuvieja123"));
+        OllivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
+        OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "tuvieja123"));
 
         int z = 0, option = 0;
 
@@ -95,7 +95,7 @@ public class Main {
 
                             User user = new Passenger(dni, firstName, lastName, age, gender, address, telephone, email, password, origin);
 
-                            if (OlivandersHotel.register(user) == true) {
+                            if (OllivandersHotel.register(user) == true) {
 
                                 System.out.println("\nUser successfully registered\n");
                             } else {
@@ -119,21 +119,21 @@ public class Main {
                     System.out.print("Password: ");
                     password = scan.next();
 
-                    User loggedUser = Log.logIn(dni, password, OlivandersHotel.getUsers());
+                    User loggedUser = Log.logIn(dni, password, OllivandersHotel.getUsers());
                     if (loggedUser != null) {
 
                         if (loggedUser instanceof Passenger) {
 
                             System.out.println("\nPassenger found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + " to Hotel Olivanders!\n");
-                            MenuPassenger.menuPassenger(scan, OlivandersHotel, loggedUser);
+                            MenuPassenger.menuPassenger(scan, OllivandersHotel, loggedUser);
                         } else if (loggedUser instanceof Receptionist) {
 
                             System.out.println("User found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + "\n");
-                            MenuReceptionist.menuReceptionist(scan, OlivandersHotel, loggedUser);
+                            MenuReceptionist.menuReceptionist(scan, OllivandersHotel, loggedUser);
                         } else {
 
                             System.out.println("User found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + "\n");
-                            MenuManager.menuManager(scan, OlivandersHotel, loggedUser);
+                            MenuManager.menuManager(scan, OllivandersHotel, loggedUser);
                         }
                     } else {
 

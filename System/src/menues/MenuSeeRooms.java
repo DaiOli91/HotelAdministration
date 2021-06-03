@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class MenuSeeRooms {
 
-    public static void menuSeeRooms(Scanner scan, Hotel OlivandersHotel) {
+    public static void menuSeeRooms(Scanner scan, Hotel OllivandersHotel) {
 
         int z = 0, option = 0;
 
@@ -35,18 +35,18 @@ public class MenuSeeRooms {
                     System.out.println("\nAll Rooms\n");
 
                     // TODO Check if we need to add toString or not.
-                    System.out.println("\n" + OlivandersHotel.getRooms().toString() + "\n");
+                    System.out.println("\n" + OllivandersHotel.getRooms().toString() + "\n");
                     break;
                 }
                 case 2: {
                     System.out.println("\nFree Rooms\n");
 
                     availability = Availability.FREE;
-                    roomList = OlivandersHotel.getAllFreeRooms(availability);
+                    roomList = OllivandersHotel.getAllFreeRooms(availability);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllFreeRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllFreeRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + availability.getAvailability() + " rooms\n");
@@ -57,11 +57,11 @@ public class MenuSeeRooms {
                     System.out.println("\nOccupied Rooms\n");
 
                     availability = Availability.OCCUPIED;
-                    roomList = OlivandersHotel.getAllOccupiedRooms(availability);
+                    roomList = OllivandersHotel.getAllOccupiedRooms(availability);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllOccupiedRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllOccupiedRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + availability.getAvailability() + " rooms\n");
@@ -72,11 +72,11 @@ public class MenuSeeRooms {
                     System.out.println("\nCleaning Rooms\n");
 
                     availability = Availability.CLEANING;
-                    roomList = OlivandersHotel.getAllCleaningRooms(availability);
+                    roomList = OllivandersHotel.getAllCleaningRooms(availability);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllCleaningRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllCleaningRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + availability.getAvailability() + " rooms\n");
@@ -87,11 +87,11 @@ public class MenuSeeRooms {
                     System.out.println("\nIn Desinfection Rooms\n");
 
                     availability = Availability.IN_DESINFECTION;
-                    roomList = OlivandersHotel.getAllInDesinfectionRooms(availability);
+                    roomList = OllivandersHotel.getAllInDesinfectionRooms(availability);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllInDesinfectionRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllInDesinfectionRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + availability.getAvailability() + " rooms\n");
@@ -102,11 +102,11 @@ public class MenuSeeRooms {
                     System.out.println("\nUnder Repair Rooms\n");
 
                     availability = Availability.UNDER_REPAIR;
-                    roomList = OlivandersHotel.getAllUnderRepairRooms(availability);
+                    roomList = OllivandersHotel.getAllUnderRepairRooms(availability);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllUnderRepairRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllUnderRepairRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + availability.getAvailability() + " rooms\n");
@@ -117,11 +117,11 @@ public class MenuSeeRooms {
                     System.out.println("\nOut of Services Rooms\n");
 
                     availability = Availability.OUT_OF_SERVICE;
-                    roomList = OlivandersHotel.getAllOutOfServiceRooms(availability);
+                    roomList = OllivandersHotel.getAllOutOfServiceRooms(availability);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllOutOfServiceRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllOutOfServiceRooms(availability) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + availability.getAvailability() + " rooms\n");
@@ -132,11 +132,11 @@ public class MenuSeeRooms {
                     System.out.println("\nGuest Rooms\n");
 
                     category = Category.GUEST;
-                    roomList = OlivandersHotel.getAllGuestRooms(category);
+                    roomList = OllivandersHotel.getAllGuestRooms(category);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllGuestRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllGuestRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + category.getName() + " rooms\n");
@@ -147,11 +147,11 @@ public class MenuSeeRooms {
                     System.out.println("\nJunior Rooms\n");
 
                     category = Category.JUNIOR;
-                    roomList = OlivandersHotel.getAllJuniorRooms(category);
+                    roomList = OllivandersHotel.getAllJuniorRooms(category);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllJuniorRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllJuniorRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + category.getName() + " rooms\n");
@@ -162,11 +162,11 @@ public class MenuSeeRooms {
                     System.out.println("\nPresidential Rooms\n");
 
                     category = Category.PRESIDENTIAL;
-                    roomList = OlivandersHotel.getAllPresidentialRooms(category);
+                    roomList = OllivandersHotel.getAllPresidentialRooms(category);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllPresidentialRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllPresidentialRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + category.getName() + " rooms\n");
@@ -177,11 +177,11 @@ public class MenuSeeRooms {
                     System.out.println("\nExecutive Rooms\n");
 
                     category = Category.EXECUTIVE;
-                    roomList = OlivandersHotel.getAllExecutiveRooms(category);
+                    roomList = OllivandersHotel.getAllExecutiveRooms(category);
 
                     if (roomList.size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getAllExecutiveRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
+                        System.out.println("\n" + OllivandersHotel.getAllExecutiveRooms(category) + "\n\nThere is/are " + roomList.size() + " room/s\n");
                     } else {
 
                         System.out.println("\nThere is no " + category.getName() + " rooms\n");

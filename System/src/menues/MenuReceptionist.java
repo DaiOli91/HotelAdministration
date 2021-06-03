@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class MenuReceptionist {
 
-    public static void menuReceptionist(Scanner scan, Hotel OlivandersHotel, User loggedUser) {
+    public static void menuReceptionist(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
         int z = 0, option = 0;
 
@@ -38,7 +38,7 @@ public class MenuReceptionist {
 
                     if (idBooking != -1) {
 
-                        System.out.println("\n" + OlivandersHotel.checkIn(dni, idBooking) + "\n");
+                        System.out.println("\n" + OllivandersHotel.checkIn(dni, idBooking) + "\n");
                     }
                     break;
                 }
@@ -51,7 +51,7 @@ public class MenuReceptionist {
 
                     if (idBooking != -1) {
 
-                        System.out.println("\n" + OlivandersHotel.checkOut(dni, idBooking) + "\n");
+                        System.out.println("\n" + OllivandersHotel.checkOut(dni, idBooking) + "\n");
                     }
                     break;
                 }
@@ -69,17 +69,17 @@ public class MenuReceptionist {
                         case 1: {
                             System.out.println("\nAll Bookings\n");
                             // TODO Check if we need to add toString or not.
-                            System.out.println("\n" + OlivandersHotel.getBookings().toString() + "\n");
+                            System.out.println("\n" + OllivandersHotel.getBookings().toString() + "\n");
                             break;
                         }
                         case 2: {
                             System.out.println("\nActive Bookings\n");
                             state = State.ACTIVE;
-                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+                            bookingsByState = OllivandersHotel.getBookingsByState(state);
 
                             if (bookingsByState.size() != 0) {
 
-                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                                System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                             } else {
 
                                 System.out.println("\nThere is no bookings with this State at the moment\n");
@@ -89,11 +89,11 @@ public class MenuReceptionist {
                         case 3: {
                             System.out.println("\nCancelled Bookings\n");
                             state = State.CANCELLED;
-                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+                            bookingsByState = OllivandersHotel.getBookingsByState(state);
 
                             if (bookingsByState.size() != 0) {
 
-                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                                System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                             } else {
 
                                 System.out.println("\nThere is no bookings with this State at the moment\n");
@@ -103,11 +103,11 @@ public class MenuReceptionist {
                         case 4: {
                             System.out.println("\nChecked Bookings\n");
                             state = State.CHECKED;
-                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+                            bookingsByState = OllivandersHotel.getBookingsByState(state);
 
                             if (bookingsByState.size() != 0) {
 
-                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                                System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                             } else {
 
                                 System.out.println("\nThere is no bookings with this State at the moment\n");
@@ -117,11 +117,11 @@ public class MenuReceptionist {
                         case 5: {
                             System.out.println("\nCheck Out Bookings\n");
                             state = State.CHECK_OUT;
-                            bookingsByState = OlivandersHotel.getBookingsByState(state);
+                            bookingsByState = OllivandersHotel.getBookingsByState(state);
 
                             if (bookingsByState.size() != 0) {
 
-                                System.out.println("\n" + OlivandersHotel.getBookingsByState(state) + "\n");
+                                System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                             } else {
 
                                 System.out.println("\nThere is no bookings with this State at the moment\n");
@@ -151,11 +151,11 @@ public class MenuReceptionist {
 
                             System.out.print("Enter the Passenger DNI: ");
                             dni = scan.next();
-                            userBookings = OlivandersHotel.getBookingsByUser(dni);
+                            userBookings = OllivandersHotel.getBookingsByUser(dni);
 
                             if (userBookings.size() != 0) {
 
-                                System.out.println("\n" + OlivandersHotel.getBookingsByUser(dni) + "\n");
+                                System.out.println("\n" + OllivandersHotel.getBookingsByUser(dni) + "\n");
                             } else {
 
                                 System.out.println("\nThere is no bookings\n");
@@ -167,11 +167,11 @@ public class MenuReceptionist {
 
                             System.out.print("Enter the Passenger DNI: ");
                             dni = scan.next();
-                            userBookings = OlivandersHotel.getActiveBookingsByUser(dni);
+                            userBookings = OllivandersHotel.getActiveBookingsByUser(dni);
 
                             if (userBookings.size() != 0) {
 
-                                System.out.println("\n" + OlivandersHotel.getActiveBookingsByUser(dni) + "\n");
+                                System.out.println("\n" + OllivandersHotel.getActiveBookingsByUser(dni) + "\n");
                             } else {
 
                                 System.out.println("\nThere is no bookings\n");
@@ -199,13 +199,13 @@ public class MenuReceptionist {
                     System.out.print("Enter the Booking ID: ");
                     idBooking = scan.nextInt();
 
-                    System.out.println("\n" + OlivandersHotel.cancelBooking(idBooking) + "\n");
+                    System.out.println("\n" + OllivandersHotel.cancelBooking(idBooking) + "\n");
                     break;
                 }
                 case 7: {
                     System.out.println("\nSee Rooms\n");
 
-                    MenuSeeRooms.menuSeeRooms(scan, OlivandersHotel);
+                    MenuSeeRooms.menuSeeRooms(scan, OllivandersHotel);
                     break;
                 }
                 case 8: {
@@ -247,7 +247,7 @@ public class MenuReceptionist {
                     }
 
                     // TODO Maybe needs more validations.
-                    System.out.println("\n" + OlivandersHotel.changeRoomAvailability(idRoom, availability) + "\n");
+                    System.out.println("\n" + OllivandersHotel.changeRoomAvailability(idRoom, availability) + "\n");
                     break;
                 }
                 case 9: {
@@ -261,14 +261,14 @@ public class MenuReceptionist {
 
                     if (editOption == 1) {
 
-                        MenuEditAccount.menuEditAccount(scan, OlivandersHotel, loggedUser);
+                        MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
                     } else if (editOption == 2) {
 
                         System.out.print("Enter the Passenger DNI: ");
                         dni = scan.next();
                         User pUser = new Passenger(dni, "xxxx", "xxxx", 18, Gender.NA, "xxxx", "1234", "email@gmail.com", "1234", "xxxx");
 
-                        MenuEditAccount.menuEditAccount(scan, OlivandersHotel, pUser);
+                        MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
                     } else {
 
                         System.out.println("\nPlease, choose a valid option\n");

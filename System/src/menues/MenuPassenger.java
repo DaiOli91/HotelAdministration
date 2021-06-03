@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class MenuPassenger {
 
-    public static void menuPassenger(Scanner scan, Hotel OlivandersHotel, User loggedUser) {
+    public static void menuPassenger(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
         int z = 0, option = 0;
 
@@ -61,7 +61,7 @@ public class MenuPassenger {
 
                                 if (endDate.isAfter(LocalDate.now())) {
 
-                                    System.out.println("\n" + OlivandersHotel.getAvailableRooms(startDate, endDate).toString() + "\n");
+                                    System.out.println("\n" + OllivandersHotel.getAvailableRooms(startDate, endDate).toString() + "\n");
                                 } else {
 
                                     System.out.println("\nPlease enter a valid date\n");
@@ -114,11 +114,11 @@ public class MenuPassenger {
 
                                 if (endDate.isAfter(LocalDate.now())) {
 
-                                    List<Room> availableRooms = OlivandersHotel.getAvailableRooms(startDate, endDate);
+                                    List<Room> availableRooms = OllivandersHotel.getAvailableRooms(startDate, endDate);
                                     System.out.println("\n" + availableRooms.toString() + "\n");
                                     System.out.print("Please enter the number of the room: ");
                                     numberRoom = scan.nextInt();
-                                    if (OlivandersHotel.isRoomPresent(availableRooms, numberRoom)) {
+                                    if (OllivandersHotel.isRoomPresent(availableRooms, numberRoom)) {
 
                                         System.out.println("Would you like to add another passenger?");
                                         System.out.print("Yes/No: ");
@@ -130,10 +130,10 @@ public class MenuPassenger {
                                             String dniOptionalPassenger = scan.next();
 
                                             //TODO Check if there are 7 days between startDate and EndDate.
-                                            System.out.println("\n" + OlivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate) + "\n");
+                                            System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate) + "\n");
                                         } else if (answer.toLowerCase().equals("no")) {
 
-                                            System.out.println("\n" + OlivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate) + "\n");
+                                            System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate) + "\n");
                                         } else {
 
                                             System.out.println("\nInvalid answer. Please try again\n");
@@ -163,9 +163,9 @@ public class MenuPassenger {
                 case 3: {
                     System.out.println("\nMy bookings\n");
 
-                    if (OlivandersHotel.getBookingsByUser(loggedUser.getDni()).size() != 0) {
+                    if (OllivandersHotel.getBookingsByUser(loggedUser.getDni()).size() != 0) {
 
-                        System.out.println("\n" + OlivandersHotel.getBookingsByUser(loggedUser.getDni()) + "\n");
+                        System.out.println("\n" + OllivandersHotel.getBookingsByUser(loggedUser.getDni()) + "\n");
                     } else {
 
                         System.out.println("\nIt seems that you do not have any booking yet\n");
@@ -174,12 +174,12 @@ public class MenuPassenger {
                 }
                 case 4: {
                     System.out.println("\nEdit Account\n");
-                    MenuEditAccount.menuEditAccount(scan, OlivandersHotel, loggedUser);
+                    MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
                     break;
                 }
                 case 5: {
                     System.out.println("\nDeactivate Account\n");
-                    System.out.println(OlivandersHotel.deactivateAccount(loggedUser.getDni()) + "\n");
+                    System.out.println(OllivandersHotel.deactivateAccount(loggedUser.getDni()) + "\n");
                     z++;
                     break;
                 }
