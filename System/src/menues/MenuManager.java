@@ -11,7 +11,7 @@ public class MenuManager {
 
         int z = 0, option = 0;
 
-        int age = 0, genderOption = 0, employeeOption = 0, shiftOption = 0, idRoom = 0, categoryOption = 0;
+        int age = 0, genderOption = 0, employeeOption = 0, shiftOption = 0, activeDeactiveOption = 0, idRoom = 0, categoryOption = 0;
         String dni, firstName, lastName, address, telephone, email, password;
         Gender gender = null;
         Shift shift;
@@ -20,7 +20,7 @@ public class MenuManager {
         while (z == 0) {
 
             System.out.println("\nMenu Manager\n==========\n");
-            System.out.println("1. Add Employee\n2. See Users\n3. Edit Account\n4. Deactivate User");
+            System.out.println("1. Add Employee\n2. See Users\n3. Edit Account\n4. Activate/Deactivate User");
             System.out.println("5. Add Room\n6. See Rooms\n7. Edit Room Category\n8 . Deactivate Room");
             System.out.println("0. Log Out");
             System.out.print("Option: ");
@@ -148,7 +148,7 @@ public class MenuManager {
                 }
                 case 2: {
                     System.out.println("\nSee Users\n");
-                    MenuSeeRooms.menuSeeRooms(scan, OllivandersHotel);
+                    MenuSeeUsers.menuSeeUsers(scan, OllivandersHotel);
                     break;
                 }
                 case 3: {
@@ -183,12 +183,23 @@ public class MenuManager {
                     break;
                 }
                 case 4: {
-                    System.out.println("\nDeactivate User\n");
+                    System.out.println("\nActivate/Deactivate User\n");
 
                     System.out.print("Enter user's DNI: ");
                     dni = scan.next();
+                    System.out.println("\n1. Activate User\n2. Deactivate User");
+                    activeDeactiveOption = scan.nextInt();
 
-                    System.out.println("\n" + OllivandersHotel.deactivateAccount(dni) + "\n");
+                    if (activeDeactiveOption == 1) {
+
+                        System.out.println("\n" + OllivandersHotel.activateAccount(dni) + "\n");
+                    } else if (activeDeactiveOption == 2) {
+
+                        System.out.println("\n" + OllivandersHotel.deactivateAccount(dni) + "\n");
+                    } else {
+
+                        System.out.println("\nNot a valid option\n");
+                    }
                     break;
                 }
                 case 5: {
