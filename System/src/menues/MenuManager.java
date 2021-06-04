@@ -11,8 +11,10 @@ public class MenuManager {
 
         int z = 0, option = 0;
 
-        int idRoom = 0, employeeOption = 0, categoryOption = 0;
-        String dni;
+        int age = 0, genderOption = 0, employeeOption = 0, shiftOption = 0, idRoom = 0, categoryOption = 0;
+        String dni, firstName, lastName, address, telephone, email, password;
+        Gender gender = null;
+        Shift shift;
         Category category = null;
 
         while (z == 0) {
@@ -29,12 +31,113 @@ public class MenuManager {
                 case 1: {
                     System.out.println("\nAdd Employee\n");
 
+                    System.out.println("\nPlease, complete the next form\n");
+                    System.out.print("DNI: ");
+                    dni = scan.next();
+                    System.out.print("First Name: ");
+                    firstName = scan.next();
+                    System.out.print("Last Name: ");
+                    lastName = scan.next();
+                    System.out.print("Age: ");
+                    age = scan.nextInt();
+
+                    if (age > 18) {
+
+                        while (genderOption == 0 || genderOption > 4) {
+                            System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                            genderOption = scan.nextInt();
+                            //TODO Need to implement "InputMismatchException".
+                            switch (genderOption) {
+                                case 1: {
+                                    gender = Gender.MALE;
+                                    break;
+                                }
+                                case 2: {
+                                    gender = Gender.FEMALE;
+                                    break;
+                                }
+                                case 3: {
+                                    gender = Gender.OTHER;
+                                    break;
+                                }
+                                case 4: {
+
+                                    gender = Gender.NA;
+                                    break;
+                                }
+                                default: {
+
+                                    System.out.println("\nPlease select a valid option number\n");
+                                    break;
+                                }
+                            }
+                        }
+                        System.out.print("Address: ");
+                        address = scan.nextLine();
+                        address = scan.nextLine();
+                        System.out.print("Telephone: ");
+                        telephone = scan.next();
+                        System.out.print("Email: ");
+                        email = scan.next();
+
+                        if (email.contains("@")) {
+
+                            System.out.print("Password: ");
+                            password = scan.next();
+
+                            System.out.print("New Employee (1. Manager, 2. Receptionist): ");
+                            employeeOption = scan.nextInt();
+
+                            if (employeeOption == 1) {
+
+                                // TODO There is no "addUser" method or "createUser" method.
+                                User mUser = new Manager(dni, firstName, lastName, age, gender, address, telephone, email, password);
+
+                            } else if (employeeOption == 2) {
+
+                                System.out.print("Shift (1. Morning, 2. Afternoon, 3. Night): ");
+                                shiftOption = scan.nextInt();
+
+                                if (shiftOption == 1) {
+
+                                    shift = Shift.MORNING;
+                                    User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
+
+                                    // TODO There is no "addUser" method or "createUser" method.
+                                } else if (shiftOption == 2) {
+
+                                    shift = Shift.AFTERNOON;
+                                    User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
+
+                                    // TODO There is no "addUser" method or "createUser" method.
+                                } else if (shiftOption == 3) {
+
+                                    shift = Shift.NIGHT;
+                                    User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
+
+                                    // TODO There is no "addUser" method or "createUser" method.
+                                } else {
+
+                                    System.out.println("\nNot a valid option. Please, try again later\n");
+                                }
+                            } else {
+
+                                System.out.println("\nNot a valid option. Please, try again later\n");
+                            }
+                        } else {
+
+                            System.out.println("\nNot a valid email\n");
+                        }
+                    } else {
+
+                        System.out.println("\nNeeds to be at least 18 years old to add a new employee\n");
+                    }
                     System.out.print("New Employee (1. Manager, 2. Receptionist): ");
                     employeeOption = scan.nextInt();
 
                     if (employeeOption == 1) {
 
-                        // TODO Don't know yet if this will be in this menu or in the Main.
+
                     } else if (employeeOption == 2) {
 
                     } else {
@@ -45,6 +148,7 @@ public class MenuManager {
                 }
                 case 2: {
                     System.out.println("\nSee Users\n");
+                    MenuSeeRooms.menuSeeRooms(scan, OllivandersHotel);
                     break;
                 }
                 case 3: {
