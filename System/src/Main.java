@@ -17,7 +17,7 @@ public class Main {
         Hotel OllivandersHotel = new Hotel();
 
         OllivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
-        OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "tuvieja123"));
+        OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "thegame123"));
 
         int z = 0, option = 0;
 
@@ -140,11 +140,6 @@ public class Main {
                         System.out.println("\nUser not found or user deactivated. Please register or try to log in again.");
                         System.out.println("If your account was deactivated, please reach one of our managers\n");
                     }
-                    break;
-                }
-                case 742617000: {
-                    // TODO Maybe needs changes.
-                    System.out.println("1. New Manager\n2. New Receptionist\n");
                     break;
                 }
                 case 0: {
