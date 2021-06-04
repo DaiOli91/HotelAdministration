@@ -51,6 +51,36 @@ public class Hotel {
         }
     }
 
+    public String activateAccount(String dni) {
+
+        String message = "";
+        User auxUser = this.users.search(dni);
+
+        if (auxUser != null) {
+
+            if (auxUser.getActive() == false) {
+
+                auxUser.setActive();
+                auxUser = users.edit(auxUser);
+                if (auxUser instanceof Receptionist) {
+
+                    message = "Receptionist Account was activated successfully. Please, change the receptionist's Shift";
+                } else {
+
+                    message = "Account was activated successfully";
+                }
+            } else {
+
+                message = "The account is active";
+            }
+        } else {
+
+            message = "User not found";
+        }
+
+        return message;
+    }
+
     public String deactivateAccount(String dni) {
 
         String message = "";
@@ -60,17 +90,22 @@ public class Hotel {
 
 
             User auxUser = this.users.search(dni);
-
             if (auxUser != null) {
 
-                if (auxUser instanceof Receptionist) {
+                if (auxUser.getActive() == true) {
 
-                    ((Receptionist) auxUser).setShift(Shift.UNASIGNED);
+                    if (auxUser instanceof Receptionist) {
+
+                        ((Receptionist) auxUser).setShift(Shift.UNASIGNED);
+                    }
+                    auxUser.setActive();
+                    auxUser = users.edit(auxUser);
+
+                    message = "The account has been deactivated. To activate it again, please reach one of our managers";
+                } else {
+
+                    message = "The account is already deactivated";
                 }
-                auxUser.setActive();
-                auxUser = users.edit(auxUser);
-
-                message = "The account has been deactivated. To activate it again, please reach one of our managers";
             } else {
 
                 message = "User not found";
@@ -90,9 +125,7 @@ public class Hotel {
 
         if (activeBookings.size() == 0) {
 
-
             User auxUser = this.users.search(dni);
-
             if (auxUser != null) {
 
                 // TODO Check if this validation works. If not, try this ones and maybe they need modifications.
@@ -329,7 +362,13 @@ public class Hotel {
         return message;
     }
 
-    // TODO We need "getAllEmployees" method or something.
+    public List<User> getAllEmployees() {
+
+        return users.getUsers()
+                .stream()
+                .filter(user -> user instanceof Employee)
+                .collect(Collectors.toList());
+    }
 
     public List<User> getActiveEmployees() {
 
@@ -365,14 +404,26 @@ public class Hotel {
         return users.getUsers()
                 .stream()
                 .filter(user -> user instanceof Passenger)
-                .filter(user -> user.getActive())
-                .collect(Collectors
-                        .toList());
+                .collect(Collectors.toList());
     }
 
-    // TODO We need "getActivePassengers" method or something.
+    public List<User> getActivePassengers() {
 
-    // TODO We need "getFormerPassengers" method or something.
+        return users.getUsers()
+                .stream()
+                .filter(user -> user.getActive())
+                .filter(user -> user instanceof Passenger)
+                .collect(Collectors.toList());
+    }
+
+    public List<User> getFormerPassengers() {
+
+        return users.getUsers()
+                .stream()
+                .filter(user -> !user.getActive())
+                .filter(user -> user instanceof Passenger)
+                .collect(Collectors.toList());
+    }
 
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
