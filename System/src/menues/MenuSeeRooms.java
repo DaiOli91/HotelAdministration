@@ -26,6 +26,7 @@ public class MenuSeeRooms {
             System.out.println("2. Free Rooms\n3. Occupied Rooms\n4. Cleaning Rooms");
             System.out.println("5. In Desinfection Rooms\n6. Under Repair Rooms\n7. Out of Services Rooms");
             System.out.println("8. Guest Rooms\n9. Junior Rooms\n10. Presidential Rooms\n11. Executive Rooms\n");
+            System.out.println("0. Back");
             System.out.print("Option: ");
             System.out.flush();
             //TODO Need to implement "InputMismatchException".
