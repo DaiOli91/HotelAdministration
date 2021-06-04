@@ -1,14 +1,21 @@
 package repository;
 
 import Interface.IRepository;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import model.Room;
+import model.User;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoomRepository implements IRepository<Room, Integer> {
 
     private List<Room> rooms;
+    private static final String ROOMSFILE = "rooms.json";
 
     public RoomRepository() {
         this.rooms = new ArrayList<>();
@@ -55,4 +62,48 @@ public class RoomRepository implements IRepository<Room, Integer> {
         return room;
     }
 
+    @Override
+    public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
+        File file = new File(ROOMSFILE);
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+        // Writer writer = Files.newBufferedWriter(Paths.get(ROOMSFILE));
+        Gson gson = new Gson();
+
+        //gson.toJson(this.rooms, writer);
+
+        //   gson.toJson(rooms, new FileWriter(ROOMSFILE));
+        for (Room room : rooms) {
+            gson.toJson(room, Room.class, bufferedWriter);
+        }
+        try {
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            //e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
+        try {
+            File file = new File(ROOMSFILE);
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            Gson gson = new Gson();
+            this.rooms = gson.fromJson(bufferedReader, new TypeToken<List<User>>() {
+            }.getType());
+
+            //TODO try this...may go terribly wrong...
+
+            try {
+                bufferedReader.close();
+            } catch (IOException ioe) {
+
+                throw ioe;
+            }
+        } catch (FileNotFoundException fnfe) {
+            throw fnfe;
+        }
+
+    }
 }
