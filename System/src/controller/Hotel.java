@@ -26,6 +26,10 @@ public class Hotel {
         this.roomHC();
     }
 
+    public List<User> getUsers() {
+        return users.getUsers();
+    }
+
     public List<Booking> getBookings() {
         return bookings.getRoomBookings();
     }
@@ -45,6 +49,38 @@ public class Hotel {
 
             return false;
         }
+    }
+
+    public String deactivateAccount(String dni) {
+
+        String message = "";
+        List<Booking> activeBookings = getActiveBookingsByUser(dni);
+
+        if (activeBookings.size() == 0) {
+
+
+            User auxUser = this.users.search(dni);
+
+            if (auxUser != null) {
+
+                if (auxUser instanceof Receptionist) {
+
+                    ((Receptionist) auxUser).setShift(Shift.UNASIGNED);
+                }
+                auxUser.setActive();
+                auxUser = users.edit(auxUser);
+
+                message = "The account has been deactivated. To activate it again, please reach one of our managers";
+            } else {
+
+                message = "User not found";
+            }
+        } else {
+
+            message = "You can not deactivate your account. There are active bookings";
+        }
+
+        return message;
     }
 
     public String changeFullName(String dni, String firstName, String lastName) {
@@ -202,6 +238,7 @@ public class Hotel {
         return message;
     }
 
+    // TODO Probably going to be deleted.
     public boolean ifStringContainsLetters(String telephone) {
 
         boolean flag = false;
@@ -292,41 +329,7 @@ public class Hotel {
         return message;
     }
 
-    public String deactivateAccount(String dni) {
-
-        String message = "";
-        List<Booking> activeBookings = getActiveBookingsByUser(dni);
-
-        if (activeBookings.size() == 0) {
-
-
-            User auxUser = this.users.search(dni);
-
-            if (auxUser != null) {
-
-                if (auxUser instanceof Receptionist) {
-
-                    ((Receptionist) auxUser).setShift(Shift.UNASIGNED);
-                }
-                auxUser.setActive();
-                auxUser = users.edit(auxUser);
-
-                message = "The account has been deactivated. To activate it again, please reach one of our managers";
-            } else {
-
-                message = "User not found";
-            }
-        } else {
-
-            message = "You can not deactivate your account. There are active bookings";
-        }
-
-        return message;
-    }
-
-    public List<User> getUsers() {
-        return users.getUsers();
-    }
+    // TODO We need "getAllEmployees" method or something.
 
     public List<User> getActiveEmployees() {
 
@@ -346,6 +349,7 @@ public class Hotel {
                 .collect(Collectors.toList());
     }
 
+    // TODO Probably going to be deleted.
     public List<User> getActiveReceptionists() {
 
         return users.getUsers()
@@ -365,6 +369,10 @@ public class Hotel {
                 .collect(Collectors
                         .toList());
     }
+
+    // TODO We need "getActivePassengers" method or something.
+
+    // TODO We need "getFormerPassengers" method or something.
 
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
@@ -508,6 +516,7 @@ public class Hotel {
         return message;
     }
 
+    // TODO Probably needs changes. START.
     public String changeRoomBooking(Integer idBooking, String dniPassenger, Integer roomId) {
         String message = "Booking not found";
         Booking aux_booking = this.bookings.search(idBooking);
@@ -597,6 +606,7 @@ public class Hotel {
 
         return message;
     }
+    // TODO Probably needs changes. END.
 
     public String cancelAllBookingsByRoom(Integer idRoom) {
 
