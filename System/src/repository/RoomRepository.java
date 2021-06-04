@@ -2,9 +2,12 @@ package repository;
 
 import Interface.IRepository;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import model.Availability;
+import model.Category;
 import model.Room;
 import model.User;
 
@@ -68,13 +71,14 @@ public class RoomRepository implements IRepository<Room, Integer> {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
         // Writer writer = Files.newBufferedWriter(Paths.get(ROOMSFILE));
         Gson gson = new Gson();
+        //Gson gson = new GsonBuilder().create();
 
-        //gson.toJson(this.rooms, writer);
+        gson.toJson(this.rooms, bufferedWriter);
 
         //   gson.toJson(rooms, new FileWriter(ROOMSFILE));
-        for (Room room : rooms) {
+      /*  for (Room room : rooms) {
             gson.toJson(room, Room.class, bufferedWriter);
-        }
+        }*/
         try {
             bufferedWriter.flush();
             bufferedWriter.close();

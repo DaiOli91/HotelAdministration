@@ -79,6 +79,19 @@ public class UserRepository implements IRepository<User, String> {
     @Override
     //TODO IOException handling
     public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
+        List<User> passengers = new ArrayList<>();
+        List<User> managers = new ArrayList<>();
+        List<User> receptionists = new ArrayList<>();
+        for (User user : users) {
+            if (user instanceof Passenger) {
+                passengers.add(user);
+            } else if (user instanceof Receptionist) {
+                receptionists.add(user);
+            } else if (user instanceof Manager) {
+                managers.add(user);
+            }
+
+        }
         try {
             File filePassengers = new File(PASSANGERSFILE);
             File fileReceptionists = new File(RECEPTIONISTSFILE);
@@ -89,16 +102,10 @@ public class UserRepository implements IRepository<User, String> {
             BufferedWriter bwManagers = new BufferedWriter(new FileWriter(fileManagers));
 
             Gson gson = new Gson();
+            gson.toJson(passengers, bwPassengers);
+            gson.toJson(receptionists, bwReceptionists);
+            gson.toJson(managers, bwManagers);
 
-            for (User user : users) {
-                if (user instanceof Passenger) {
-                    gson.toJson(user, Passenger.class, bwPassengers);
-                } else if (user instanceof Receptionist) {
-                    gson.toJson(user, Receptionist.class, bwReceptionists);
-                } else if (user instanceof Manager) {
-                    gson.toJson(user, Manager.class, bwManagers);
-                }
-            }
             try{
                 bwManagers.close();
                 bwPassengers.close();
