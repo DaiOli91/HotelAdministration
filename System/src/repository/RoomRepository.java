@@ -88,10 +88,8 @@ public class RoomRepository implements IRepository<Room, Integer> {
             File file = new File(ROOMSFILE);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             Gson gson = new Gson();
-            this.rooms = gson.fromJson(bufferedReader, new TypeToken<List<User>>() {
+            this.rooms = gson.fromJson(bufferedReader, new TypeToken<List<Room>>() {
             }.getType());
-
-            //TODO try this...may go terribly wrong...
 
             try {
                 bufferedReader.close();
