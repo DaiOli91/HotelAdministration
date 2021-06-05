@@ -5,6 +5,7 @@ import repository.BookingRepository;
 import repository.RoomRepository;
 import repository.UserRepository;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +23,9 @@ public class Hotel {
         this.users = new UserRepository();
         this.bookings = new BookingRepository();
         this.rooms = new RoomRepository();
-        this.userHC();
-        this.roomHC();
-        this.bookingHC();
+        // this.userHC();
+       // this.roomHC();
+       // this.bookingHC();
     }
 
     public List<User> getUsers() {
@@ -38,6 +39,20 @@ public class Hotel {
     public List<Room> getRooms() {
         return rooms.getRooms();
     }
+
+    public void loadData() throws IOException {
+        users.readGson();
+        bookings.readGson();
+        rooms.readGson();
+    }
+
+    public void saveData() throws IOException {
+        users.writeGson();
+        bookings.writeGson();
+        rooms.writeGson();
+    }
+
+
 
 
     // ╔═══════════════════════════════ User Methods // 'ABML' order
@@ -983,6 +998,7 @@ public class Hotel {
 
 
     // ╚═══════════════════════════════ HC Methods
+    /*
     public void addSuperAdmin() {
         User superAdmin = new Manager("11111111"
                 , "Super"
@@ -1146,6 +1162,6 @@ public class Hotel {
             cancelBooking(3);
         }
     }
-
+*/
 
 }
