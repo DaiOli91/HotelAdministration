@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class Testing {
@@ -18,25 +19,26 @@ public class Testing {
      //   System.out.println("User.class: " + User.class + "\nPassenger.class: "
      //           + Passenger.class + "\nauxPassenger.getClass(): " + auxPassenger.getClass());
 
-        RoomRepository roomRepo = new RoomRepository();
-        UserRepository userRepo = new UserRepository();
-        BookingRepository bookingRepo = new BookingRepository();
+     //   RoomRepository roomRepo = new RoomRepository();
+     //   UserRepository userRepo = new UserRepository();
+     //   BookingRepository bookingRepo = new BookingRepository();
 
+        Hotel newHotel = new Hotel();
        // Testing.roomHC(roomRepo.getRooms());
        // Testing.userHC(userRepo.getUsers());
        // Testing.bookingHC(bookingRepo.getRoomBookings());
-
+/*
 
         try {
             roomRepo.readGson();
-            System.out.println(roomRepo.getRooms().toString());
+         //   System.out.println(roomRepo.getRooms().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
             userRepo.readGson();
-            System.out.println(userRepo.getUsers().toString());
+           // System.out.println(userRepo.getUsers().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,8 +49,17 @@ public class Testing {
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
 
+        try {
+            newHotel.loadData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        System.out.println(newHotel.getBookings().toString());
+        System.out.println("AVAILABLE: \n" + newHotel.getActiveBookingsByDate(LocalDate.of(2021, 06, 15), LocalDate.of(2021, 06, 21)));
+        //System.out.println(ChronoUnit.DAYS.between(LocalDate.of(2021, 06, 21), LocalDate.of(2021, 06, 21)));
     }
 
     public static void roomHC(List<Room> rooms) {

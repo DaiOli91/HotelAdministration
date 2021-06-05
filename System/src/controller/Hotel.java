@@ -7,6 +7,7 @@ import repository.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,8 @@ public class Hotel {
         this.bookings = new BookingRepository();
         this.rooms = new RoomRepository();
         // this.userHC();
-       // this.roomHC();
-       // this.bookingHC();
+        // this.roomHC();
+        // this.bookingHC();
     }
 
     public List<User> getUsers() {
@@ -47,13 +48,19 @@ public class Hotel {
     }
 
     public void saveData() throws IOException {
+        //TODO preguntar a Orellano - read and write methods throw many exveptions....JsonExceptions inherit from RunTimeE
+        //TODO is it ok that this method only throws an IOException?
+        /*RuntimeException is the superclass of those exceptions that can be thrown during the normal operation
+        of the Java Virtual Machine.
+        RuntimeException and its subclasses are unchecked exceptions.
+        Unchecked exceptions do not need to be declared in a method or constructor's throws clause if they can be thrown
+        by the execution of the method or constructor and propagate outside the method or constructor boundary.
+        Since: 1.0
+        Author: Frank Yellin*/
         users.writeGson();
         bookings.writeGson();
         rooms.writeGson();
     }
-
-
-
 
     // ╔═══════════════════════════════ User Methods // 'ABML' order
     public boolean register(User user) {
@@ -802,9 +809,10 @@ public class Hotel {
         // TODO Maybe need changes.
         return this.getActiveBookingsByRoom(idRoom)
                 .stream()
-                .filter(b -> ((b.getStartDate().isAfter(startDate)) && (b.getStartDate().isBefore(endDate))
-                        || ((b.getEndDate().isAfter(startDate)) && (b.getEndDate().isBefore(endDate))
-                        || (b.getStartDate().isEqual(startDate)) && (b.getEndDate().isEqual(endDate)))))
+                .filter(b -> (((startDate.isAfter(b.getStartDate())) || (startDate.isEqual(b.getStartDate()))
+                        && ((startDate.isBefore(b.getEndDate())) || (startDate.isEqual(b.getEndDate()))))
+                        || ((endDate.isAfter(b.getStartDate())) || (endDate.isEqual(b.getStartDate())))
+                        && ((endDate.isBefore(b.getEndDate())) || (endDate.isEqual(b.getEndDate())))))
                 .collect(Collectors.toList());
     }
 
@@ -812,13 +820,39 @@ public class Hotel {
      * @return List of all active bookings for specific Room in a specific period of time- to validate
      */
     public List<Booking> getActiveBookingsByDate(LocalDate startDate, LocalDate endDate) {
+/*
+        return getBookings()
+                .stream()
+                .filter(b -> (((b.getStartDate().isAfter(startDate)) || b.getStartDate().isEqual(startDate))) || ((b.getEndDate().isBefore(endDate))|| b.getStartDate().isEqual(endDate)))
+                .filter(b -> (b.getState().equals(State.ACTIVE)))
+                .collect(Collectors.toList());
 
         return getBookings()
                 .stream()
-                .filter(b -> ((b.getStartDate().isAfter(startDate)) && (b.getEndDate().isBefore(endDate))))
+                .filter(b -> (ChronoUnit.DAYS.between(b.getEndDate(), startDate)<0 || ChronoUnit.DAYS.between(b.getStartDate(), endDate)<0))
                 .filter(b -> (b.getState().equals(State.ACTIVE)))
                 .collect(Collectors.toList());
-    }
+
+
+        return this.getBookings()
+                .stream()
+                .filter(b -> (((startDate.isAfter(b.getStartDate())) || (startDate.isEqual(b.getStartDate()))
+                        && ((startDate.isBefore(b.getEndDate())) || (startDate.isEqual(b.getEndDate()))))
+                        || ((endDate.isAfter(b.getStartDate())) || (endDate.isEqual(b.getStartDate())))
+                        && ((endDate.isBefore(b.getEndDate())) || (endDate.isEqual(b.getEndDate())))))
+                .collect(Collectors.toList());
+
+
+ */
+
+        return this.getBookings()
+                .stream()
+                .filter(b -> (((b.getStartDate().isAfter(startDate)) || (b.getStartDate().isEqual(startDate))
+                        && ((b.getEndDate().isBefore(startDate)) || (b.getEndDate().isEqual(startDate))))
+                        || ((b.getStartDate().isBefore(endDate)) || (b.getStartDate().isEqual(endDate)))
+                        && ((b.getEndDate().isAfter(endDate)) || (b.getEndDate().isEqual(endDate)))))
+                .collect(Collectors.toList());
+     }
 
 
     // ╠═══════════════════════════════ Room Methods // 'ABML' order ═══════════════════════════════╣
