@@ -24,6 +24,7 @@ public class Hotel {
         this.rooms = new RoomRepository();
         this.userHC();
         this.roomHC();
+        this.bookingHC();
     }
 
     public List<User> getUsers() {
