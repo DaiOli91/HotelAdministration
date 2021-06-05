@@ -9,12 +9,8 @@ import java.util.List;
 
 public class Log {
 
-    public static User logIn(String dni, String Password, Hotel hotel) {
-        try {
-            hotel.loadData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static User logIn(String dni, String Password, Hotel hotel) throws IOException {
+        hotel.loadData();
 
         User user = new Passenger(dni, Password);
         User returnUser = null;
