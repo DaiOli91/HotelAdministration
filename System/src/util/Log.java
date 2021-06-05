@@ -1,21 +1,27 @@
 package util;
 
+import controller.Hotel;
 import model.Passenger;
 import model.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Log {
 
-    public static User logIn(String dni, String Password, List<User> users) {
-        //bring data to memory from json
+    public static User logIn(String dni, String Password, Hotel hotel) {
+        try {
+            hotel.loadData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         User user = new Passenger(dni, Password);
         User returnUser = null;
 
-        if (!users.isEmpty()) {
+        if (!hotel.getUsers().isEmpty()) {
 
-            for (User aux_user : users) {
+            for (User aux_user : hotel.getUsers()) {
 
                 if ((aux_user.getDni().equals(user.getDni())) && (aux_user.getPassword().equals(user.getPassword()))) {
 
