@@ -370,6 +370,7 @@ public class Hotel {
                 .collect(Collectors.toList());
     }
 
+    // TODO Probably going to be deleted.
     public List<User> getActiveEmployees() {
 
         return users.getUsers()
@@ -379,6 +380,25 @@ public class Hotel {
                 .collect(Collectors.toList());
     }
 
+    public List<User> getActiveManagers() {
+
+        return users.getUsers()
+                .stream()
+                .filter(user -> user.getActive())
+                .filter(user -> user instanceof Manager)
+                .collect(Collectors.toList());
+    }
+
+    public List<User> getActiveReceptionists() {
+
+        return users.getUsers()
+                .stream()
+                .filter(receptionist -> receptionist.getActive())
+                .filter(user -> user instanceof Receptionist)
+                .collect(Collectors
+                        .toList());
+    }
+
     public List<User> getFormerEmployees() {
 
         return users.getUsers()
@@ -386,17 +406,6 @@ public class Hotel {
                 .filter(user -> !user.getActive())
                 .filter(user -> user instanceof Employee)
                 .collect(Collectors.toList());
-    }
-
-    // TODO Probably going to be deleted.
-    public List<User> getActiveReceptionists() {
-
-        return users.getUsers()
-                .stream()
-                .filter(user -> user instanceof Receptionist)
-                .filter(receptionist -> receptionist.getActive())
-                .collect(Collectors
-                        .toList());
     }
 
     public List<User> getPassengers() {
@@ -423,6 +432,22 @@ public class Hotel {
                 .filter(user -> !user.getActive())
                 .filter(user -> user instanceof Passenger)
                 .collect(Collectors.toList());
+    }
+
+    public User getUserByID(String idUser) {
+
+        return users.getUsers()
+                .stream()
+                .filter(user -> user.getDni().equals(idUser))
+                .findFirst().orElse(null);
+    }
+
+    public User getUserByFullName(String firstName, String lastName) {
+
+        return users.getUsers()
+                .stream()
+                .filter(user -> user.getFirstName().equalsIgnoreCase(firstName) && user.getLastName().equalsIgnoreCase(lastName))
+                .findFirst().orElse(null);
     }
 
 
