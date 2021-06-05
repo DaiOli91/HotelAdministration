@@ -19,16 +19,16 @@ public class Main {
         OllivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
         OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "thegame123"));
 
-        int z = 0, option = 0;
+        int z = 0, option;
 
         String dni, firstName, lastName, address, telephone, email, password, origin;
-        int age = 0, genderOption = 0;
+        int age, genderOption = 0;
         Gender gender = null;
 
         while (z == 0) {
 
             System.out.println("\nWelcome to Olivanders Hotel\n===========================\n");
-            System.out.println("1. Register\n2. Log In\n");
+            System.out.println("[1]. Register\n[2]. Log In\n");
             System.out.println("0. Exit");
             System.out.print("Option: ");
             System.out.flush();
@@ -48,8 +48,8 @@ public class Main {
 
                     if (age >= 18) {
 
-                        while (genderOption == 0 || genderOption > 4) {
-                            System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                        while (genderOption <= 0 || genderOption > 4) {
+                            System.out.print("Gender --> | [1]. Male - [2]. Female - [3]. Other - [4]. N/A | --> Option: ");
                             genderOption = scan.nextInt();
                             //TODO Need to implement "InputMismatchException".
                             switch (genderOption) {
@@ -78,7 +78,7 @@ public class Main {
                             }
                         }
                         System.out.print("Address: ");
-                        address = scan.nextLine();
+                        scan.nextLine();
                         address = scan.nextLine();
                         System.out.print("Telephone: ");
                         telephone = scan.next();
@@ -89,13 +89,13 @@ public class Main {
                             System.out.print("Password: ");
                             password = scan.next();
                             System.out.print("Origin (City): ");
-                            origin = scan.nextLine();
+                            scan.nextLine();
                             origin = scan.nextLine();
 
 
                             User user = new Passenger(dni, firstName, lastName, age, gender, address, telephone, email, password, origin);
 
-                            if (OllivandersHotel.register(user) == true) {
+                            if (OllivandersHotel.register(user)) {
 
                                 System.out.println("\nUser successfully registered\n");
                             } else {
@@ -154,31 +154,5 @@ public class Main {
             }
         }
         scan.close();
-
-        /*User user1 = new Manager("35892293"
-                , "Daiana"
-                , "Olivera"
-                , 30
-                , Gender.FEMALE
-                , "Solis 5526"
-                , "2235566592"
-                , "oliveratup@gmail.com"
-                , "pass456");
-
-        user1.setActive();
-        hotel.register(user1);
-
-        User user2 = Log.LogIn("35892293", "pass456", hotel.getUsers());
-        if (user2 != null) {
-            System.out.println("User found: " + user2.toString());
-
-        }
-
-        //  System.out.println(hotel1.logInHotel(user1.getDni(), user1.getPassword()));
-        //   System.out.println(hotel1.register(user1));
-        //  System.out.println(hotel1.getUsersData());
-        //  System.out.println(hotel1.logInHotel(user1.getDni(), user1.getPassword()));
-
-        System.out.println("Former employee: " + hotel.getFormerEmployees().toString());*/
     }
 }
