@@ -2,6 +2,7 @@ package repository;
 
 import Interface.IRepository;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -9,6 +10,8 @@ import model.Availability;
 import model.Booking;
 import model.Category;
 import model.Room;
+import util.LocalDateDeserializer;
+import util.LocalDateSerializer;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -72,16 +75,22 @@ public class BookingRepository implements IRepository<Booking, Integer> {
         File file = new File(BOOKINGSFILE);
 
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
 
-        for (Booking booking: roomBookings) {
+            gson.toJson(this.roomBookings, bufferedWriter);
 
-            //gson.toJson(booking, booking.getClass(), bufferedWriter);
-            gson.toJson(booking, Booking.class, bufferedWriter);
+        try {
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            //e.printStackTrace();
+            throw e;
         }
 
-
-    }
+        }
 
     @Override
     public void readGson() throws FileNotFoundException, IOException,  JsonIOException, JsonSyntaxException {
