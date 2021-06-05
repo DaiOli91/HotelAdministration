@@ -5,6 +5,7 @@ import model.*;
 import util.Log;
 import menues.MenuPassenger;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -119,7 +120,7 @@ public class Main {
                     System.out.print("Password: ");
                     password = scan.next();
 
-                    User loggedUser = Log.logIn(dni, password, OllivandersHotel.getUsers());
+                    User loggedUser = Log.logIn(dni, password, OllivandersHotel);
                     if (loggedUser != null) {
 
                         if (loggedUser instanceof Passenger) {
@@ -144,6 +145,11 @@ public class Main {
                 }
                 case 0: {
                     System.out.println("\nSee you soon :)\n");
+                    try {
+                        OllivandersHotel.saveData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     z++;
                     break;
                 }
