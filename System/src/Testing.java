@@ -6,6 +6,8 @@ import repository.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 public class Testing {
@@ -20,26 +22,27 @@ public class Testing {
         UserRepository userRepo = new UserRepository();
         BookingRepository bookingRepo = new BookingRepository();
 
-        Testing.roomHC(roomRepo.getRooms());
-        Testing.userHC(userRepo.getUsers());
-        Testing.bookingHC(bookingRepo.getRoomBookings());
+       // Testing.roomHC(roomRepo.getRooms());
+       // Testing.userHC(userRepo.getUsers());
+       // Testing.bookingHC(bookingRepo.getRoomBookings());
 
 
         try {
-            roomRepo.writeGson();
+            roomRepo.readGson();
             System.out.println(roomRepo.getRooms().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            userRepo.writeGson();
+            userRepo.readGson();
+            System.out.println(userRepo.getUsers().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            bookingRepo.writeGson();
+            bookingRepo.readGson();
             System.out.println(bookingRepo.getRoomBookings().toString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,6 +155,9 @@ public class Testing {
     }
 
     public static void bookingHC(List<Booking> bookings) {
+       // LocalDate startDate = LocalDate.now();
+      //  LocalDate endDate = LocalDate.now().plusDays(7);
+        DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
             bookings.add(new Booking (101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7)));
         bookings.add(new Booking (101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7)));
         bookings.add(new Booking (102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7)));
