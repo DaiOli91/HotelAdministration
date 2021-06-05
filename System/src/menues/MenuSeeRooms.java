@@ -12,21 +12,21 @@ public class MenuSeeRooms {
 
     public static void menuSeeRooms(Scanner scan, Hotel OllivandersHotel) {
 
-        int z = 0, option = 0;
+        int z = 0, option;
 
-        Availability availability = null;
-        Category category = null;
-        List<Room> roomList = null;
+        Availability availability;
+        Category category;
+        List<Room> roomList;
 
         while (z == 0) {
 
             //TODO Maybe we can simplify the getRooms like this: "getRoomsByAvailability" and "getRoomsByCategory".
             System.out.println("\nMenu See Rooms\n==============\n");
-            System.out.println("1. All Rooms");
-            System.out.println("2. Free Rooms\n3. Occupied Rooms\n4. Cleaning Rooms");
-            System.out.println("5. In Desinfection Rooms\n6. Under Repair Rooms\n7. Out of Services Rooms");
-            System.out.println("8. Guest Rooms\n9. Junior Rooms\n10. Presidential Rooms\n11. Executive Rooms\n");
-            System.out.println("0. Back");
+            System.out.println("[1]. All Rooms");
+            System.out.println("[2]. Free Rooms\n[3]. Occupied Rooms\n[4]. Cleaning Rooms");
+            System.out.println("[5]. In Desinfection Rooms\n[6]. Under Repair Rooms\n[7]. Out of Services Rooms");
+            System.out.println("[8]. Guest Rooms\n[9]. Junior Rooms\n[10]. Presidential Rooms\n[11]. Executive Rooms\n");
+            System.out.println("[0]. Back");
             System.out.print("Option: ");
             System.out.flush();
             //TODO Need to implement "InputMismatchException".

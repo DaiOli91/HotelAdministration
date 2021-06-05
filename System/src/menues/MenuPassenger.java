@@ -13,19 +13,19 @@ public class MenuPassenger {
 
     public static void menuPassenger(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
-        int z = 0, option = 0;
+        int z = 0, option;
 
-        int day = 0, month = 0, year = 0, numberRoom = 0;
-        LocalDate startDate = null;
-        LocalDate endDate = null;
+        int day, month, year, numberRoom;
+        LocalDate startDate;
+        LocalDate endDate;
 
 
         while (z == 0) {
 
             System.out.println("\nMenu Passenger\n=================\n");
-            System.out.println("1. See available rooms\n2. New Booking\n3. My Bookings");
-            System.out.println("4. Edit Account\n5. Deactivate Account\n");
-            System.out.println("0. Log Out");
+            System.out.println("[1]. See available rooms\n[2]. New Booking\n[3]. My Bookings");
+            System.out.println("[4]. Edit Account\n[5]. Deactivate Account\n");
+            System.out.println("[0]. Log Out");
             System.out.print("Option: ");
             System.out.flush();
             //TODO Need to implement "InputMismatchException".
@@ -124,14 +124,14 @@ public class MenuPassenger {
                                         System.out.print("Yes/No: ");
                                         String answer = scan.next();
 
-                                        if (answer.toLowerCase().equals("yes")) {
+                                        if (answer.equalsIgnoreCase("yes")) {
 
                                             System.out.print("Enter the DNI of the added passenger: ");
                                             String dniOptionalPassenger = scan.next();
 
                                             //TODO Check if there are 7 days between startDate and EndDate.
                                             System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate) + "\n");
-                                        } else if (answer.toLowerCase().equals("no")) {
+                                        } else if (answer.equalsIgnoreCase("no")) {
 
                                             System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate) + "\n");
                                         } else {

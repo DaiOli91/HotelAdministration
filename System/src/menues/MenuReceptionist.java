@@ -10,20 +10,20 @@ public class MenuReceptionist {
 
     public static void menuReceptionist(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
-        int z = 0, option = 0;
+        int z = 0, option;
 
-        int idBooking = 0, idRoom = 0, availabilityOption = 0;
+        int idBooking, idRoom, availabilityOption = 0;
         String dni;
         Availability availability = null;
 
         while (z == 0) {
 
             System.out.println("\nMenu Receptionist\n==============\n");
-            System.out.println("1. Check In\n2. Check Out");
-            System.out.println("3. See Bookings\n4. See Booking by User ID\n5. Edit Booking\n6. Cancel Booking");
-            System.out.println("7. See Rooms\n8. Edit Room Availability");
-            System.out.println("9. Edit Account\n");
-            System.out.println("0. Log Out");
+            System.out.println("[1]. Check In\n[2]. Check Out");
+            System.out.println("[3]. See Bookings\n[4]. See Booking by User ID\n[5]. Edit Booking\n[6]. Cancel Booking");
+            System.out.println("[7]. See Rooms\n[8]. Edit Room Availability");
+            System.out.println("[9]. Edit Account\n");
+            System.out.println("[0]. Log Out");
             System.out.print("Option: ");
             System.out.flush();
             //TODO Need to implement "InputMismatchException".
@@ -58,8 +58,8 @@ public class MenuReceptionist {
                 case 3: {
                     System.out.println("\nSee Bookings\n");
 
-                    List<Booking> bookingsByState = null;
-                    State state = null;
+                    List<Booking> bookingsByState;
+                    State state;
 
                     System.out.println("1. All Bookings\n2. Active Bookings\n3. Cancelled Bookings\n4. Checked Bookings\n5. Check Out Bookings\n");
                     System.out.print("Option: ");
@@ -138,7 +138,7 @@ public class MenuReceptionist {
                 case 4: {
                     System.out.println("\nSee Booking by User ID\n");
 
-                    List<Booking> userBookings = null;
+                    List<Booking> userBookings;
 
                     System.out.println("1. All Bookings by User\n2. Active Bookings by User\n");
                     System.out.print("Option: ");
