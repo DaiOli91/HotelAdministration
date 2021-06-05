@@ -29,10 +29,5 @@ public class Log {
 
         return returnUser;
     }
-/*
-    public void LogOut(User user){
-      //logic here, save data in json to exit program
-    }
-    */
 
 }
