@@ -121,7 +121,7 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "╔═  User Name: " + firstName + " " + lastName + "   ══════════════════════════" + '\n' +
+        return "\n╔═  User Name: " + firstName + " " + lastName + "   ══════════════════════════" + '\n' +
                 "╠═ DNI: " + dni + '\n' +
                 "╠═ Age:" + age + '\n' +
                 "╠═ Gender:" + gender.getGender() + '\n' +
