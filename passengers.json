@@ -1,0 +1,41 @@
+[
+  {
+    "origin": "Mar del Plata",
+    "dni": "14874804",
+    "firstName": "Andrea",
+    "lastName": "Carrizo",
+    "age": 60,
+    "gender": "FEMALE",
+    "address": "Gaboto 5646",
+    "telephone": "4585858",
+    "email": "something@asomething.com",
+    "password": "pass123",
+    "active": true
+  },
+  {
+    "origin": "Mar del Plata",
+    "dni": "14589623",
+    "firstName": "Miguel",
+    "lastName": "Toyota",
+    "age": 60,
+    "gender": "FEMALE",
+    "address": "Gaboto 5646",
+    "telephone": "4585858",
+    "email": "something@asomething.com",
+    "password": "pass123",
+    "active": true
+  },
+  {
+    "origin": "San Clemente",
+    "dni": "38530953",
+    "firstName": "Felipe",
+    "lastName": "Graziano",
+    "age": 25,
+    "gender": "MALE",
+    "address": "Mexico 3536",
+    "telephone": "4651236",
+    "email": "something@something.com",
+    "password": "pass123",
+    "active": true
+  }
+]
