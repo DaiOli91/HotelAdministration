@@ -120,7 +120,12 @@ public class Main {
                     System.out.print("Password: ");
                     password = scan.next();
 
-                    User loggedUser = Log.logIn(dni, password, OllivandersHotel);
+                    User loggedUser = null;
+                    try {
+                        loggedUser = Log.logIn(dni, password, OllivandersHotel);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     if (loggedUser != null) {
 
                         if (loggedUser instanceof Passenger) {
