@@ -21,7 +21,7 @@ public class MenuManager {
 
             System.out.println("\nMenu Manager\n==========\n");
             System.out.println("1. Add Employee\n2. See Users\n3. Edit Account\n4. Activate/Deactivate User");
-            System.out.println("5. Add Room\n6. See Rooms\n7. Edit Room Category\n8 . Deactivate Room");
+            System.out.println("5. Add Room\n6. See Rooms\n7. Edit Room Category\n8 . Deactivate Room\n");
             System.out.println("0. Log Out");
             System.out.print("Option: ");
             System.out.flush();

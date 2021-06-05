@@ -28,8 +28,8 @@ public class Main {
         while (z == 0) {
 
             System.out.println("\nWelcome to Olivanders Hotel\n===========================\n");
-            System.out.println("1. Register\n2. Log In");
-            System.out.println("0. Exit\n");
+            System.out.println("1. Register\n2. Log In\n");
+            System.out.println("0. Exit");
             System.out.print("Option: ");
             System.out.flush();
             //TODO Need to implement "InputMismatchException".
