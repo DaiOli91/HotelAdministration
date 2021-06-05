@@ -9,9 +9,11 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class LocalDateSerializer implements JsonSerializer<LocalDate> {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //private static final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
 
     @Override
     public JsonElement serialize(LocalDate localDate, Type srcType, JsonSerializationContext context) {
