@@ -76,9 +76,12 @@ public class RoomRepository implements IRepository<Room, Integer> {
         try {
             bufferedWriter.flush();
             bufferedWriter.close();
-        } catch (IOException e) {
-            //e.printStackTrace();
-            throw e;
+        } catch (FileNotFoundException fileNotFound) {
+            throw fileNotFound;
+        } catch (JsonIOException jsonIo) {
+            throw jsonIo;
+        } catch (JsonSyntaxException jsonSyntax) {
+            throw jsonSyntax;
         }
     }
 
@@ -91,15 +94,16 @@ public class RoomRepository implements IRepository<Room, Integer> {
             this.rooms = gson.fromJson(bufferedReader, new TypeToken<List<Room>>() {
             }.getType());
 
-            try {
                 bufferedReader.close();
-            } catch (IOException ioe) {
 
-                throw ioe;
-            }
-        } catch (FileNotFoundException fnfe) {
-            throw fnfe;
+        } catch (FileNotFoundException fileNotFound) {
+            throw fileNotFound;
+        } catch (JsonIOException jsonIo) {
+            throw jsonIo;
+        } catch (JsonSyntaxException jsonSyntax) {
+            throw jsonSyntax;
         }
-
     }
+
 }
+

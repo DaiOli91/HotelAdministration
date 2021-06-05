@@ -78,7 +78,6 @@ public class UserRepository implements IRepository<User, String> {
     }
 
     @Override
-    //TODO IOException handling
     public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
         List<User> passengers = new ArrayList<>();
         List<User> managers = new ArrayList<>();
@@ -107,21 +106,22 @@ public class UserRepository implements IRepository<User, String> {
             gson.toJson(receptionists, bwReceptionists);
             gson.toJson(managers, bwManagers);
 
-            try{
-                bwManagers.close();
-                bwPassengers.close();
-                bwReceptionists.close();
-            } catch (IOException e) {
-                throw e;
-            }
-        } catch (FileNotFoundException fnfe){
-            throw fnfe;
+            bwManagers.close();
+            bwPassengers.close();
+            bwReceptionists.close();
+
+        } catch (FileNotFoundException fileNotFound) {
+            throw fileNotFound;
+        } catch (JsonIOException jsonIo) {
+            throw jsonIo;
+        } catch (JsonSyntaxException jsonSyntax) {
+            throw jsonSyntax;
         }
 
     }
 
     @Override
-    public void readGson() throws FileNotFoundException, IOException,  JsonIOException, JsonSyntaxException {
+    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
         try {
             File filePassengers = new File(PASSANGERSFILE);
             File fileReceptionists = new File(RECEPTIONISTSFILE);
@@ -138,12 +138,17 @@ public class UserRepository implements IRepository<User, String> {
             }.getType()));
             this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
             }.getType()));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JsonIOException e) {
-            e.printStackTrace();
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+
+            brManagers.close();
+            brPassengers.close();
+            brReceptionists.close();
+
+        } catch (FileNotFoundException fileNotFound) {
+            throw fileNotFound;
+        } catch (JsonIOException jsonIo) {
+            throw jsonIo;
+        } catch (JsonSyntaxException jsonSyntax) {
+            throw jsonSyntax;
         }
     }
 

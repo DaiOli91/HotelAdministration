@@ -83,37 +83,38 @@ public class BookingRepository implements IRepository<Booking, Integer> {
         try {
             bufferedWriter.flush();
             bufferedWriter.close();
-        } catch (IOException e) {
-            //e.printStackTrace();
-            throw e;
+        } catch (FileNotFoundException fileNotFound) {
+            throw fileNotFound;
+        } catch (JsonIOException jsonIo) {
+            throw jsonIo;
+        } catch (JsonSyntaxException jsonSyntax) {
+            throw jsonSyntax;
         }
 
     }
 
     @Override
     public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
-        File file = new File(BOOKINGSFILE);
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(file));
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-        Gson gson = gsonBuilder.create();
-        //TODO manage exceptions
-        this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
-        }.getType());
-
         try {
+            File file = new File(BOOKINGSFILE);
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(file));
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+            Gson gson = gsonBuilder.create();
+
+            this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
+            }.getType());
+
             bufferedReader.close();
-        }
-        catch (FileNotFoundException e) {
-            throw e;
-        }
-        catch (IOException ioe) {
 
-            throw ioe;
-        }
-
+        } catch (FileNotFoundException fileNotFound) {
+            throw fileNotFound;
+        } catch (JsonIOException jsonIo) {
+            throw jsonIo;
+        } catch (JsonSyntaxException jsonSyntax) {
+            throw jsonSyntax;
         }
 
-
+    }
 }
