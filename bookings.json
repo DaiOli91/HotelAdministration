@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "idRoom": 101,
+    "idMainPassenger": "38530953",
+    "idOptionalPassenger": "14874804",
+    "startDate": "5-jun.-2021",
+    "endDate": "12-jun.-2021",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
+  },
+  {
+    "id": 2,
+    "idRoom": 101,
+    "idMainPassenger": "14589623",
+    "idOptionalPassenger": "14874804",
+    "startDate": "5-jul.-2021",
+    "endDate": "12-jul.-2021",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
+  },
+  {
+    "id": 3,
+    "idRoom": 102,
+    "idMainPassenger": "14874804",
+    "idOptionalPassenger": "14589623",
+    "startDate": "10-jun.-2021",
+    "endDate": "17-jun.-2021",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
+  },
+  {
+    "id": 4,
+    "idRoom": 102,
+    "idMainPassenger": "14589623",
+    "idOptionalPassenger": "14874804",
+    "startDate": "25-jun.-2021",
+    "endDate": "2-jul.-2021",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
+  },
+  {
+    "id": 5,
+    "idRoom": 103,
+    "idMainPassenger": "14874804",
+    "idOptionalPassenger": "38530953",
+    "startDate": "5-jun.-2021",
+    "endDate": "12-jun.-2021",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
+  },
+  {
+    "id": 6,
+    "idRoom": 103,
+    "idMainPassenger": "38530953",
+    "idOptionalPassenger": "14874804",
+    "startDate": "15-jun.-2021",
+    "endDate": "22-jun.-2021",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
+  }
+]
