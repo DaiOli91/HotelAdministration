@@ -131,16 +131,12 @@ public class UserRepository implements IRepository<User, String> {
             BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            //TODO condition to go through a file
-            //List<User> passengers = gson.fromJson(brPassengers, new TypeToken<List<User>>() {}.getType());
-            //List<User> receptionists = gson.fromJson(brReceptionists, new TypeToken<List<User>>() {}.getType());
-            // List<User> managers = gson.fromJson(brManagers, new TypeToken<List<User>>() {}.getType());
 
-            this.users.addAll(gson.fromJson(brPassengers, new TypeToken<List<User>>() {
+            this.users.addAll(gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
             }.getType()));
-            this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<User>>() {
+            this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<Manager>>() {
             }.getType()));
-            this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<User>>() {
+            this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
             }.getType()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
