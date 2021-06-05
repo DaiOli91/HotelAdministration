@@ -9,9 +9,9 @@ public class MenuManager {
 
     public static void menuManager(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
-        int z = 0, option = 0;
+        int z = 0, option;
 
-        int age = 0, genderOption = 0, employeeOption = 0, shiftOption = 0, activeDeactiveOption = 0, idRoom = 0, categoryOption = 0;
+        int age, genderOption = 0, employeeOption, shiftOption, activeDeactiveOption, idRoom, categoryOption = 0;
         String dni, firstName, lastName, address, telephone, email, password;
         Gender gender = null;
         Shift shift;
@@ -20,9 +20,9 @@ public class MenuManager {
         while (z == 0) {
 
             System.out.println("\nMenu Manager\n==========\n");
-            System.out.println("1. Add Employee\n2. See Users\n3. Edit Account\n4. Activate/Deactivate User");
-            System.out.println("5. Add Room\n6. See Rooms\n7. Edit Room Category\n8 . Deactivate Room\n");
-            System.out.println("0. Log Out");
+            System.out.println("[1]. Add Employee\n[2]. See Users\n[3]. Edit Account\n[4]. Activate/Deactivate User");
+            System.out.println("[5]. Add Room\n[6]. See Rooms\n[7]. Edit Room Category\n[8]. Deactivate Room\n");
+            System.out.println("[0]. Log Out");
             System.out.print("Option: ");
             System.out.flush();
             //TODO Need to implement "InputMismatchException".
@@ -73,7 +73,7 @@ public class MenuManager {
                             }
                         }
                         System.out.print("Address: ");
-                        address = scan.nextLine();
+                        scan.nextLine();
                         address = scan.nextLine();
                         System.out.print("Telephone: ");
                         telephone = scan.next();
@@ -285,6 +285,7 @@ public class MenuManager {
                 case 8: {
                     System.out.println("\nDeactivate Room\n");
 
+                    // TODO Need to add an "activateRoom" method or something.
                     System.out.print("Please enter ID Room: ");
                     idRoom = scan.nextInt();
 
