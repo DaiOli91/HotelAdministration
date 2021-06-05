@@ -79,8 +79,7 @@ public class BookingRepository implements IRepository<Booking, Integer> {
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
         Gson gson = gsonBuilder.setPrettyPrinting().create();
-
-            gson.toJson(this.roomBookings, bufferedWriter);
+        gson.toJson(this.roomBookings, bufferedWriter);
 
         try {
             bufferedWriter.flush();
@@ -90,16 +89,17 @@ public class BookingRepository implements IRepository<Booking, Integer> {
             throw e;
         }
 
-        }
+    }
 
     @Override
-    public void readGson() throws FileNotFoundException, IOException,  JsonIOException, JsonSyntaxException {
+    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
         File file = new File(BOOKINGSFILE);
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(file));
         Gson gson = new Gson();
         //TODO manage exceptions
         //TODO condition to go through a file
-        this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {}.getType());
+        this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
+        }.getType());
     }
 }

@@ -102,7 +102,7 @@ public class UserRepository implements IRepository<User, String> {
             BufferedWriter bwReceptionists = new BufferedWriter(new FileWriter(fileReceptionists));
             BufferedWriter bwManagers = new BufferedWriter(new FileWriter(fileManagers));
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(passengers, bwPassengers);
             gson.toJson(receptionists, bwReceptionists);
             gson.toJson(managers, bwManagers);

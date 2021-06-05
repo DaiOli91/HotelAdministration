@@ -69,16 +69,10 @@ public class RoomRepository implements IRepository<Room, Integer> {
     public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
         File file = new File(ROOMSFILE);
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-        // Writer writer = Files.newBufferedWriter(Paths.get(ROOMSFILE));
-        //Gson gson = new Gson();
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         gson.toJson(this.rooms, bufferedWriter);
 
-        //   gson.toJson(rooms, new FileWriter(ROOMSFILE));
-      /*  for (Room room : rooms) {
-            gson.toJson(room, Room.class, bufferedWriter);
-        }*/
         try {
             bufferedWriter.flush();
             bufferedWriter.close();
