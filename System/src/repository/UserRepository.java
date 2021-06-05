@@ -2,6 +2,7 @@ package repository;
 
 import Interface.IRepository;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -128,7 +129,7 @@ public class UserRepository implements IRepository<User, String> {
             BufferedReader brPassengers = new BufferedReader(new FileReader(filePassengers));
             BufferedReader brReceptionists = new BufferedReader(new FileReader(fileReceptionists));
             BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             //TODO condition to go through a file
             //List<User> passengers = gson.fromJson(brPassengers, new TypeToken<List<User>>() {}.getType());

@@ -70,8 +70,8 @@ public class RoomRepository implements IRepository<Room, Integer> {
         File file = new File(ROOMSFILE);
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
         // Writer writer = Files.newBufferedWriter(Paths.get(ROOMSFILE));
-        Gson gson = new Gson();
-        //Gson gson = new GsonBuilder().create();
+        //Gson gson = new Gson();
+        Gson gson = new GsonBuilder().create();
 
         gson.toJson(this.rooms, bufferedWriter);
 
