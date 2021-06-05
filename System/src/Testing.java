@@ -1,9 +1,11 @@
 import controller.Hotel;
 import model.*;
+import repository.BookingRepository;
 import repository.RoomRepository;
 import repository.UserRepository;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Testing {
@@ -16,9 +18,11 @@ public class Testing {
 
         RoomRepository roomRepo = new RoomRepository();
         UserRepository userRepo = new UserRepository();
+        BookingRepository bookingRepo = new BookingRepository();
 
         Testing.roomHC(roomRepo.getRooms());
         Testing.userHC(userRepo.getUsers());
+        Testing.bookingHC(bookingRepo.getRoomBookings());
 
 
         try {
@@ -30,6 +34,13 @@ public class Testing {
 
         try {
             userRepo.writeGson();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            bookingRepo.writeGson();
+            System.out.println(bookingRepo.getRoomBookings().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,6 +149,17 @@ public class Testing {
                 , "2235235689"
                 , "natybossy@gmail.com"
                 , "bossy123"));
+    }
+
+    public static void bookingHC(List<Booking> bookings) {
+            bookings.add(new Booking (101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7)));
+        bookings.add(new Booking (101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7)));
+        bookings.add(new Booking (102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7)));
+        bookings.add(new Booking (102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7)));
+        bookings.add(new Booking (103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7)));
+        bookings.add(new Booking (103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7)));
+            //cancelBooking(3);
+
     }
 
     }
