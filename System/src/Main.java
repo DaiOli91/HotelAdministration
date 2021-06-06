@@ -16,6 +16,18 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
+        Hotel OllivandersHotel = null;
+        try {
+
+            OllivandersHotel = new Hotel();
+            OllivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
+            OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "thegame123"));
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+
         int z = 0, option;
 
         String dni, firstName, lastName, address, telephone, email, password, origin;
@@ -30,9 +42,6 @@ public class Main {
             System.out.print("Option: ");
             System.out.flush();
             try {
-                Hotel OllivandersHotel = new Hotel();
-                OllivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
-                OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "thegame123"));
 
                 option = scan.nextInt();
                 switch (option) {
@@ -167,9 +176,6 @@ public class Main {
                 System.err.println("Please, enter only numbers.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
-            } catch (IOException e) {
-
-                e.printStackTrace();
             }
         }
         scan.close();
