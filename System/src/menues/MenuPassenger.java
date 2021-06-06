@@ -66,20 +66,20 @@ public class MenuPassenger {
                                         System.out.println("\n" + OllivandersHotel.getAvailableRooms(startDate, endDate).toString() + "\n");
                                     } else {
 
-                                        System.err.println("\nBooking should be at least seven days long. Please, try again.\n");
+                                        System.out.println("\nBooking should be at least seven days long. Please, try again.\n");
                                     }
 
                                 } catch (DateTimeException dte) {
 
-                                    System.err.println("\n" + dte.getMessage() + ", please try again\n");
+                                    System.out.println("\n" + dte.getMessage() + ", please try again\n");
                                 }
                             } else {
 
-                                System.err.println("\nPlease enter a valid date\n");
+                                System.out.println("\nPlease enter a valid date\n");
                             }
                         } catch (DateTimeException dte) {
 
-                            System.err.println("\n" + dte.getMessage() + ", please try again\n");
+                            System.out.println("\n" + dte.getMessage() + ", please try again\n");
                         }
                         break;
                     }
@@ -133,27 +133,27 @@ public class MenuPassenger {
                                                 System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate) + "\n");
                                             } else {
 
-                                                System.err.println("\nInvalid answer. Please try again\n");
+                                                System.out.println("\nInvalid answer. Please try again\n");
                                             }
                                         } else {
 
-                                            System.err.println("\nInvalid room number\n");
+                                            System.out.println("\nInvalid room number\n");
                                         }
                                     } else {
 
-                                        System.err.println("\nBooking should be at least seven days long. Please, try again.\n");
+                                        System.out.println("\nBooking should be at least seven days long. Please, try again.\n");
                                     }
                                 } catch (DateTimeException dte) {
 
-                                    System.err.println("\n" + dte.getMessage() + ", please try again\n");
+                                    System.out.println("\n" + dte.getMessage() + ", please try again\n");
                                 }
                             } else {
 
-                                System.err.println("\nPlease enter a valid date\n");
+                                System.out.println("\nPlease enter a valid date\n");
                             }
                         } catch (DateTimeException dte) {
 
-                            System.err.println("\n" + dte.getMessage() + ", please try again\n");
+                            System.out.println("\n" + dte.getMessage() + ", please try again\n");
                         }
                         break;
                     }
@@ -165,7 +165,7 @@ public class MenuPassenger {
                             System.out.println("\n" + OllivandersHotel.getBookingsByUser(loggedUser.getDni()) + "\n");
                         } else {
 
-                            System.err.println("\nIt seems that you do not have any booking yet\n");
+                            System.out.println("\nIt seems that you do not have any booking yet\n");
                         }
                         break;
                     }
@@ -193,7 +193,7 @@ public class MenuPassenger {
                         break;
                     }
                     default: {
-                        System.err.println("\nPlease, choose a valid option\n");
+                        System.out.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }

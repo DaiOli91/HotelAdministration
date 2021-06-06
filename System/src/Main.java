@@ -81,7 +81,7 @@ public class Main {
                                     }
                                     default: {
 
-                                        System.err.println("\nPlease select a valid option number\n");
+                                        System.out.println("\nPlease select a valid option number\n");
                                         break;
                                     }
                                 }
@@ -113,11 +113,11 @@ public class Main {
                                 }
                             } else {
 
-                                System.err.println("\nNot a valid email\n");
+                                System.out.println("\nNot a valid email\n");
                             }
                         } else {
 
-                            System.err.println("\nYou need to be at least 18 years old to register\n");
+                            System.out.println("\nYou need to be at least 18 years old to register\n");
                         }
                         break;
                     }
@@ -151,8 +151,8 @@ public class Main {
                             }
                         } else {
 
-                            System.err.println("\nUser not found or user deactivated. Please register or try to log in again.");
-                            System.err.println("If your account was deactivated, please reach one of our managers\n");
+                            System.out.println("\nUser not found or user deactivated. Please register or try to log in again.");
+                            System.out.println("If your account was deactivated, please reach one of our managers\n");
                         }
                         break;
                     }
@@ -167,7 +167,7 @@ public class Main {
                         break;
                     }
                     default: {
-                        System.err.println("\nPlease, choose a valid option\n");
+                        System.out.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }

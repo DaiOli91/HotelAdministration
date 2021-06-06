@@ -61,18 +61,17 @@ public class MenuReceptionist {
                         break;
                     }
                     case 3: {
-                        System.out.println("\nSee Bookings\n");
+                        System.out.println("\nSee Bookings\n¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
 
                         List<Booking> bookingsByState;
                         State state;
 
-                        System.out.println("1. All Bookings\n2. Active Bookings\n3. Cancelled Bookings\n4. Checked Bookings\n5. Check Out Bookings\n");
+                        System.out.println("[1]. All Bookings\n[2]. Active Bookings\n[3]. Cancelled Bookings\n[4]. Checked Bookings\n[5]. Check Out Bookings\n");
                         System.out.print("Option: ");
                         int bookingOption = scan.nextInt();
                         switch (bookingOption) {
                             case 1: {
                                 System.out.println("\nAll Bookings\n");
-                                // TODO Check if we need to add toString or not.
                                 System.out.println("\n" + OllivandersHotel.getBookings().toString() + "\n");
                                 break;
                             }
@@ -86,7 +85,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.err.println("\nThere are no bookings with this State at the moment\n");
+                                    System.out.println("\nThere are no bookings with this State at the moment\n");
                                 }
                                 break;
                             }
@@ -100,7 +99,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.err.println("\nThere are no bookings with this State at the moment\n");
+                                    System.out.println("\nThere are no bookings with this State at the moment\n");
                                 }
                                 break;
                             }
@@ -114,7 +113,8 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.err.println("\nThere are no bookings with this State at the moment\n");
+                                    System.out.println("\nThere are no bookings with this State at the moment");
+                                    scan.next();
                                 }
                                 break;
                             }
@@ -128,12 +128,13 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.err.println("\nThere are no bookings with this State at the moment\n");
+                                    System.out.println("\nThere are no bookings with this State at the moment\n");
+                                    scan.next();
                                 }
                                 break;
                             }
                             default: {
-                                System.err.println("\nPlease, choose a valid option\n");
+                                System.out.println("\nPlease, choose a valid option\n");
                                 break;
                             }
                         }
@@ -160,7 +161,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByUser(dni) + "\n");
                                 } else {
 
-                                    System.err.println("\nThere are no bookings\n");
+                                    System.out.println("\nThere are no bookings\n");
                                 }
                                 break;
                             }
@@ -176,13 +177,13 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getActiveBookingsByUser(dni) + "\n");
                                 } else {
 
-                                    System.err.println("\nThere are no bookings\n");
+                                    System.out.println("\nThere are no bookings\n");
                                 }
                                 break;
                             }
                             default: {
 
-                                System.err.println("\nPlease select a valid option number\n");
+                                System.out.println("\nPlease select a valid option number\n");
                                 break;
                             }
                         }
@@ -231,7 +232,7 @@ public class MenuReceptionist {
                                 }
                                 default: {
 
-                                    System.err.println("\nPlease select a valid option number\n");
+                                    System.out.println("\nPlease select a valid option number\n");
                                     break;
                                 }
                             }
@@ -260,9 +261,8 @@ public class MenuReceptionist {
                             MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
                         } else {
 
-                            System.err.println("\nPlease, choose a valid option\n");
+                            System.out.println("\nPlease, choose a valid option\n");
                         }
-
                         break;
                     }
                     case 0: {
@@ -278,7 +278,7 @@ public class MenuReceptionist {
                         break;
                     }
                     default: {
-                        System.err.println("\nPlease, choose a valid option\n");
+                        System.out.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }

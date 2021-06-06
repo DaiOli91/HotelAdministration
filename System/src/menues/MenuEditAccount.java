@@ -90,7 +90,7 @@ public class MenuEditAccount {
                                 }
                                 default: {
 
-                                    System.err.println("\nPlease select a valid option number\n");
+                                    System.out.println("\nPlease select a valid option number\n");
                                     break;
                                 }
                             }
@@ -158,7 +158,7 @@ public class MenuEditAccount {
                                         break;
                                     }
                                     default: {
-                                        System.err.println("\nPlease select a valid option number\n");
+                                        System.out.println("\nPlease select a valid option number\n");
                                         break;
                                     }
                                 }
@@ -167,7 +167,7 @@ public class MenuEditAccount {
                             System.out.println("\n" + OlivandersHotel.changeReceptionistShift(user.getDni(), shift) + "\n");
                         } else {
 
-                            System.err.println("\nPlease, choose a valid option\n");
+                            System.out.println("\nPlease, choose a valid option\n");
                         }
                         break;
                     }
@@ -177,7 +177,7 @@ public class MenuEditAccount {
                     }
                     default: {
 
-                        System.err.println("\nPlease, choose a valid option\n");
+                        System.out.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }
