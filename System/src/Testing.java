@@ -24,7 +24,12 @@ public class Testing {
         //   UserRepository userRepo = new UserRepository();
         //   BookingRepository bookingRepo = new BookingRepository();
 
-        Hotel newHotel = new Hotel();
+        Hotel newHotel = null;
+        try {
+            newHotel = new Hotel();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // Testing.roomHC(roomRepo.getRooms());
         // Testing.userHC(userRepo.getUsers());
         // Testing.bookingHC(bookingRepo.getRoomBookings());
