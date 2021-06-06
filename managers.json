@@ -50,57 +50,5 @@
     "email": "natybossy@gmail.com",
     "password": "bossy123",
     "active": true
-  },
-  {
-    "employeeNumber": "b2cee611-0b26-474c-b979-156519feb54e",
-    "dni": "13525252",
-    "firstName": "Calos",
-    "lastName": "Patriarcado",
-    "age": 61,
-    "gender": "MALE",
-    "address": "Patagones 6000",
-    "telephone": "2235505065",
-    "email": "carlos.patriarcado@gmail.com",
-    "password": "patriarcado123",
-    "active": true
-  },
-  {
-    "employeeNumber": "2d663ec2-d85b-4b3b-a33e-05e4daf4dbfb",
-    "dni": "25525252",
-    "firstName": "Natalia",
-    "lastName": "Bossy",
-    "age": 40,
-    "gender": "FEMALE",
-    "address": "San Luis 4052",
-    "telephone": "2235235689",
-    "email": "natybossy@gmail.com",
-    "password": "bossy123",
-    "active": true
-  },
-  {
-    "employeeNumber": "b2cee611-0b26-474c-b979-156519feb54e",
-    "dni": "13525252",
-    "firstName": "Calos",
-    "lastName": "Patriarcado",
-    "age": 61,
-    "gender": "MALE",
-    "address": "Patagones 6000",
-    "telephone": "2235505065",
-    "email": "carlos.patriarcado@gmail.com",
-    "password": "patriarcado123",
-    "active": true
-  },
-  {
-    "employeeNumber": "2d663ec2-d85b-4b3b-a33e-05e4daf4dbfb",
-    "dni": "25525252",
-    "firstName": "Natalia",
-    "lastName": "Bossy",
-    "age": 40,
-    "gender": "FEMALE",
-    "address": "San Luis 4052",
-    "telephone": "2235235689",
-    "email": "natybossy@gmail.com",
-    "password": "bossy123",
-    "active": true
   }
 ]
