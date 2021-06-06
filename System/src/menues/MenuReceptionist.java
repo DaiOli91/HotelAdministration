@@ -22,9 +22,9 @@ public class MenuReceptionist {
 
             System.out.println("\nMenu Receptionist\n==============\n");
             System.out.println("[1]. Check In\n[2]. Check Out");
-            System.out.println("[3]. See Bookings\n[4]. See Booking by User ID\n[5]. Edit Booking\n[6]. Cancel Booking");
-            System.out.println("[7]. See Rooms\n[8]. Edit Room Availability");
-            System.out.println("[9]. Edit Account\n");
+            System.out.println("[3]. See Bookings\n[4]. See Booking by User ID\n[5]. Cancel Booking");
+            System.out.println("[6]. See Rooms\n[7]. Edit Room Availability");
+            System.out.println("[8]. Edit Account\n");
             System.out.println("[0]. Log Out");
             System.out.print("Option: ");
             System.out.flush();
@@ -52,6 +52,8 @@ public class MenuReceptionist {
                         System.out.print("Enter the Booking ID: ");
                         idBooking = scan.nextInt();
 
+                        // TODO Check wtf I tried to do here. Dai said that I need to put "idBooking > 0" because I am checking that the user put a valid ID Booking number.
+                        // TODO I say that I don't know wtf I did here :)
                         if (idBooking != -1) {
 
                             System.out.println("\n" + OllivandersHotel.checkOut(dni, idBooking) + "\n");
@@ -84,7 +86,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.out.println("\nThere is no bookings with this State at the moment\n");
+                                    System.err.println("\nThere are no bookings with this State at the moment\n");
                                 }
                                 break;
                             }
@@ -98,7 +100,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.out.println("\nThere is no bookings with this State at the moment\n");
+                                    System.err.println("\nThere are no bookings with this State at the moment\n");
                                 }
                                 break;
                             }
@@ -112,7 +114,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.out.println("\nThere is no bookings with this State at the moment\n");
+                                    System.err.println("\nThere are no bookings with this State at the moment\n");
                                 }
                                 break;
                             }
@@ -126,12 +128,12 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByState(state) + "\n");
                                 } else {
 
-                                    System.out.println("\nThere is no bookings with this State at the moment\n");
+                                    System.err.println("\nThere are no bookings with this State at the moment\n");
                                 }
                                 break;
                             }
                             default: {
-                                System.out.println("\nPlease, choose a valid option\n");
+                                System.err.println("\nPlease, choose a valid option\n");
                                 break;
                             }
                         }
@@ -158,7 +160,7 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getBookingsByUser(dni) + "\n");
                                 } else {
 
-                                    System.out.println("\nThere is no bookings\n");
+                                    System.err.println("\nThere are no bookings\n");
                                 }
                                 break;
                             }
@@ -174,24 +176,19 @@ public class MenuReceptionist {
                                     System.out.println("\n" + OllivandersHotel.getActiveBookingsByUser(dni) + "\n");
                                 } else {
 
-                                    System.out.println("\nThere is no bookings\n");
+                                    System.err.println("\nThere are no bookings\n");
                                 }
                                 break;
                             }
                             default: {
 
-                                System.out.println("\nPlease select a valid option number\n");
+                                System.err.println("\nPlease select a valid option number\n");
                                 break;
                             }
                         }
                         break;
                     }
                     case 5: {
-                        System.out.println("\n4Edit Booking\n");
-                        //TODO Don't know if there is a method for this already.
-                        break;
-                    }
-                    case 6: {
                         System.out.println("\nCancel Booking\n");
 
                         System.out.print("Enter the Booking ID: ");
@@ -200,12 +197,12 @@ public class MenuReceptionist {
                         System.out.println("\n" + OllivandersHotel.cancelBooking(idBooking) + "\n");
                         break;
                     }
-                    case 7: {
+                    case 6: {
                         System.out.println("\nSee Rooms\n");
                         MenuSeeRooms.menuSeeRooms(scan, OllivandersHotel);
                         break;
                     }
-                    case 8: {
+                    case 7: {
                         System.out.println("\nEdit Room Availability\n");
 
                         System.out.print("Enter ID Room: ");
@@ -234,7 +231,7 @@ public class MenuReceptionist {
                                 }
                                 default: {
 
-                                    System.out.println("\nPlease select a valid option number\n");
+                                    System.err.println("\nPlease select a valid option number\n");
                                     break;
                                 }
                             }
@@ -244,7 +241,7 @@ public class MenuReceptionist {
                         System.out.println("\n" + OllivandersHotel.changeRoomAvailability(idRoom, availability) + "\n");
                         break;
                     }
-                    case 9: {
+                    case 8: {
                         System.out.println("\nEdit Account\n");
 
                         // TODO Maybe needs changes.
@@ -263,7 +260,7 @@ public class MenuReceptionist {
                             MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
                         } else {
 
-                            System.out.println("\nPlease, choose a valid option\n");
+                            System.err.println("\nPlease, choose a valid option\n");
                         }
 
                         break;
@@ -281,7 +278,7 @@ public class MenuReceptionist {
                         break;
                     }
                     default: {
-                        System.out.println("\nPlease, choose a valid option\n");
+                        System.err.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }
