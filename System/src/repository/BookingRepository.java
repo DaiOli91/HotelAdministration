@@ -6,10 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import model.Availability;
 import model.Booking;
-import model.Category;
-import model.Room;
 import util.LocalDateDeserializer;
 import util.LocalDateSerializer;
 
@@ -53,7 +50,7 @@ public class BookingRepository implements IRepository<Booking, Integer> {
     }
 
     @Override
-    public Booking edit(Booking booking) {
+    public void edit(Booking booking) {
 
         if (!this.roomBookings.isEmpty()) {
 
@@ -61,13 +58,10 @@ public class BookingRepository implements IRepository<Booking, Integer> {
 
                 if (aux_booking.getId() == booking.getId()) {
 
-                    booking = roomBookings.set(roomBookings.indexOf(aux_booking), booking);
-
+                    roomBookings.set(roomBookings.indexOf(aux_booking), booking);
                 }
             }
         }
-
-        return booking;
     }
 
     @Override
@@ -84,13 +78,12 @@ public class BookingRepository implements IRepository<Booking, Integer> {
             bufferedWriter.flush();
             bufferedWriter.close();
         } catch (FileNotFoundException fileNotFound) {
-            throw fileNotFound;
+            throw new FileNotFoundException();
         } catch (JsonIOException jsonIo) {
-            throw jsonIo;
+            throw new JsonIOException(jsonIo);
         } catch (JsonSyntaxException jsonSyntax) {
-            throw jsonSyntax;
+            throw new JsonSyntaxException(jsonSyntax);
         }
-
     }
 
     @Override
@@ -109,12 +102,11 @@ public class BookingRepository implements IRepository<Booking, Integer> {
             bufferedReader.close();
 
         } catch (FileNotFoundException fileNotFound) {
-            throw fileNotFound;
+            throw new FileNotFoundException();
         } catch (JsonIOException jsonIo) {
-            throw jsonIo;
+            throw new JsonIOException(jsonIo);
         } catch (JsonSyntaxException jsonSyntax) {
-            throw jsonSyntax;
+            throw new JsonSyntaxException(jsonSyntax);
         }
-
     }
 }

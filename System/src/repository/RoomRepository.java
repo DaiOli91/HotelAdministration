@@ -6,10 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import model.Availability;
-import model.Category;
 import model.Room;
-import model.User;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -49,7 +46,7 @@ public class RoomRepository implements IRepository<Room, Integer> {
     }
 
     @Override
-    public Room edit(Room room) {
+    public void edit(Room room) {
 
         if (!this.rooms.isEmpty()) {
 
@@ -57,12 +54,10 @@ public class RoomRepository implements IRepository<Room, Integer> {
 
                 if (aux_room.getNumber() == room.getNumber()) {
 
-                    room = rooms.set(rooms.indexOf(aux_room), room);
+                    rooms.set(rooms.indexOf(aux_room), room);
                 }
             }
         }
-
-        return room;
     }
 
     @Override
@@ -77,11 +72,11 @@ public class RoomRepository implements IRepository<Room, Integer> {
             bufferedWriter.flush();
             bufferedWriter.close();
         } catch (FileNotFoundException fileNotFound) {
-            throw fileNotFound;
+            throw new FileNotFoundException();
         } catch (JsonIOException jsonIo) {
-            throw jsonIo;
+            throw new JsonIOException(jsonIo);
         } catch (JsonSyntaxException jsonSyntax) {
-            throw jsonSyntax;
+            throw new JsonSyntaxException(jsonSyntax);
         }
     }
 
@@ -94,16 +89,15 @@ public class RoomRepository implements IRepository<Room, Integer> {
             this.rooms = gson.fromJson(bufferedReader, new TypeToken<List<Room>>() {
             }.getType());
 
-                bufferedReader.close();
+            bufferedReader.close();
 
         } catch (FileNotFoundException fileNotFound) {
-            throw fileNotFound;
+            throw new FileNotFoundException();
         } catch (JsonIOException jsonIo) {
-            throw jsonIo;
+            throw new JsonIOException(jsonIo);
         } catch (JsonSyntaxException jsonSyntax) {
-            throw jsonSyntax;
+            throw new JsonSyntaxException(jsonSyntax);
         }
     }
-
 }
 

@@ -15,7 +15,7 @@ import java.util.List;
 public class UserRepository implements IRepository<User, String> {
 
     private List<User> users;
-    private static final String PASSANGERSFILE = "passengers.json";
+    private static final String PASSENGERSFILE = "passengers.json";
     private static final String RECEPTIONISTSFILE = "receptionists.json";
     private static final String MANAGERSFILE = "managers.json";
 
@@ -60,7 +60,7 @@ public class UserRepository implements IRepository<User, String> {
     }
 
     @Override
-    public User edit(User user) {
+    public void edit(User user) {
 
 
         if (!this.users.isEmpty()) {
@@ -69,12 +69,10 @@ public class UserRepository implements IRepository<User, String> {
 
                 if (aux_user.getDni().equals(user.getDni())) {
 
-                    user = users.set(users.indexOf(aux_user), user);
+                    users.set(users.indexOf(aux_user), user);
                 }
             }
         }
-
-        return user;
     }
 
     @Override
@@ -90,10 +88,9 @@ public class UserRepository implements IRepository<User, String> {
             } else if (user instanceof Manager) {
                 managers.add(user);
             }
-
         }
         try {
-            File filePassengers = new File(PASSANGERSFILE);
+            File filePassengers = new File(PASSENGERSFILE);
             File fileReceptionists = new File(RECEPTIONISTSFILE);
             File fileManagers = new File(MANAGERSFILE);
 
@@ -111,26 +108,24 @@ public class UserRepository implements IRepository<User, String> {
             bwReceptionists.close();
 
         } catch (FileNotFoundException fileNotFound) {
-            throw fileNotFound;
+            throw new FileNotFoundException();
         } catch (JsonIOException jsonIo) {
-            throw jsonIo;
+            throw new JsonIOException(jsonIo);
         } catch (JsonSyntaxException jsonSyntax) {
-            throw jsonSyntax;
+            throw new JsonSyntaxException(jsonSyntax);
         }
-
     }
 
     @Override
     public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
         try {
-            File filePassengers = new File(PASSANGERSFILE);
+            File filePassengers = new File(PASSENGERSFILE);
             File fileReceptionists = new File(RECEPTIONISTSFILE);
             File fileManagers = new File(MANAGERSFILE);
             BufferedReader brPassengers = new BufferedReader(new FileReader(filePassengers));
             BufferedReader brReceptionists = new BufferedReader(new FileReader(fileReceptionists));
             BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
 
             this.users = gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
             }.getType());
@@ -144,13 +139,11 @@ public class UserRepository implements IRepository<User, String> {
             brReceptionists.close();
 
         } catch (FileNotFoundException fileNotFound) {
-            throw fileNotFound;
+            throw new FileNotFoundException();
         } catch (JsonIOException jsonIo) {
-            throw jsonIo;
+            throw new JsonIOException(jsonIo);
         } catch (JsonSyntaxException jsonSyntax) {
-            throw jsonSyntax;
+            throw new JsonSyntaxException(jsonSyntax);
         }
     }
-
-
 }
