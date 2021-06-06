@@ -19,13 +19,13 @@ public class Hotel {
     private final RoomRepository rooms;
 
 
-    public Hotel() {
+    public Hotel() throws IOException {
         this.users = new UserRepository();
         this.bookings = new BookingRepository();
         this.rooms = new RoomRepository();
-        // this.userHC();
-        // this.roomHC();
-        // this.bookingHC();
+        this.userHC();
+        this.roomHC();
+        this.bookingHC();
     }
 
     public List<User> getUsers() {
@@ -62,15 +62,23 @@ public class Hotel {
     }
 
     // ╔═══════════════════════════════ User Methods // 'ABML' order
-    public boolean register(User user) {
+    public String register(User user) throws IOException {
 
+        String message;
+        if (users.getUsers() == null) {
+
+            this.loadData();
+        }
         if (this.users.search(user.getDni()) == null) {
 
-            return users.add(user);
+            users.add(user);
+            message = "User added successfully";
         } else {
 
-            return false;
+            message = "User already registered";
         }
+
+        return message;
     }
 
     public String activateAccount(String dni) {
@@ -806,7 +814,7 @@ public class Hotel {
     public List<Booking> getActiveBookingsByRoomAndDate(LocalDate startDate, LocalDate endDate, Integer idRoom) {
         return this.getActiveBookingsByDate(startDate, endDate)
                 .stream()
-                .filter(b->b.getIdRoom() == idRoom)
+                .filter(b -> b.getIdRoom() == idRoom)
                 .collect(Collectors.toList());
     }
 
@@ -821,7 +829,7 @@ public class Hotel {
                 .filter(b -> !b.getEndDate().isBefore(startPeriod))
                 .filter(b -> (!b.getStartDate().isAfter(endPeriod)))
                 .collect(Collectors.toList());
-     }
+    }
 
 
     // ╠═══════════════════════════════ Room Methods // 'ABML' order ═══════════════════════════════╣
@@ -1001,7 +1009,6 @@ public class Hotel {
 
 
     // ╚═══════════════════════════════ HC Methods
-    /*
     public void addSuperAdmin() {
         User superAdmin = new Manager("11111111"
                 , "Super"
@@ -1016,7 +1023,7 @@ public class Hotel {
         this.users.add(superAdmin);
     }
 
-    public void userHC() {
+    public void userHC() throws IOException {
         addSuperAdmin();
         register(new Passenger("14874804"
                 , "Andrea"
@@ -1165,6 +1172,4 @@ public class Hotel {
             cancelBooking(3);
         }
     }
-*/
-
 }
