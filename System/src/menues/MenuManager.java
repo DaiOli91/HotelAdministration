@@ -71,7 +71,7 @@ public class MenuManager {
                                         }
                                         default: {
 
-                                            System.out.println("\nPlease select a valid option number\n");
+                                            System.err.println("\nPlease select a valid option number\n");
                                             break;
                                         }
                                     }
@@ -118,19 +118,19 @@ public class MenuManager {
                                             System.out.println(OllivandersHotel.register(rUser));
                                         } else {
 
-                                            System.out.println("\nNot a valid option. Please, try again later\n");
+                                            System.err.println("\nNot a valid option. Please, try again later\n");
                                         }
                                     } else {
 
-                                        System.out.println("\nNot a valid option. Please, try again later\n");
+                                        System.err.println("\nNot a valid option. Please, try again later\n");
                                     }
                                 } else {
 
-                                    System.out.println("\nNot a valid email\n");
+                                    System.err.println("\nNot a valid email\n");
                                 }
                             } else {
 
-                                System.out.println("\nNeeds to be at least 18 years old to add a new employee\n");
+                                System.err.println("\nNeeds to be at least 18 years old to add a new employee\n");
                             }
                         } catch (IOException e) {
 
@@ -169,7 +169,7 @@ public class MenuManager {
                             MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
                         } else {
 
-                            System.out.println("\nPlease, choose a valid option\n");
+                            System.err.println("\nPlease, choose a valid option\n");
                         }
                         break;
                     }
@@ -189,7 +189,7 @@ public class MenuManager {
                             System.out.println("\n" + OllivandersHotel.deactivateAccount(dni) + "\n");
                         } else {
 
-                            System.out.println("\nNot a valid option\n");
+                            System.err.println("\nNot a valid option\n");
                         }
                         break;
                     }
@@ -219,7 +219,7 @@ public class MenuManager {
                                 }
                                 default: {
 
-                                    System.out.println("\nPlease select a valid option number\n");
+                                    System.err.println("\nPlease select a valid option number\n");
                                     break;
                                 }
                             }
@@ -262,7 +262,7 @@ public class MenuManager {
                                 }
                                 default: {
 
-                                    System.out.println("\nPlease select a valid option number\n");
+                                    System.err.println("\nPlease select a valid option number\n");
                                     break;
                                 }
                             }
@@ -294,7 +294,7 @@ public class MenuManager {
                         break;
                     }
                     default: {
-                        System.out.println("\nPlease, choose a valid option\n");
+                        System.err.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }

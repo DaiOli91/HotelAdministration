@@ -18,7 +18,7 @@ public class MenuSeeUsers {
             System.out.println("\nMenu See Users\n==============\n");
             System.out.println("[1]. See All Employees\n[2]. See Active Employees\n[3]. See Former Employees");
             System.out.println("[4]. See All Passenger\n[5]. See Active Passengers\n[6]. See Former Passenger");
-            System.out.println("[7]. Search User by Full Name\n");
+            System.out.println("[7]. Search User\n");
             System.out.println("[0]. Back");
             System.out.print("Option: ");
             System.out.flush();
@@ -35,7 +35,7 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getAllEmployees() + "\n");
                         } else {
 
-                            System.out.println("There is/are no employee/s\n");
+                            System.err.println("There is/are no employee/s\n");
                         }
                         break;
                     }
@@ -49,7 +49,7 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getActiveManagers() + "\n");
                         } else {
 
-                            System.out.println("There is/are no active Manager/s\n");
+                            System.err.println("There is/are no active Manager/s\n");
                         }
 
                         if (activeReceptionistsList.size() != 0) {
@@ -57,7 +57,7 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getActiveReceptionists() + "\n");
                         } else {
 
-                            System.out.println("There is/are no active Receptionist/s\n");
+                            System.err.println("There is/are no active Receptionist/s\n");
                         }
                         break;
                     }
@@ -70,7 +70,7 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getFormerEmployees() + "\n");
                         } else {
 
-                            System.out.println("The is/are no former Employee/s\n");
+                            System.err.println("The is/are no former Employee/s\n");
                         }
                         break;
                     }
@@ -83,7 +83,7 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getPassengers() + "\n");
                         } else {
 
-                            System.out.println("The is/are no Passenger/s\n");
+                            System.err.println("The is/are no Passenger/s\n");
                         }
                         break;
                     }
@@ -96,7 +96,7 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getActivePassengers() + "\n");
                         } else {
 
-                            System.out.println("The is/are no active Passenger/s\n");
+                            System.err.println("The is/are no active Passenger/s\n");
                         }
                         break;
                     }
@@ -109,12 +109,12 @@ public class MenuSeeUsers {
                             System.out.println(OllivandersHotel.getFormerPassengers() + "\n");
                         } else {
 
-                            System.out.println("The is/are no former Passenger/s\n");
+                            System.err.println("The is/are no former Passenger/s\n");
                         }
                         break;
                     }
                     case 7: {
-                        System.out.println("\n------------------------\nSearch User by Full Name\n------------------------\n");
+                        System.out.println("\n------------------\nSearch User\n------------------\n");
                         System.out.print("[1]. Search User by ID\n[2]. Search User by Full Name\n\nOption: ");
                         int searchOption = scan.nextInt();
 
@@ -128,7 +128,7 @@ public class MenuSeeUsers {
                                 System.out.println(OllivandersHotel.getUserByID(dni) + "\n");
                             } else {
 
-                                System.out.println("\nUser not found\n");
+                                System.err.println("\nUser not found\n");
                             }
                         } else if (searchOption == 2) {
 
@@ -142,11 +142,11 @@ public class MenuSeeUsers {
                                 System.out.println(OllivandersHotel.getUserByFullName(firstName, lastName) + "\n");
                             } else {
 
-                                System.out.println("\nUser not found\n");
+                                System.err.println("\nUser not found\n");
                             }
                         } else {
 
-                            System.out.println("\nNot a valid option\n");
+                            System.err.println("\nNot a valid option\n");
                         }
                         break;
                     }
@@ -155,7 +155,7 @@ public class MenuSeeUsers {
                         break;
                     }
                     default: {
-                        System.out.println("Please, choose a valid option\n");
+                        System.err.println("Please, choose a valid option\n");
                         break;
                     }
                 }
