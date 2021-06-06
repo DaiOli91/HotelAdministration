@@ -5,7 +5,6 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
 public interface IRepository<T, S> {
 
@@ -15,9 +14,9 @@ public interface IRepository<T, S> {
 
     public T search(S s);
 
-    public T edit(T t);
+    public void edit(T t);
 
     public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException;
 
-    public void readGson() throws FileNotFoundException, IOException,  JsonIOException, JsonSyntaxException;
+    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException;
 }
