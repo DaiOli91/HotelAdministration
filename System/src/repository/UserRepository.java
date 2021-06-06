@@ -132,8 +132,8 @@ public class UserRepository implements IRepository<User, String> {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
-            this.users.addAll(gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
-            }.getType()));
+            this.users = gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
+            }.getType());
             this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<Manager>>() {
             }.getType()));
             this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
