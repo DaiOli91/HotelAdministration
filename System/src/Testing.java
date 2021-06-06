@@ -63,8 +63,9 @@ public class Testing {
             e.printStackTrace();
         }
 
+        System.err.println(newHotel.getAvailableRooms(LocalDate.of(2021, 06, 17), LocalDate.of(2021, 07, 03)));
         System.out.println(newHotel.getBookings().toString());
-        System.out.println("AVAILABLE: \n" + getActiveBookingsInPeriod(LocalDate.of(2021, 06, 5), LocalDate.of(2021, 06, 12), newHotel.getBookings()));
+        System.err.println("AVAILABLE: \n" + getActiveBookingsInPeriod(LocalDate.of(2021, 06, 17), LocalDate.of(2021, 07, 3), newHotel.getBookings()));
         //System.out.println(ChronoUnit.DAYS.between(LocalDate.of(2021, 06, 21), LocalDate.of(2021, 06, 21)));
     }
 
