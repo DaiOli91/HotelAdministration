@@ -7,6 +7,7 @@ import repository.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class Hotel {
     }
 
     public void saveData() throws IOException {
-        //TODO preguntar a Orellano - read and write methods throw many exveptions....JsonExceptions inherit from RunTimeE
+        //TODO preguntar a Orellano - read and write methods throw many exceptions....JsonExceptions inherit from RunTimeE
         //TODO is it ok that this method only throws an IOException?
         /*RuntimeException is the superclass of those exceptions that can be thrown during the normal operation
         of the Java Virtual Machine.
@@ -61,7 +62,7 @@ public class Hotel {
         rooms.writeGson();
     }
 
-    // ╔═══════════════════════════════ User Methods // 'ABML' order
+    // ╠═══════════════════════════════ User Methods // 'ABML' order ═══════════════════════════════╣
     public String register(User user) throws IOException {
 
         String message;
@@ -91,7 +92,7 @@ public class Hotel {
             if (!auxUser.getActive()) {
 
                 auxUser.setActive();
-                auxUser = users.edit(auxUser);
+                users.edit(auxUser);
                 if (auxUser instanceof Receptionist) {
 
                     message = "Receptionist Account was activated successfully. Please, change the receptionist's Shift";
@@ -129,7 +130,7 @@ public class Hotel {
                         ((Receptionist) auxUser).setShift(Shift.UNASIGNED);
                     }
                     auxUser.setActive();
-                    auxUser = users.edit(auxUser);
+                    users.edit(auxUser);
 
                     message = "The account has been deactivated. To activate it again, please reach one of our managers";
                 } else {
@@ -158,9 +159,6 @@ public class Hotel {
             User auxUser = this.users.search(dni);
             if (auxUser != null) {
 
-                // TODO Check if this validation works. If not, try this ones and maybe they need modifications.
-                // !ifNameContainsNumbers(firstName) || !ifNameContainsNumbers(lastName)
-                // !firstName.matches("^[0-9]+$") || !lastName.matches("^[0-9]+$"
                 if (!(firstName.matches(".*\\d.*") || !(lastName.matches(".*\\d.*")))) {
 
                     if (!firstName.isEmpty() || firstName.isBlank()) {
@@ -169,7 +167,7 @@ public class Hotel {
 
                             auxUser.setFirstName(firstName);
                             auxUser.setLastName(lastName);
-                            auxUser = users.edit(auxUser);
+                            users.edit(auxUser);
 
                             message = "The changes were made successfully";
                         } else {
@@ -196,21 +194,6 @@ public class Hotel {
         return message;
     }
 
-    // TODO Probably delete "ifNameContainsNumbers" method.
-    public boolean ifStringContainsNumbers(String name) {
-
-        if (name.contains("0") || name.contains("1") || name.contains("2")
-                || name.contains("3") || name.contains("4") || name.contains("5")
-                || name.contains("6") || name.contains("7") || name.contains("8")
-                || name.contains("9")) {
-
-            return true;
-        } else {
-
-            return false;
-        }
-    }
-
     public String changeAge(String dni, int age) {
 
         String message;
@@ -221,7 +204,7 @@ public class Hotel {
             if (age > 18) {
 
                 auxUser.setAge(age);
-                auxUser = users.edit(auxUser);
+                users.edit(auxUser);
 
                 message = "The changes were made successfully";
 
@@ -245,7 +228,7 @@ public class Hotel {
         if (auxUser != null) {
 
             auxUser.setGender(gender);
-            auxUser = users.edit(auxUser);
+            users.edit(auxUser);
 
             message = "The changes were made successfully";
         } else {
@@ -264,7 +247,7 @@ public class Hotel {
         if (auxUser != null) {
 
             auxUser.setAddress(address);
-            auxUser = users.edit(auxUser);
+            users.edit(auxUser);
 
             message = "The changes were made successfully";
         } else {
@@ -289,7 +272,7 @@ public class Hotel {
             } else {
 
                 auxUser.setTelephone(telephone);
-                auxUser = users.edit(auxUser);
+                users.edit(auxUser);
 
                 message = "The changes were made successfully";
             }
@@ -301,7 +284,7 @@ public class Hotel {
         return message;
     }
 
-    // TODO Probably going to be deleted.
+    // TODO Check link Orellano sent.
     public boolean ifStringContainsLetters(String telephone) {
 
         boolean flag = false;
@@ -329,7 +312,7 @@ public class Hotel {
             if (email.contains("@") && email.contains(".com")) {
 
                 auxUser.setEmail(email);
-                auxUser = users.edit(auxUser);
+                users.edit(auxUser);
 
                 message = "The changes were made successfully";
 
@@ -355,7 +338,7 @@ public class Hotel {
             if (password.length() > 3) {
 
                 auxUser.setPassword(password);
-                auxUser = users.edit(auxUser);
+                users.edit(auxUser);
 
                 message = "The changes were made successfully";
             } else {
@@ -380,7 +363,7 @@ public class Hotel {
             if (auxRecep instanceof Receptionist) {
 
                 ((Receptionist) auxRecep).setShift(shift);
-                auxRecep = users.edit(auxRecep);
+                users.edit(auxRecep);
 
                 message = "The changes were made successfully";
             }
@@ -396,16 +379,6 @@ public class Hotel {
 
         return users.getUsers()
                 .stream()
-                .filter(user -> user instanceof Employee)
-                .collect(Collectors.toList());
-    }
-
-    // TODO Probably going to be deleted.
-    public List<User> getActiveEmployees() {
-
-        return users.getUsers()
-                .stream()
-                .filter(user -> user.getActive())
                 .filter(user -> user instanceof Employee)
                 .collect(Collectors.toList());
     }
@@ -484,21 +457,58 @@ public class Hotel {
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
     public String createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
 
-        Booking booking = new Booking(idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
-        String message = "Booking created successfully";
-        List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
-        if (checkBookings.isEmpty()) {
-            Room aux_room = this.rooms.search(booking.getIdRoom());
-            booking.setAmountOfNights((int) DAYS.between(booking.getStartDate(), booking.getEndDate()));
-            booking.setTotalCost(aux_room.getCategory().getPrice() * booking.getAmountOfNights());
-            this.bookings.add(booking);
+        String message;
+        if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
+
+            Booking booking = new Booking(idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
+            List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
+            if (checkBookings.isEmpty()) {
+
+                Room aux_room = this.rooms.search(booking.getIdRoom());
+                booking.setAmountOfNights((int) DAYS.between(booking.getStartDate(), booking.getEndDate()));
+                booking.setTotalCost(aux_room.getCategory().getPrice() * booking.getAmountOfNights());
+                this.bookings.add(booking);
+
+                message = "Booking created successfully";
+            } else {
+
+                message = "The room is not available for those dates. Please choose another room";
+            }
         } else {
-            message = "The room is not available for those dates. Please choose another room"; //TODO return message in Exception
+
+            message = "Booking should be at least seven days long. Please, try again";
         }
+
         return message;
     }
 
-    // TODO Probably will be deleted.
+    public String cancelBooking(Integer idBooking) {
+
+        // TODO Maybe needs changes.
+        String message;
+        Booking aux_booking = this.bookings.search(idBooking);
+
+        if (aux_booking != null) {
+
+            if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
+                    || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
+                //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
+                aux_booking.setState(State.CANCELLED);
+                this.bookings.edit(aux_booking);
+                message = "Booking cancelled";
+            } else {
+
+                message = "Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking";
+            }
+        } else {
+
+            message = "Booking not found";
+        }
+
+        return message;
+    }
+
+    // TODO Need to ask Orellano about this.
     public String deleteBooking(Integer idBooking) {
 
         String message;
@@ -520,32 +530,6 @@ public class Hotel {
         return message;
     }
 
-    public String cancelBooking(Integer idBooking) {
-
-        // TODO Maybe needs changes.
-        String message;
-        Booking aux_booking = this.bookings.search(idBooking);
-
-        if (aux_booking != null) {
-
-            if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
-                    || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
-                //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
-                aux_booking.setState(State.CANCELLED);
-                aux_booking = this.bookings.edit(aux_booking);
-                message = "Booking cancelled";
-            } else {
-
-                message = "Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking";
-            }
-        } else {
-
-            message = "Booking not found";
-        }
-
-        return message;
-    }
-
     public String checkIn(String dniPassenger, Integer idBooking) {
 
         //TODO Maybe needs changes.
@@ -556,7 +540,7 @@ public class Hotel {
             if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
 
                 changeStateBooking(idBooking, State.CHECKED);
-                aux_booking = this.bookings.edit(aux_booking);
+                this.bookings.edit(aux_booking);
 
                 message = "Booking found. Passenger Checked In";
 
@@ -586,7 +570,7 @@ public class Hotel {
 
                 message = "Booking found. Passenger Checked Out";
                 changeStateBooking(idBooking, State.CHECK_OUT);
-                aux_booking = this.bookings.edit(aux_booking);
+                this.bookings.edit(aux_booking);
 
                 Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
                 changeRoomAvailability(aux_room.getNumber(), Availability.CLEANING);
@@ -621,98 +605,6 @@ public class Hotel {
 
         return message;
     }
-
-    // TODO Probably needs changes. START.
-    public String changeRoomBooking(Integer idBooking, String dniPassenger, Integer roomId) {
-        String message = "Booking not found";
-        Booking aux_booking = this.bookings.search(idBooking);
-        if (aux_booking != null) {
-            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
-                message = "Booking found. Room changed successfully.";
-                aux_booking.setIdRoom(roomId);
-                aux_booking = this.bookings.edit(aux_booking);
-            } else {
-                message = "Passenger's ID and Booking's Id do not match";
-            }
-        }
-
-        return message;
-    }
-
-    public String changeIdMainPassenger(Integer idBooking, String dniPassenger, String idNewPassenger) {
-        String message = "Booking not found";
-        Booking aux_booking = this.bookings.search(idBooking);
-        User aux_user = this.users.search(idNewPassenger);
-        if (aux_user != null) {
-            if (aux_booking != null) {
-                if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
-                    message = "Booking found. Passenger Changed";
-                    aux_booking.setIdMainPassenger(idNewPassenger);
-                    aux_booking = this.bookings.edit(aux_booking);
-                } else {
-                    message = "Passenger's ID and Booking's Id do not match";
-                }
-            }
-        } else {
-            message = "User not found. Please, register the new Passenger first";
-        }
-
-        return message;
-    }
-
-    public String changeIdOptionalPassenger(Integer idBooking, String dniPassenger, String idNewPassenger) {
-        String message = "Booking not found";
-        Booking aux_booking = this.bookings.search(idBooking);
-        User aux_user = this.users.search(idNewPassenger);
-        if (aux_user != null) {
-            if (aux_booking != null) {
-                if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
-                    message = "Booking found. Passenger Changed";
-                    aux_booking.setIdOptionalPassenger(idNewPassenger);
-                    aux_booking = this.bookings.edit(aux_booking);
-                } else {
-                    message = "Passenger's ID and Booking's Id do not match";
-                }
-            }
-
-        } else {
-            message = "User not found. Please, register the new Passenger first";
-        }
-        return message;
-    }
-
-    /***
-     * StartDate or EndDate implies cancelling the actual booking and create a new one
-     * @param idBooking
-     * @param dni
-     * @param newStartDate
-     * @param newEndDate
-     * @return
-     */
-    public String changeDates(Integer idBooking, String dni, LocalDate newStartDate, LocalDate newEndDate) {
-
-        String message;
-        Booking aux_booking = this.bookings.search(idBooking);
-
-        if (aux_booking != null) {
-
-            if (aux_booking.getIdMainPassenger().equals(dni)) {
-
-                this.cancelBooking(idBooking);
-                message = this.createBooking(aux_booking.getIdRoom(), aux_booking.getIdMainPassenger(), aux_booking.getIdOptionalPassenger(), newStartDate, newEndDate);
-                this.bookings.edit(aux_booking);
-            } else {
-
-                message = "Passenger's ID and Booking's Id do not match";
-            }
-        } else {
-
-            message = "Booking not found";
-        }
-
-        return message;
-    }
-    // TODO Probably needs changes. END.
 
     public String cancelAllBookingsByRoom(Integer idRoom) {
 
