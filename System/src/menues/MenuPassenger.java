@@ -7,6 +7,7 @@ import model.User;
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -36,7 +37,7 @@ public class MenuPassenger {
                 switch (option) {
                     case 1: {
                         System.out.println("\nSee available rooms\n");
-                        System.out.println("Loading Start Date\n-------------------\n");
+                        System.out.println("Loading Start Date\n-------------------");
                         System.out.print("Enter Day: ");
                         day = scan.nextInt();
                         System.out.print("Enter Month: ");
@@ -47,10 +48,9 @@ public class MenuPassenger {
                         try {
 
                             startDate = LocalDate.of(year, month, day);
-
                             if (startDate.isAfter(LocalDate.now())) {
 
-                                System.out.println("\nLoading End Date\n-----------------\n");
+                                System.out.println("\nLoading End Date\n-----------------");
                                 System.out.print("Enter Day: ");
                                 day = scan.nextInt();
                                 System.out.print("Enter Month: ");
@@ -61,35 +61,32 @@ public class MenuPassenger {
                                 try {
 
                                     endDate = LocalDate.of(year, month, day);
-
-                                    if (endDate.isAfter(LocalDate.now())) {
+                                    if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
 
                                         System.out.println("\n" + OllivandersHotel.getAvailableRooms(startDate, endDate).toString() + "\n");
                                     } else {
 
-                                        System.out.println("\nPlease enter a valid date\n");
+                                        System.err.println("\nBooking should be at least seven days long. Please, try again.\n");
                                     }
+
                                 } catch (DateTimeException dte) {
 
-                                    System.out.println("\n" + dte.getMessage() + ", please try again\n");
+                                    System.err.println("\n" + dte.getMessage() + ", please try again\n");
                                 }
                             } else {
 
-                                System.out.println("\nPlease enter a valid date\n");
+                                System.err.println("\nPlease enter a valid date\n");
                             }
                         } catch (DateTimeException dte) {
 
-                            System.out.println("\n" + dte.getMessage() + ", please try again\n");
+                            System.err.println("\n" + dte.getMessage() + ", please try again\n");
                         }
                         break;
                     }
                     case 2: {
-
-                        // TODO Fix room state. Not changing after booked
-                        // TODO Fix new booking when you select the exact same days and try to create another booking.
-
                         System.out.println("\nNew booking\n");
-                        System.out.println("Loading Start Date\n-------------------\n");
+
+                        System.out.println("Loading Start Date\n-------------------");
                         System.out.print("Enter Day: ");
                         day = scan.nextInt();
                         System.out.print("Enter Month: ");
@@ -100,10 +97,9 @@ public class MenuPassenger {
                         try {
 
                             startDate = LocalDate.of(year, month, day);
-
                             if (startDate.isAfter(LocalDate.now())) {
 
-                                System.out.println("\nLoading End Date\n-----------------\n");
+                                System.out.println("\nLoading End Date\n-----------------");
                                 System.out.print("Enter Day: ");
                                 day = scan.nextInt();
                                 System.out.print("Enter Month: ");
@@ -114,8 +110,7 @@ public class MenuPassenger {
                                 try {
 
                                     endDate = LocalDate.of(year, month, day);
-
-                                    if (endDate.isAfter(LocalDate.now())) {
+                                    if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
 
                                         List<Room> availableRooms = OllivandersHotel.getAvailableRooms(startDate, endDate);
                                         System.out.println("\n" + availableRooms.toString() + "\n");
@@ -132,34 +127,33 @@ public class MenuPassenger {
                                                 System.out.print("Enter the DNI of the added passenger: ");
                                                 String dniOptionalPassenger = scan.next();
 
-                                                //TODO Check if there are 7 days between startDate and EndDate.
                                                 System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate) + "\n");
                                             } else if (answer.equalsIgnoreCase("no")) {
 
                                                 System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate) + "\n");
                                             } else {
 
-                                                System.out.println("\nInvalid answer. Please try again\n");
+                                                System.err.println("\nInvalid answer. Please try again\n");
                                             }
                                         } else {
 
-                                            System.out.println("\nInvalid room number\n");
+                                            System.err.println("\nInvalid room number\n");
                                         }
                                     } else {
 
-                                        System.out.println("\nPlease enter a valid date\n");
+                                        System.err.println("\nBooking should be at least seven days long. Please, try again.\n");
                                     }
                                 } catch (DateTimeException dte) {
 
-                                    System.out.println("\n" + dte.getMessage() + ", please try again\n");
+                                    System.err.println("\n" + dte.getMessage() + ", please try again\n");
                                 }
                             } else {
 
-                                System.out.println("\nPlease enter a valid date\n");
+                                System.err.println("\nPlease enter a valid date\n");
                             }
                         } catch (DateTimeException dte) {
 
-                            System.out.println("\n" + dte.getMessage() + ", please try again\n");
+                            System.err.println("\n" + dte.getMessage() + ", please try again\n");
                         }
                         break;
                     }
@@ -171,7 +165,7 @@ public class MenuPassenger {
                             System.out.println("\n" + OllivandersHotel.getBookingsByUser(loggedUser.getDni()) + "\n");
                         } else {
 
-                            System.out.println("\nIt seems that you do not have any booking yet\n");
+                            System.err.println("\nIt seems that you do not have any booking yet\n");
                         }
                         break;
                     }
@@ -199,7 +193,7 @@ public class MenuPassenger {
                         break;
                     }
                     default: {
-                        System.out.println("\nPlease, choose a valid option\n");
+                        System.err.println("\nPlease, choose a valid option\n");
                         break;
                     }
                 }
