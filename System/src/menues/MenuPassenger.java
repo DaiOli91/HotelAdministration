@@ -4,6 +4,7 @@ import controller.Hotel;
 import model.Room;
 import model.User;
 
+import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -187,6 +188,13 @@ public class MenuPassenger {
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
+                        /*
+                        try {
+                            OllivandersHotel.saveData();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        */
                         z++;
                         break;
                     }

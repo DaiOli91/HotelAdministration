@@ -171,7 +171,6 @@ public class MenuManager {
 
                             System.out.println("\nPlease, choose a valid option\n");
                         }
-
                         break;
                     }
                     case 4: {
@@ -284,6 +283,13 @@ public class MenuManager {
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
+                        /*
+                        try {
+                            OllivandersHotel.saveData();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        */
                         z++;
                         break;
                     }

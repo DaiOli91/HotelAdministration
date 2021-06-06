@@ -3,6 +3,7 @@ package menues;
 import controller.Hotel;
 import model.*;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -269,6 +270,13 @@ public class MenuReceptionist {
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
+                        /*
+                        try {
+                            OllivandersHotel.saveData();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        */
                         z++;
                         break;
                     }
