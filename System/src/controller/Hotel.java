@@ -23,9 +23,9 @@ public class Hotel {
         this.users = new UserRepository();
         this.bookings = new BookingRepository();
         this.rooms = new RoomRepository();
-        this.userHC();
-        this.roomHC();
-        this.bookingHC();
+        //this.userHC();
+        //this.roomHC();
+        //this.bookingHC();
     }
 
     public List<User> getUsers() {
@@ -929,18 +929,17 @@ public class Hotel {
 
         List<Room> auxRooms = getRooms();
         List<Booking> activeBookings = getActiveBookingsByDate(startDate, endDate);
+        for (int r = 0; r < auxRooms.size(); r++) {
 
-        for (Room r : getRooms()) {
+            for (int b = 0; b < activeBookings.size(); b++) {
 
-            for (Booking b : activeBookings) {
-
-                if (b.getIdRoom() == r.getNumber()) {
+                if (activeBookings.get(b).getIdRoom() == auxRooms.get(r).getNumber()) {
 
                     auxRooms.remove(r);
                 }
             }
         }
-        auxRooms = auxRooms.stream().filter(room -> room.getAvailability().equals(Availability.FREE)).collect(Collectors.toList());
+        auxRooms = auxRooms.stream().filter(room -> !room.getAvailability().equals(Availability.OUT_OF_SERVICE)).collect(Collectors.toList());
 
         return auxRooms;
     }
