@@ -7,7 +7,6 @@ import repository.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,12 +75,12 @@ public class Hotel {
 
     public String activateAccount(String dni) {
 
-        String message = "";
+        String message;
         User auxUser = this.users.search(dni);
 
         if (auxUser != null) {
 
-            if (auxUser.getActive() == false) {
+            if (!auxUser.getActive()) {
 
                 auxUser.setActive();
                 auxUser = users.edit(auxUser);
@@ -106,7 +105,7 @@ public class Hotel {
 
     public String deactivateAccount(String dni) {
 
-        String message = "";
+        String message;
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
 
         if (activeBookings.size() == 0) {
@@ -115,7 +114,7 @@ public class Hotel {
             User auxUser = this.users.search(dni);
             if (auxUser != null) {
 
-                if (auxUser.getActive() == true) {
+                if (auxUser.getActive()) {
 
                     if (auxUser instanceof Receptionist) {
 
@@ -143,7 +142,7 @@ public class Hotel {
 
     public String changeFullName(String dni, String firstName, String lastName) {
 
-        String message = "";
+        String message;
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
 
         if (activeBookings.size() == 0) {
@@ -206,7 +205,7 @@ public class Hotel {
 
     public String changeAge(String dni, int age) {
 
-        String message = "";
+        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -232,7 +231,7 @@ public class Hotel {
 
     public String changeGender(String dni, Gender gender) {
 
-        String message = "";
+        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -251,7 +250,7 @@ public class Hotel {
 
     public String changeAddress(String dni, String address) {
 
-        String message = "";
+        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -270,7 +269,7 @@ public class Hotel {
 
     public String changeTelephone(String dni, String telephone) {
 
-        String message = "";
+        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -314,7 +313,7 @@ public class Hotel {
 
     public String changeEmail(String dni, String email) {
 
-        String message = "";
+        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -340,7 +339,7 @@ public class Hotel {
 
     public String changePassword(String dni, String password) {
 
-        String message = "";
+        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -494,7 +493,7 @@ public class Hotel {
     // TODO Probably will be deleted.
     public String deleteBooking(Integer idBooking) {
 
-        String message = "";
+        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -516,7 +515,7 @@ public class Hotel {
     public String cancelBooking(Integer idBooking) {
 
         // TODO Maybe needs changes.
-        String message = "";
+        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -542,7 +541,7 @@ public class Hotel {
     public String checkIn(String dniPassenger, Integer idBooking) {
 
         //TODO Maybe needs changes.
-        String message = "";
+        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -571,7 +570,7 @@ public class Hotel {
     public String checkOut(String dniPassenger, Integer idBooking) {
 
         //TODO Maybe needs changes.
-        String message = "";
+        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -598,7 +597,7 @@ public class Hotel {
 
     public String changeStateBooking(Integer idBooking, State state) {
 
-        String message = "";
+        String message;
         Booking auxBooking = this.bookings.search(idBooking);
 
         if (auxBooking != null) {
@@ -684,7 +683,7 @@ public class Hotel {
      */
     public String changeDates(Integer idBooking, String dni, LocalDate newStartDate, LocalDate newEndDate) {
 
-        String message = "";
+        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -709,7 +708,7 @@ public class Hotel {
 
     public String cancelAllBookingsByRoom(Integer idRoom) {
 
-        String message = "";
+        String message;
         List<Booking> auxRoomBookings = getActiveBookingsByRoom(idRoom);
 
         if (auxRoomBookings != null) {
@@ -805,52 +804,22 @@ public class Hotel {
      * @return List of all active bookings for specific Room in a specific period of time- to validate
      */
     public List<Booking> getActiveBookingsByRoomAndDate(LocalDate startDate, LocalDate endDate, Integer idRoom) {
-
-        // TODO Maybe need changes.
-        return this.getActiveBookingsByRoom(idRoom)
+        return this.getActiveBookingsByDate(startDate, endDate)
                 .stream()
-                .filter(b -> (((startDate.isAfter(b.getStartDate())) || (startDate.isEqual(b.getStartDate()))
-                        && ((startDate.isBefore(b.getEndDate())) || (startDate.isEqual(b.getEndDate()))))
-                        || ((endDate.isAfter(b.getStartDate())) || (endDate.isEqual(b.getStartDate())))
-                        && ((endDate.isBefore(b.getEndDate())) || (endDate.isEqual(b.getEndDate())))))
+                .filter(b->b.getIdRoom() == idRoom)
                 .collect(Collectors.toList());
     }
 
     /**
      * @return List of all active bookings for specific Room in a specific period of time- to validate
      */
-    public List<Booking> getActiveBookingsByDate(LocalDate startDate, LocalDate endDate) {
-/*
-        return getBookings()
-                .stream()
-                .filter(b -> (((b.getStartDate().isAfter(startDate)) || b.getStartDate().isEqual(startDate))) || ((b.getEndDate().isBefore(endDate))|| b.getStartDate().isEqual(endDate)))
-                .filter(b -> (b.getState().equals(State.ACTIVE)))
-                .collect(Collectors.toList());
+    public List<Booking> getActiveBookingsByDate(LocalDate startPeriod, LocalDate endPeriod) {
 
         return getBookings()
                 .stream()
-                .filter(b -> (ChronoUnit.DAYS.between(b.getEndDate(), startDate)<0 || ChronoUnit.DAYS.between(b.getStartDate(), endDate)<0))
-                .filter(b -> (b.getState().equals(State.ACTIVE)))
-                .collect(Collectors.toList());
-
-
-        return this.getBookings()
-                .stream()
-                .filter(b -> (((startDate.isAfter(b.getStartDate())) || (startDate.isEqual(b.getStartDate()))
-                        && ((startDate.isBefore(b.getEndDate())) || (startDate.isEqual(b.getEndDate()))))
-                        || ((endDate.isAfter(b.getStartDate())) || (endDate.isEqual(b.getStartDate())))
-                        && ((endDate.isBefore(b.getEndDate())) || (endDate.isEqual(b.getEndDate())))))
-                .collect(Collectors.toList());
-
-
- */
-
-        return this.getBookings()
-                .stream()
-                .filter(b -> (((b.getStartDate().isAfter(startDate)) || (b.getStartDate().isEqual(startDate))
-                        && ((b.getEndDate().isBefore(startDate)) || (b.getEndDate().isEqual(startDate))))
-                        || ((b.getStartDate().isBefore(endDate)) || (b.getStartDate().isEqual(endDate)))
-                        && ((b.getEndDate().isAfter(endDate)) || (b.getEndDate().isEqual(endDate)))))
+                .filter(b -> b.getState().equals(State.ACTIVE))
+                .filter(b -> !b.getEndDate().isBefore(startPeriod))
+                .filter(b -> (!b.getStartDate().isAfter(endPeriod)))
                 .collect(Collectors.toList());
      }
 
@@ -865,7 +834,7 @@ public class Hotel {
 
     public String deactivateRoom(int idRoom) {
 
-        String message = "";
+        String message;
         List<Booking> checkBooking = getActiveBookingsByRoom(idRoom);
 
         if (checkBooking == null) {
@@ -898,7 +867,7 @@ public class Hotel {
 
     public String changeRoomCategory(int idRoom, Category category) {
 
-        String message = "";
+        String message;
         List<Booking> checkBooking = getActiveBookingsByRoom(idRoom);
 
         if (checkBooking == null) {
@@ -931,7 +900,7 @@ public class Hotel {
 
     public String changeRoomAvailability(int idRoom, Availability availability) {
 
-        String message = "";
+        String message;
         Room auxRoom = rooms.search(idRoom);
 
         if (auxRoom != null) {
