@@ -21,8 +21,8 @@
     "gender": "MALE",
     "address": "Dardo Rocha 70",
     "telephone": "2235484378",
-    "email": "wally.moretti@gmai.com",
-    "password": "thegame123",
+    "email": "wally.moretti@gmail.com",
+    "password": "tuvieja",
     "active": true
   },
   {
@@ -49,6 +49,19 @@
     "telephone": "2235235689",
     "email": "natybossy@gmail.com",
     "password": "bossy123",
+    "active": true
+  },
+  {
+    "employeeNumber": "6a19d76d-3905-4fc9-9746-5a0d8da22074",
+    "dni": "14671121",
+    "firstName": "Graciela",
+    "lastName": "Mirol",
+    "age": 60,
+    "gender": "FEMALE",
+    "address": "Dardo Rocha 70",
+    "telephone": "2235484378",
+    "email": "gracielammirol@gmail.com",
+    "password": "walterelmejor",
     "active": true
   }
 ]
