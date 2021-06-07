@@ -1,6 +1,8 @@
 package menues;
 
 import controller.Hotel;
+import exception.ActiveBookingException;
+import exception.UserNotFoundException;
 import model.*;
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class MenuManager {
 
             System.out.println("\nMenu Manager\n==========\n");
             System.out.println("[1]. Add Employee\n[2]. See Users\n[3]. Edit Account\n[4]. Activate/Deactivate User");
-            System.out.println("[5]. Add Room\n[6]. See Rooms\n[7]. Edit Room Category\n[8]. Deactivate Room\n");
+            System.out.println("[5]. Add Room\n[6]. See Rooms\n[7]. Edit Room Category\n[8]. Activate/Deactivate Room\n");
             System.out.println("[0]. Log Out");
             System.out.print("Option: ");
             System.out.flush();
@@ -48,7 +50,7 @@ public class MenuManager {
 
                             if (age >= 18) {
 
-                                while (genderOption == 0 || genderOption > 4) {
+                                while (genderOption <= 0 || genderOption > 4) {
                                     System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
                                     genderOption = scan.nextInt();
                                     switch (genderOption) {
@@ -95,7 +97,7 @@ public class MenuManager {
                                     if (employeeOption == 1) {
 
                                         User mUser = new Manager(dni, firstName, lastName, age, gender, address, telephone, email, password);
-                                        System.out.println(OllivandersHotel.register(mUser));
+                                        System.out.println("\n" + OllivandersHotel.register(mUser));
                                     } else if (employeeOption == 2) {
 
                                         System.out.print("Shift (1. Morning, 2. Afternoon, 3. Night): ");
@@ -105,17 +107,17 @@ public class MenuManager {
 
                                             shift = Shift.MORNING;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
-                                            System.out.println(OllivandersHotel.register(rUser));
+                                            System.out.println("\n" + OllivandersHotel.register(rUser));
                                         } else if (shiftOption == 2) {
 
                                             shift = Shift.AFTERNOON;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
-                                            System.out.println(OllivandersHotel.register(rUser));
+                                            System.out.println("\n" + OllivandersHotel.register(rUser));
                                         } else if (shiftOption == 3) {
 
                                             shift = Shift.NIGHT;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
-                                            System.out.println(OllivandersHotel.register(rUser));
+                                            System.out.println("\n" + OllivandersHotel.register(rUser));
                                         } else {
 
                                             System.out.println("\nNot a valid option. Please, try again later\n");
@@ -146,7 +148,7 @@ public class MenuManager {
                     case 3: {
                         System.out.println("\nEdit Account\n");
 
-                        System.out.print("1. Edit my Account\n2. Edit Receptionist Account\n3. Edit Passenger Account\n");
+                        System.out.print("1. Edit my Account\n2. Edit Receptionist Account\n3. Edit Passenger Account\n\nOption: ");
                         int editOption = scan.nextInt();
 
                         if (editOption == 1) {
@@ -155,18 +157,38 @@ public class MenuManager {
                         } else if (editOption == 2) {
 
 
-                            System.out.print("Enter the Passenger DNI: ");
+                            System.out.print("Enter the Receptionist DNI: ");
                             dni = scan.next();
-                            User rUser = new Receptionist(dni, "xxxx", "xxxx", 18, Gender.NA, "xxxx", "1234", "email@gmail.com", "1234", Shift.UNASIGNED);
+                            User rUser = OllivandersHotel.searchUserById(dni);
+                            if (rUser != null) {
 
-                            MenuEditAccount.menuEditAccount(scan, OllivandersHotel, rUser);
+                                MenuEditAccount.menuEditAccount(scan, OllivandersHotel, rUser);
+                            } else {
+
+                                try {
+                                    throw new UserNotFoundException();
+                                } catch (UserNotFoundException e) {
+
+                                    System.out.println("\n" + e.getMessage() + "\n");
+                                }
+                            }
                         } else if (editOption == 3) {
 
                             System.out.print("Enter the Passenger DNI: ");
                             dni = scan.next();
-                            User pUser = new Passenger(dni, "xxxx", "xxxx", 18, Gender.NA, "xxxx", "1234", "email@gmail.com", "1234", "xxxx");
+                            User pUser = OllivandersHotel.searchUserById(dni);
+                            if (pUser != null) {
 
-                            MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
+                                MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
+                            } else {
+
+                                try {
+                                    throw new UserNotFoundException();
+                                } catch (UserNotFoundException e) {
+
+                                    System.out.println("\n" + e.getMessage() + "\n");
+                                }
+                            }
                         } else {
 
                             System.out.println("\nPlease, choose a valid option\n");
@@ -178,7 +200,7 @@ public class MenuManager {
 
                         System.out.print("Enter user's DNI: ");
                         dni = scan.next();
-                        System.out.println("\n1. Activate User\n2. Deactivate User");
+                        System.out.println("\n1. Activate User\n2. Deactivate User\n\nOption: ");
                         activeDeactiveOption = scan.nextInt();
 
                         if (activeDeactiveOption == 1) {
@@ -186,7 +208,12 @@ public class MenuManager {
                             System.out.println("\n" + OllivandersHotel.activateAccount(dni) + "\n");
                         } else if (activeDeactiveOption == 2) {
 
-                            System.out.println("\n" + OllivandersHotel.deactivateAccount(dni) + "\n");
+                            try {
+                                System.out.println("\n" + OllivandersHotel.deactivateAccount(dni) + "\n");
+                            } catch (ActiveBookingException e) {
+
+                                System.out.println("\nThis user cannot be deactivated. " + e.getMessage() + "\n");
+                            }
                         } else {
 
                             System.out.println("\nNot a valid option\n");
@@ -224,7 +251,7 @@ public class MenuManager {
                                 }
                             }
                         }
-
+                        categoryOption = 0;
                         System.out.println("\n" + OllivandersHotel.createRoom(category, Availability.FREE) + "\n");
                         break;
                     }
@@ -272,13 +299,23 @@ public class MenuManager {
                         break;
                     }
                     case 8: {
-                        System.out.println("\nDeactivate Room\n");
+                        System.out.println("\nActivate/Deactivate Room\n");
 
-                        // TODO Need to add an "activateRoom" method or something.
                         System.out.print("Please enter ID Room: ");
                         idRoom = scan.nextInt();
+                        System.out.println("\n1. Activate Room\n2. Deactivate Room");
+                        activeDeactiveOption = scan.nextInt();
 
-                        System.out.println("\n" + OllivandersHotel.deactivateRoom(idRoom) + "\n");
+                        if (activeDeactiveOption == 1) {
+
+                            System.out.println("\n" + OllivandersHotel.activateRoom(idRoom) + "\n");
+                        } else if (activeDeactiveOption == 2) {
+
+                            System.out.println("\n" + OllivandersHotel.deactivateRoom(idRoom) + "\n");
+                        } else {
+
+                            System.out.println("\nNot a valid option\n");
+                        }
                         break;
                     }
                     case 0: {
