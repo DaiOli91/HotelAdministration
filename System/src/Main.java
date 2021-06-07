@@ -33,7 +33,7 @@ public class Main {
 
         while (z == 0) {
 
-            System.out.println("\nWelcome to Olivanders Hotel\n===========================\n");
+            System.out.println("\nWelcome to Ollivanders Hotel\n===========================\n");
             System.out.println("[1]. Register\n[2]. Log In\n");
             System.out.println("0. Exit");
             System.out.print("Option: ");
@@ -158,7 +158,7 @@ public class Main {
                         try {
                             OllivandersHotel.saveData();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            System.out.println("\n" + e.getMessage() + "\n");
                         }
                         z++;
                         break;

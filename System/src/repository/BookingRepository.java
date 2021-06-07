@@ -18,10 +18,12 @@ import java.util.List;
 public class BookingRepository implements IRepository<Booking, Integer> {
 
     private List<Booking> roomBookings;
+    private File file;
     private static final String BOOKINGSFILE = "bookings.json";
 
     public BookingRepository() {
         this.roomBookings = new ArrayList<>();
+        File file = new File(BOOKINGSFILE);
     }
 
     public List<Booking> getRoomBookings() {
@@ -65,48 +67,33 @@ public class BookingRepository implements IRepository<Booking, Integer> {
     }
 
     @Override
-    public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
-        File file = new File(BOOKINGSFILE);
+    public void writeGson() throws IOException {
 
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        Gson gson = gsonBuilder.setPrettyPrinting().create();
-        gson.toJson(this.roomBookings, bufferedWriter);
+        if (roomBookings.size() > 0) {
 
-        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+            Gson gson = gsonBuilder.setPrettyPrinting().create();
+            gson.toJson(this.roomBookings, bufferedWriter);
+
             bufferedWriter.flush();
             bufferedWriter.close();
-        } catch (FileNotFoundException fileNotFound) {
-            throw new FileNotFoundException();
-        } catch (JsonIOException jsonIo) {
-            throw new JsonIOException(jsonIo);
-        } catch (JsonSyntaxException jsonSyntax) {
-            throw new JsonSyntaxException(jsonSyntax);
         }
     }
 
     @Override
-    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
-        try {
-            File file = new File(BOOKINGSFILE);
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(file));
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-            Gson gson = gsonBuilder.create();
+    public void readGson() throws IOException {
 
-            this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
-            }.getType());
+        File file = new File(BOOKINGSFILE);
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+        Gson gson = gsonBuilder.create();
 
-            bufferedReader.close();
+        this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
+        }.getType());
 
-        } catch (FileNotFoundException fileNotFound) {
-            throw new FileNotFoundException();
-        } catch (JsonIOException jsonIo) {
-            throw new JsonIOException(jsonIo);
-        } catch (JsonSyntaxException jsonSyntax) {
-            throw new JsonSyntaxException(jsonSyntax);
-        }
+        bufferedReader.close();
     }
 }

@@ -15,6 +15,9 @@ import java.util.List;
 public class UserRepository implements IRepository<User, String> {
 
     private List<User> users;
+    private File filePassengers;
+    File fileReceptionists;
+    File fileManagers;
     private static final String PASSENGERSFILE = "passengers.json";
     private static final String RECEPTIONISTSFILE = "receptionists.json";
     private static final String MANAGERSFILE = "managers.json";
@@ -22,6 +25,10 @@ public class UserRepository implements IRepository<User, String> {
 
     public UserRepository() {
         this.users = new ArrayList<>();
+        filePassengers = new File(PASSENGERSFILE);
+        fileReceptionists = new File(RECEPTIONISTSFILE);
+        fileManagers = new File(MANAGERSFILE);
+
     }
 
     public List<User> getUsers() {
@@ -76,23 +83,24 @@ public class UserRepository implements IRepository<User, String> {
     }
 
     @Override
-    public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
-        List<User> passengers = new ArrayList<>();
-        List<User> managers = new ArrayList<>();
-        List<User> receptionists = new ArrayList<>();
-        for (User user : users) {
-            if (user instanceof Passenger) {
-                passengers.add(user);
-            } else if (user instanceof Receptionist) {
-                receptionists.add(user);
-            } else if (user instanceof Manager) {
-                managers.add(user);
+    public void writeGson() throws IOException {
+
+        if (users.size() > 0) {
+
+            List<User> passengers = new ArrayList<>();
+            List<User> managers = new ArrayList<>();
+            List<User> receptionists = new ArrayList<>();
+
+            for (User user : users) {
+                if (user instanceof Passenger) {
+                    passengers.add(user);
+                } else if (user instanceof Receptionist) {
+                    receptionists.add(user);
+                } else if (user instanceof Manager) {
+                    managers.add(user);
+                }
             }
-        }
-        try {
-            File filePassengers = new File(PASSENGERSFILE);
-            File fileReceptionists = new File(RECEPTIONISTSFILE);
-            File fileManagers = new File(MANAGERSFILE);
+
 
             BufferedWriter bwPassengers = new BufferedWriter(new FileWriter(filePassengers));
             BufferedWriter bwReceptionists = new BufferedWriter(new FileWriter(fileReceptionists));
@@ -103,47 +111,34 @@ public class UserRepository implements IRepository<User, String> {
             gson.toJson(receptionists, bwReceptionists);
             gson.toJson(managers, bwManagers);
 
+
             bwManagers.close();
             bwPassengers.close();
             bwReceptionists.close();
-
-        } catch (FileNotFoundException fileNotFound) {
-            throw new FileNotFoundException();
-        } catch (JsonIOException jsonIo) {
-            throw new JsonIOException(jsonIo);
-        } catch (JsonSyntaxException jsonSyntax) {
-            throw new JsonSyntaxException(jsonSyntax);
         }
     }
 
     @Override
-    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
-        try {
-            File filePassengers = new File(PASSENGERSFILE);
-            File fileReceptionists = new File(RECEPTIONISTSFILE);
-            File fileManagers = new File(MANAGERSFILE);
-            BufferedReader brPassengers = new BufferedReader(new FileReader(filePassengers));
-            BufferedReader brReceptionists = new BufferedReader(new FileReader(fileReceptionists));
-            BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public void readGson() throws IOException {
 
-            this.users = gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
-            }.getType());
-            this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<Manager>>() {
-            }.getType()));
-            this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
-            }.getType()));
+        File filePassengers = new File(PASSENGERSFILE);
+        File fileReceptionists = new File(RECEPTIONISTSFILE);
+        File fileManagers = new File(MANAGERSFILE);
 
-            brManagers.close();
-            brPassengers.close();
-            brReceptionists.close();
+        BufferedReader brPassengers = new BufferedReader(new FileReader(filePassengers));
+        BufferedReader brReceptionists = new BufferedReader(new FileReader(fileReceptionists));
+        BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        } catch (FileNotFoundException fileNotFound) {
-            throw new FileNotFoundException();
-        } catch (JsonIOException jsonIo) {
-            throw new JsonIOException(jsonIo);
-        } catch (JsonSyntaxException jsonSyntax) {
-            throw new JsonSyntaxException(jsonSyntax);
-        }
+        this.users = gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
+        }.getType());
+        this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<Manager>>() {
+        }.getType()));
+        this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
+        }.getType()));
+
+        brManagers.close();
+        brPassengers.close();
+        brReceptionists.close();
     }
 }

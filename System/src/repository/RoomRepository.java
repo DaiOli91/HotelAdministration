@@ -82,6 +82,7 @@ public class RoomRepository implements IRepository<Room, Integer> {
 
     @Override
     public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
+
         try {
             File file = new File(ROOMSFILE);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
