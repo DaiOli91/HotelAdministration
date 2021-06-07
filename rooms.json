@@ -61,63 +61,63 @@
   },
   {
     "number": 113,
-    "category": "JUNIOR",
-    "availability": "CLEANING"
-  },
-  {
-    "number": 114,
-    "category": "JUNIOR",
-    "availability": "OCCUPIED"
-  },
-  {
-    "number": 115,
-    "category": "JUNIOR",
-    "availability": "IN_DESINFECTION"
-  },
-  {
-    "number": 116,
-    "category": "JUNIOR",
-    "availability": "OUT_OF_SERVICE"
-  },
-  {
-    "number": 117,
     "category": "EXECUTIVE",
     "availability": "FREE"
   },
   {
-    "number": 118,
+    "number": 114,
     "category": "GUEST",
     "availability": "FREE"
   },
   {
-    "number": 119,
+    "number": 115,
     "category": "JUNIOR",
     "availability": "FREE"
   },
   {
-    "number": 120,
+    "number": 116,
     "category": "PRESIDENTIAL",
     "availability": "FREE"
   },
   {
-    "number": 121,
-    "category": "PRESIDENTIAL",
+    "number": 117,
+    "category": "GUEST",
     "availability": "CLEANING"
   },
   {
-    "number": 122,
-    "category": "PRESIDENTIAL",
+    "number": 118,
+    "category": "GUEST",
     "availability": "OCCUPIED"
   },
   {
-    "number": 123,
-    "category": "PRESIDENTIAL",
+    "number": 119,
+    "category": "GUEST",
     "availability": "IN_DESINFECTION"
+  },
+  {
+    "number": 120,
+    "category": "GUEST",
+    "availability": "OUT_OF_SERVICE"
+  },
+  {
+    "number": 121,
+    "category": "EXECUTIVE",
+    "availability": "FREE"
+  },
+  {
+    "number": 122,
+    "category": "GUEST",
+    "availability": "FREE"
+  },
+  {
+    "number": 123,
+    "category": "JUNIOR",
+    "availability": "FREE"
   },
   {
     "number": 124,
     "category": "PRESIDENTIAL",
-    "availability": "OUT_OF_SERVICE"
+    "availability": "FREE"
   },
   {
     "number": 125,
@@ -141,22 +141,22 @@
   },
   {
     "number": 129,
-    "category": "EXECUTIVE",
+    "category": "GUEST",
     "availability": "CLEANING"
   },
   {
     "number": 130,
-    "category": "EXECUTIVE",
+    "category": "GUEST",
     "availability": "OCCUPIED"
   },
   {
     "number": 131,
-    "category": "EXECUTIVE",
+    "category": "GUEST",
     "availability": "IN_DESINFECTION"
   },
   {
     "number": 132,
-    "category": "EXECUTIVE",
+    "category": "GUEST",
     "availability": "OUT_OF_SERVICE"
   },
   {
@@ -176,26 +176,6 @@
   },
   {
     "number": 136,
-    "category": "PRESIDENTIAL",
-    "availability": "FREE"
-  },
-  {
-    "number": 137,
-    "category": "EXECUTIVE",
-    "availability": "FREE"
-  },
-  {
-    "number": 138,
-    "category": "GUEST",
-    "availability": "FREE"
-  },
-  {
-    "number": 139,
-    "category": "JUNIOR",
-    "availability": "FREE"
-  },
-  {
-    "number": 140,
     "category": "PRESIDENTIAL",
     "availability": "FREE"
   }

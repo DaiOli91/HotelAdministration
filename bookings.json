@@ -6,9 +6,9 @@
     "idOptionalPassenger": "14874804",
     "startDate": "2021-06-07",
     "endDate": "2021-06-14",
-    "amountOfNights": 7,
+    "amountOfNights": 0,
     "state": "ACTIVE",
-    "totalCost": 33600.0
+    "totalCost": 0.0
   },
   {
     "id": 2,
@@ -16,10 +16,10 @@
     "idMainPassenger": "14589623",
     "idOptionalPassenger": "14874804",
     "startDate": "2021-07-07",
-    "endDate": "2021-07-17",
-    "amountOfNights": 10,
+    "endDate": "2021-07-14",
+    "amountOfNights": 0,
     "state": "ACTIVE",
-    "totalCost": 48000.0
+    "totalCost": 0.0
   },
   {
     "id": 3,
@@ -27,10 +27,10 @@
     "idMainPassenger": "14874804",
     "idOptionalPassenger": "14589623",
     "startDate": "2021-06-12",
-    "endDate": "2021-06-21",
-    "amountOfNights": 9,
-    "state": "CANCELLED",
-    "totalCost": 10800.0
+    "endDate": "2021-06-19",
+    "amountOfNights": 0,
+    "state": "ACTIVE",
+    "totalCost": 0.0
   },
   {
     "id": 4,
@@ -38,10 +38,10 @@
     "idMainPassenger": "14589623",
     "idOptionalPassenger": "14874804",
     "startDate": "2021-06-27",
-    "endDate": "2021-07-11",
-    "amountOfNights": 14,
+    "endDate": "2021-07-04",
+    "amountOfNights": 0,
     "state": "ACTIVE",
-    "totalCost": 16800.0
+    "totalCost": 0.0
   },
   {
     "id": 5,
@@ -49,10 +49,10 @@
     "idMainPassenger": "14874804",
     "idOptionalPassenger": "38530953",
     "startDate": "2021-06-07",
-    "endDate": "2021-06-15",
-    "amountOfNights": 8,
+    "endDate": "2021-06-14",
+    "amountOfNights": 0,
     "state": "ACTIVE",
-    "totalCost": 22400.0
+    "totalCost": 0.0
   },
   {
     "id": 6,
@@ -60,15 +60,15 @@
     "idMainPassenger": "38530953",
     "idOptionalPassenger": "14874804",
     "startDate": "2021-06-17",
-    "endDate": "2021-07-07",
-    "amountOfNights": 20,
+    "endDate": "2021-06-24",
+    "amountOfNights": 0,
     "state": "ACTIVE",
-    "totalCost": 56000.0
+    "totalCost": 0.0
   },
   {
     "id": 7,
     "idRoom": 135,
-    "idMainPassenger": "35892293",
+    "idMainPassenger": "38530953",
     "idOptionalPassenger": "",
     "startDate": "2021-07-15",
     "endDate": "2021-08-01",
