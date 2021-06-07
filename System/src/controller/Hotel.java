@@ -10,7 +10,9 @@ import repository.UserRepository;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -208,14 +210,14 @@ public class Hotel {
         char[] charsFirstName = firstName.toCharArray();
         char[] charsLastName = lastName.toCharArray();
 
-        for (int i = 0; i < charsFirstName.length && flag == false; i++) {
+        for (int i = 0; i < charsFirstName.length && !flag; i++) {
 
             if (Character.isDigit(charsFirstName[i])) {
 
                 flag = true;
             }
         }
-        for (int i = 0; i < charsLastName.length && flag == false; i++) {
+        for (int i = 0; i < charsLastName.length && !flag; i++) {
 
             if (Character.isDigit(charsLastName[i])) {
 
@@ -493,11 +495,10 @@ public class Hotel {
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
     public String createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
-
         String message;
         if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
-
-            Booking booking = new Booking(idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
+            int lastBookingId = getLastBookingId();
+            Booking booking = new Booking(lastBookingId+1, idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
             List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
             if (checkBookings.isEmpty()) {
 
@@ -664,6 +665,17 @@ public class Hotel {
         return message;
     }
 
+    //TODO Get Orellano's approval
+    public int getLastBookingId(){
+        Optional<Booking> auxBooking = getBookings().stream().max(Comparator.comparing(booking -> booking.getId()));
+        if(!auxBooking.isEmpty() && auxBooking != null){
+            return auxBooking.get().getId();
+        } else {
+            return 0;
+        }
+
+    }
+
     public List<Booking> getCheckedBookings() {
 
         return getBookings().stream().filter(booking -> booking.getState().equals(State.CHECKED)).collect(Collectors.toList());
@@ -763,8 +775,9 @@ public class Hotel {
 
     // ╠═══════════════════════════════ Room Methods // 'ABML' order ═══════════════════════════════╣
     public String createRoom(Category category, Availability availability) {
+        int lastRoomNumber = getLastRoomNumber();
 
-        rooms.add(new Room(category, availability));
+        rooms.add(new Room(lastRoomNumber+1, category, availability));
 
         return "Room created successfully";
     }
@@ -883,6 +896,19 @@ public class Hotel {
         }
 
         return message;
+    }
+
+    //TODO Get Orellano's approval
+    public int getLastRoomNumber(){
+        Optional<Room> auxRoom = getRooms().stream().max(Comparator.comparing(room -> room.getNumber()));
+
+        if(!auxRoom.isEmpty() && auxRoom != null){
+            return auxRoom.get().getNumber();
+        }
+        else{
+            return 100;
+        }
+
     }
 
     public List<Room> getAvailableRooms(LocalDate startDate, LocalDate endDate) {
@@ -1135,11 +1161,11 @@ public class Hotel {
     public void bookingHC() {
         if (getBookings().isEmpty()) {
             createBooking(101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7));
-            createBooking(101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7));
-            createBooking(102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7));
-            createBooking(102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7));
-            createBooking(103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7));
-            createBooking(103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7));
+            createBooking(101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(10));
+            createBooking(102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(9));
+            createBooking(102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(14));
+            createBooking(103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(8));
+            createBooking(103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(20));
             cancelBooking(3);
         }
     }
