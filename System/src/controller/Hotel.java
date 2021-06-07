@@ -1,5 +1,7 @@
 package controller;
 
+import exception.ActiveBookingException;
+import exception.UserNotFoundException;
 import model.*;
 import repository.BookingRepository;
 import repository.RoomRepository;
@@ -112,7 +114,7 @@ public class Hotel {
         return message;
     }
 
-    public String deactivateAccount(String dni) {
+    public String deactivateAccount(String dni) throws ActiveBookingException {
 
         String message;
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
@@ -143,13 +145,17 @@ public class Hotel {
             }
         } else {
 
-            message = "You can not deactivate your account. There are active bookings";
+            throw new ActiveBookingException();
         }
 
         return message;
     }
 
-    public String changeFullName(String dni, String firstName, String lastName) {
+    public User searchUserById(String idUser) {
+        return users.search(idUser);
+    }
+
+    public String changeFullName(String dni, String firstName, String lastName) throws UserNotFoundException {
 
         String message;
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
@@ -159,7 +165,8 @@ public class Hotel {
             User auxUser = this.users.search(dni);
             if (auxUser != null) {
 
-                if (!(firstName.matches(".*\\d.*") || !(lastName.matches(".*\\d.*")))) {
+                //!(firstName.matches(".*\\d.*") || !(lastName.matches(".*\\d.*")))
+                if (!ifStringContainsDigits(firstName, lastName)) {
 
                     if (!firstName.isEmpty() || firstName.isBlank()) {
 
@@ -180,11 +187,11 @@ public class Hotel {
                     }
                 } else {
 
-                    message = "Your name can not contains numbers. Please try again";
+                    message = "Your name can not contains numbers, spaces or special characters. Please try again";
                 }
             } else {
 
-                message = "User not found";
+                throw new UserNotFoundException();
             }
         } else {
 
@@ -192,6 +199,31 @@ public class Hotel {
         }
 
         return message;
+    }
+
+    public boolean ifStringContainsDigits(String firstName, String lastName) {
+
+        boolean flag = false;
+
+        char[] charsFirstName = firstName.toCharArray();
+        char[] charsLastName = lastName.toCharArray();
+
+        for (int i = 0; i < charsFirstName.length && flag == false; i++) {
+
+            if (Character.isDigit(charsFirstName[i])) {
+
+                flag = true;
+            }
+        }
+        for (int i = 0; i < charsLastName.length && flag == false; i++) {
+
+            if (Character.isDigit(charsLastName[i])) {
+
+                flag = true;
+            }
+        }
+
+        return flag;
     }
 
     public String changeAge(String dni, int age) {
@@ -203,11 +235,16 @@ public class Hotel {
 
             if (age > 18) {
 
-                auxUser.setAge(age);
-                users.edit(auxUser);
+                if (age <= 100) {
 
-                message = "The changes were made successfully";
+                    auxUser.setAge(age);
+                    users.edit(auxUser);
 
+                    message = "The changes were made successfully";
+                } else {
+
+                    message = "Sorry but the maximum allowed age is 100";
+                }
             } else {
 
                 message = "Sorry but you need to be at least 18 to change your age";
@@ -732,22 +769,53 @@ public class Hotel {
         return "Room created successfully";
     }
 
+    public String activateRoom(int idRoom) {
+
+        String message = "";
+        Room auxRoom = this.rooms.search(idRoom);
+
+        if (auxRoom != null) {
+
+            if (auxRoom.getAvailability() == Availability.OUT_OF_SERVICE) {
+
+                auxRoom.setAvailability(Availability.CLEANING);
+                rooms.edit(auxRoom);
+
+                message = "The room was activated successfully. Needs to be cleaned";
+            } else {
+
+                message = "Room is already active";
+            }
+        } else {
+
+            message = "Room not found";
+        }
+
+        return message;
+    }
+
     public String deactivateRoom(int idRoom) {
 
         String message;
-        List<Booking> checkBooking = getActiveBookingsByRoom(idRoom);
+        Room auxRoom = rooms.search(idRoom);
 
-        if (checkBooking == null) {
+        if (auxRoom != null) {
 
-            Room auxRoom = rooms.search(idRoom);
-            if (auxRoom != null) {
+            List<Booking> checkActiveBookings = getActiveBookingsByRoom(idRoom);
+            if (checkActiveBookings == null) {
 
                 if (auxRoom.getAvailability() != Availability.OCCUPIED) {
 
-                    changeRoomAvailability(idRoom, Availability.OUT_OF_SERVICE);
-                    rooms.edit(auxRoom);
+                    if (auxRoom.getAvailability() != Availability.OUT_OF_SERVICE) {
 
-                    message = "Room successfully deactivated";
+                        changeRoomAvailability(idRoom, Availability.OUT_OF_SERVICE);
+                        rooms.edit(auxRoom);
+
+                        message = "Room successfully deactivated";
+                    } else {
+
+                        message = "Room already deactivated";
+                    }
                 } else {
 
                     message = "Room is occupied. Please, try later";
@@ -755,11 +823,11 @@ public class Hotel {
 
             } else {
 
-                message = "Room not found";
+                message = "The room cannot be deactivated because there are current bookings on";
             }
         } else {
 
-            message = "The room cannot be deactivated because there are current bookings on";
+            message = "Room not found";
         }
 
         return message;
@@ -937,7 +1005,11 @@ public class Hotel {
                 , "something@asomething.com"
                 , "pass123"
                 , "Mar del Plata"));
-        deactivateAccount("14785972");
+        try {
+            deactivateAccount("14785972");
+        } catch (ActiveBookingException e) {
+            e.printStackTrace();
+        }
 
         register(new Passenger("38530953"
                 , "Felipe"
@@ -971,7 +1043,11 @@ public class Hotel {
                 , "matias@gmail.com"
                 , "mati1966"
                 , Shift.AFTERNOON));
-        deactivateAccount("18956323");
+        try {
+            deactivateAccount("18956323");
+        } catch (ActiveBookingException e) {
+            e.printStackTrace();
+        }
 
         register(new Receptionist("35236598"
                 , "Santiago"
@@ -993,7 +1069,11 @@ public class Hotel {
                 , "2235505065"
                 , "carlos.patriarcado@gmail.com"
                 , "patriarcado123"));
-        deactivateAccount("13525252");
+        try {
+            deactivateAccount("13525252");
+        } catch (ActiveBookingException e) {
+            e.printStackTrace();
+        }
 
         register(new Manager("25525252"
                 , "Natalia"
