@@ -22,15 +22,18 @@ public class Hotel {
     private final UserRepository users;
     private final BookingRepository bookings;
     private final RoomRepository rooms;
+    private final String name;
+    private final String address;
+    private final String telephone;
 
 
-    public Hotel() throws IOException {
+    public Hotel(String name, String address, String telephone) throws IOException {
+        this.name = name;
+        this.address = address;
+        this.telephone = telephone;
         this.users = new UserRepository();
         this.bookings = new BookingRepository();
         this.rooms = new RoomRepository();
-       // this.userHC();
-     //   this.roomHC();
-       // this.bookingHC();
     }
 
     public List<User> getUsers() {
@@ -45,22 +48,30 @@ public class Hotel {
         return rooms.getRooms();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
     public void loadData() throws IOException {
         users.readGson();
+        if(users.getUsers().size()== 0){ this.userHC();} //to make sure that the list always has data
+
         bookings.readGson();
+        if(this.bookings.getRoomBookings().size() == 0) {   this.bookingHC();}
+
         rooms.readGson();
+        if(this.rooms.getRooms().size() == 0) { this.roomHC();}
     }
 
     public void saveData() throws IOException {
-        //TODO preguntar a Orellano - read and write methods throw many exceptions....JsonExceptions inherit from RunTimeE
-        //TODO is it ok that this method only throws an IOException?
-        /*RuntimeException is the superclass of those exceptions that can be thrown during the normal operation
-        of the Java Virtual Machine.
-        RuntimeException and its subclasses are unchecked exceptions.
-        Unchecked exceptions do not need to be declared in a method or constructor's throws clause if they can be thrown
-        by the execution of the method or constructor and propagate outside the method or constructor boundary.
-        Since: 1.0
-        Author: Frank Yellin*/
         users.writeGson();
         bookings.writeGson();
         rooms.writeGson();
