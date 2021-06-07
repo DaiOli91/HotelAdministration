@@ -16,7 +16,7 @@ public interface IRepository<T, S> {
 
     public void edit(T t);
 
-    public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException;
+    public void writeGson() throws IOException;
 
-    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException;
+    public void readGson() throws IOException;
 }
