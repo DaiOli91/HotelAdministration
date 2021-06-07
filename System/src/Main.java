@@ -56,7 +56,7 @@ public class Main {
                         if (age >= 18 && age < 100) {
 
                             while (genderOption <= 0 || genderOption > 4) {
-                                System.out.print("Gender --> | [1]. Male - [2]. Female - [3]. Other - [4]. N/A | --> Option: ");
+                                System.out.print("Gender\n¯¯¯¯¯¯¯\n[1]. Male\n[2]. Female\n[3]. Other\n[4]. N/A\n\nOption: ");
                                 genderOption = scan.nextInt();
                                 switch (genderOption) {
                                     case 1: {

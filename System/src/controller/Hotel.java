@@ -70,13 +70,14 @@ public class Hotel {
     public String register(User user) throws IOException {
 
         String message;
-        if (users.getUsers() == null) {
+        if (users.getUsers().isEmpty()) {
 
             this.loadData();
         }
         if (this.users.search(user.getDni()) == null) {
 
             users.add(user);
+            this.saveData();
             message = "User added successfully";
         } else {
 
@@ -498,7 +499,7 @@ public class Hotel {
         String message;
         if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
             int lastBookingId = getLastBookingId();
-            Booking booking = new Booking(lastBookingId+1, idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
+            Booking booking = new Booking(lastBookingId + 1, idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
             List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
             if (checkBookings.isEmpty()) {
 
@@ -666,9 +667,9 @@ public class Hotel {
     }
 
     //TODO Get Orellano's approval
-    public int getLastBookingId(){
+    public int getLastBookingId() {
         Optional<Booking> auxBooking = getBookings().stream().max(Comparator.comparing(booking -> booking.getId()));
-        if(!auxBooking.isEmpty() && auxBooking != null){
+        if (!auxBooking.isEmpty() && auxBooking != null) {
             return auxBooking.get().getId();
         } else {
             return 0;
@@ -777,7 +778,7 @@ public class Hotel {
     public String createRoom(Category category, Availability availability) {
         int lastRoomNumber = getLastRoomNumber();
 
-        rooms.add(new Room(lastRoomNumber+1, category, availability));
+        rooms.add(new Room(lastRoomNumber + 1, category, availability));
 
         return "Room created successfully";
     }
@@ -899,13 +900,12 @@ public class Hotel {
     }
 
     //TODO Get Orellano's approval
-    public int getLastRoomNumber(){
+    public int getLastRoomNumber() {
         Optional<Room> auxRoom = getRooms().stream().max(Comparator.comparing(room -> room.getNumber()));
 
-        if(!auxRoom.isEmpty() && auxRoom != null){
+        if (!auxRoom.isEmpty() && auxRoom != null) {
             return auxRoom.get().getNumber();
-        }
-        else{
+        } else {
             return 100;
         }
 
