@@ -20,13 +20,10 @@ public class Main {
         try {
 
             OllivandersHotel = new Hotel();
-            OllivandersHotel.register(new Manager("35892293", "Daiana", "Olivera", 30, Gender.FEMALE, "Solis 5526", "2235566592", "oliveratup@gmail.com", "pass456"));
-            OllivandersHotel.register(new Manager("39098436", "Walter", "Moretti", 25, Gender.MALE, "Dardo Rocha 70", "2235484378", "wally.moretti@gmai.com", "thegame123"));
         } catch (IOException e) {
 
-            e.printStackTrace();
+            System.out.println("\n" + e.getMessage() + "\n");
         }
-
 
         int z = 0, option;
 
@@ -173,7 +170,7 @@ public class Main {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Please, enter only numbers.");
+                System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
             }

@@ -161,7 +161,7 @@ public class MenuSeeUsers {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Please, enter only numbers.");
+                System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
             }
