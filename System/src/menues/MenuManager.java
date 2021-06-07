@@ -51,7 +51,7 @@ public class MenuManager {
                             if (age >= 18) {
 
                                 while (genderOption <= 0 || genderOption > 4) {
-                                    System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                                    System.out.print("Gender\n¯¯¯¯¯¯\n[1]. Male\n[2]. Female\n[3]. Other\n[4.] N/A\n\nOption: ");
                                     genderOption = scan.nextInt();
                                     switch (genderOption) {
                                         case 1: {
@@ -91,7 +91,7 @@ public class MenuManager {
                                     System.out.print("Password: ");
                                     password = scan.next();
 
-                                    System.out.print("New Employee (1. Manager, 2. Receptionist): ");
+                                    System.out.print("New Employee\n¯¯¯¯¯¯¯¯¯¯\n[1]. Manager\n[2]. Receptionist\n\nOption: ");
                                     employeeOption = scan.nextInt();
 
                                     if (employeeOption == 1) {
@@ -100,7 +100,7 @@ public class MenuManager {
                                         System.out.println("\n" + OllivandersHotel.register(mUser));
                                     } else if (employeeOption == 2) {
 
-                                        System.out.print("Shift (1. Morning, 2. Afternoon, 3. Night): ");
+                                        System.out.print("Shift\n¯¯¯¯¯¯\n[1]. Morning\n[2]. Afternoon\n[3]. Night\n\nOption: ");
                                         shiftOption = scan.nextInt();
 
                                         if (shiftOption == 1) {
@@ -148,7 +148,7 @@ public class MenuManager {
                     case 3: {
                         System.out.println("\nEdit Account\n");
 
-                        System.out.print("1. Edit my Account\n2. Edit Receptionist Account\n3. Edit Passenger Account\n\nOption: ");
+                        System.out.print("[1]. Edit my Account\n[2]. Edit Receptionist Account\n[3]. Edit Passenger Account\n\nOption: ");
                         int editOption = scan.nextInt();
 
                         if (editOption == 1) {
@@ -200,7 +200,7 @@ public class MenuManager {
 
                         System.out.print("Enter user's DNI: ");
                         dni = scan.next();
-                        System.out.println("\n1. Activate User\n2. Deactivate User\n\nOption: ");
+                        System.out.print("\n[1]. Activate User\n[2]. Deactivate User\n\nOption: ");
                         activeDeactiveOption = scan.nextInt();
 
                         if (activeDeactiveOption == 1) {
@@ -225,7 +225,7 @@ public class MenuManager {
 
                         while (categoryOption <= 0 || categoryOption > 4) {
 
-                            System.out.print("Category (1. Guest, 2. Junior, 3. Presidential, 4. Executive): ");
+                            System.out.print("Category\n¯¯¯¯¯¯¯¯¯\n[1]. Guest\n[2]. Junior\n[3]. Presidential\n[4]. Executive\n\nOption: ");
                             categoryOption = scan.nextInt();
                             switch (categoryOption) {
                                 case 1: {
@@ -268,7 +268,7 @@ public class MenuManager {
 
                         while (categoryOption == 0 || categoryOption > 4) {
 
-                            System.out.print("Category (1. Guest, 2. Junior, 3. Presidential, 4. Executive): ");
+                            System.out.print("Category\n¯¯¯¯¯¯¯¯¯\n[1]. Guest\n[2]. Junior\n[3]. Presidential\n[4]. Executive\n\nOption: ");
                             categoryOption = scan.nextInt();
                             switch (categoryOption) {
                                 case 1: {
@@ -303,7 +303,7 @@ public class MenuManager {
 
                         System.out.print("Please enter ID Room: ");
                         idRoom = scan.nextInt();
-                        System.out.println("\n1. Activate Room\n2. Deactivate Room");
+                        System.out.print("\n[1]. Activate Room\n[2]. Deactivate Room\n\nOption: ");
                         activeDeactiveOption = scan.nextInt();
 
                         if (activeDeactiveOption == 1) {
@@ -337,7 +337,7 @@ public class MenuManager {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Please, enter only numbers.");
+                System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
             }

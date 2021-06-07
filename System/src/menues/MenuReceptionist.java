@@ -145,7 +145,7 @@ public class MenuReceptionist {
 
                         List<Booking> userBookings;
 
-                        System.out.println("1. All Bookings by User\n2. Active Bookings by User\n");
+                        System.out.print("[1]. All Bookings by User\n[2]. Active Bookings by User\n");
                         System.out.print("Option: ");
                         int bookingOption = scan.nextInt();
                         switch (bookingOption) {
@@ -210,7 +210,7 @@ public class MenuReceptionist {
                         idRoom = scan.nextInt();
 
                         while (availabilityOption == 0 || availabilityOption > 4) {
-                            System.out.print("Availability (1. Free, 2. Cleaning, 3. In Desinfection, 4. Under repair): ");
+                            System.out.print("Availability\n¯¯¯¯¯¯¯¯¯¯¯¯\n[1]. Free\n[2]. Cleaning\n[3]. In Desinfection\n[4]. Under repair\n\nOption: ");
                             availabilityOption = scan.nextInt();
                             switch (availabilityOption) {
                                 case 1: {
@@ -247,7 +247,7 @@ public class MenuReceptionist {
 
                         // TODO Maybe needs changes.
 
-                        System.out.print("1. Edit my Account\n2. Edit Passenger Account\n");
+                        System.out.print("[1]. Edit my Account\n[2]. Edit Passenger Account\n\nOption: ");
                         int editOption = scan.nextInt();
                         if (editOption == 1) {
 
@@ -284,7 +284,7 @@ public class MenuReceptionist {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Please, enter only numbers.");
+                System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
             }

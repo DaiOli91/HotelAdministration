@@ -75,7 +75,7 @@ public class MenuEditAccount {
                         System.out.println("\nEdit Gender\n");
 
                         while (genderOption <= 0 || genderOption > 4) {
-                            System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
+                            System.out.print("Gender\n¯¯¯¯¯¯\n[1]. Male\n[2]. Female\n[3]. Other\n[4]. N/A\n\nOption: ");
                             genderOption = scan.nextInt();
                             switch (genderOption) {
                                 case 1: {
@@ -150,7 +150,7 @@ public class MenuEditAccount {
 
                             while (shiftOption == 0 || shiftOption > 3) {
                                 System.out.println("If you are not a receptionist, this change will not apply");
-                                System.out.print("Shift (1. Morning, 2. Afternoon, 3. Night): ");
+                                System.out.print("Shift\n¯¯¯¯¯¯\n[1]. Morning\n[2]. Afternoon\n[3]. Night\n\nOption: ");
                                 shiftOption = scan.nextInt();
                                 switch (shiftOption) {
                                     case 1: {
@@ -191,7 +191,7 @@ public class MenuEditAccount {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Please, enter only numbers.");
+                System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
             }
