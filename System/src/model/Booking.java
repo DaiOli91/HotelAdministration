@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public class Booking {
 
     private int id;
-    private static int contId;
     private int idRoom;
     private String idMainPassenger;
     private String idOptionalPassenger;
@@ -16,9 +15,9 @@ public class Booking {
     private double totalCost;
 
 
-    public Booking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
+    public Booking(int id, int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
 
-        this.id = ++contId;
+        this.id = id;
         this.idRoom = idRoom;
         this.idMainPassenger = idMainPassenger;
         this.idOptionalPassenger = idOptionalPassenger;

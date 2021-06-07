@@ -3,12 +3,11 @@ package model;
 public class Room {
 
     private int number;
-    private static int contnumber = 100;
     private Category category;
     private Availability availability;
 
-    public Room(Category category, Availability availability) {
-        this.number = ++contnumber;
+    public Room(int number, Category category, Availability availability) {
+        this.number = number;
         this.category = category;
         this.availability = availability;
     }
