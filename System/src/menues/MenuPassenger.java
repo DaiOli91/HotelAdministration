@@ -1,6 +1,7 @@
 package menues;
 
 import controller.Hotel;
+import exception.ActiveBookingException;
 import model.Room;
 import model.User;
 
@@ -176,7 +177,12 @@ public class MenuPassenger {
                     }
                     case 5: {
                         System.out.println("\nDeactivate Account\n");
-                        System.out.println(OllivandersHotel.deactivateAccount(loggedUser.getDni()) + "\n");
+                        try {
+                            System.out.println(OllivandersHotel.deactivateAccount(loggedUser.getDni()) + "\n");
+                        } catch (ActiveBookingException e) {
+
+                            System.out.println("\n" + e.getMessage() + "\n");
+                        }
                         z++;
                         break;
                     }

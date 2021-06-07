@@ -1,6 +1,7 @@
 package menues;
 
 import controller.Hotel;
+import exception.UserNotFoundException;
 import model.Gender;
 import model.Manager;
 import model.Shift;
@@ -23,13 +24,13 @@ public class MenuEditAccount {
         while (z == 0) {
 
             System.out.println("\nMenu Edit Account\n==============\n");
-            System.out.println("1. See my Info");
+            System.out.println("1. See Info");
             System.out.println("2. Edit Full Name\n3. Edit Age\n4. Edit Gender");
             System.out.println("5. Edit Address\n6. Edit Telephone");
             System.out.println("7. Edit email\n8. Edit Password");
             if (user instanceof Manager) {
 
-                System.out.println("9. Edit Receptionist Shift");
+                System.out.println("9. For Receptionist: Edit Shift");
             }
             System.out.println("\n0. Back");
             System.out.print("Option: ");
@@ -39,20 +40,26 @@ public class MenuEditAccount {
                 option = scan.nextInt();
                 switch (option) {
                     case 1: {
-                        System.out.println("\nSee my Info\n");
+                        System.out.println("\nSee Info\n");
 
-                        System.out.println("\n" + user.toString() + "\n");
+                        System.out.println(user.toString() + "\n");
                         break;
                     }
                     case 2: {
                         System.out.println("\nEdit Full Name\n");
 
+                        System.out.println("Please do not enter numbers, spaces or special character");
                         System.out.print("Enter new first name: ");
                         firstName = scan.next();
                         System.out.print("Enter new last name: ");
                         lastName = scan.next();
 
-                        System.out.println("\n" + OlivandersHotel.changeFullName(user.getDni(), firstName, lastName + "\n"));
+                        try {
+                            System.out.println("\n" + OlivandersHotel.changeFullName(user.getDni(), firstName, lastName) + "\n");
+                        } catch (UserNotFoundException e) {
+
+                            System.out.println("\n" + e.getMessage() + "\n");
+                        }
                         break;
                     }
                     case 3: {
@@ -67,7 +74,7 @@ public class MenuEditAccount {
                     case 4: {
                         System.out.println("\nEdit Gender\n");
 
-                        while (genderOption == 0 || genderOption > 4) {
+                        while (genderOption <= 0 || genderOption > 4) {
                             System.out.print("Gender (1. Male, 2. Female, 3. Other, 4. N/A): ");
                             genderOption = scan.nextInt();
                             switch (genderOption) {
@@ -95,7 +102,7 @@ public class MenuEditAccount {
                                 }
                             }
                         }
-
+                        genderOption = 0;
                         System.out.println("\n" + OlivandersHotel.changeGender(user.getDni(), gender) + "\n");
                         break;
                     }
@@ -103,10 +110,10 @@ public class MenuEditAccount {
                         System.out.println("\nEdit Address\n");
 
                         System.out.print("Enter new address: ");
-                        address = scan.nextLine();
+                        scan.nextLine();
                         address = scan.nextLine();
 
-                        System.out.println("\n" + OlivandersHotel.changeAddress(user.getDni(), address + "\n"));
+                        System.out.println("\n" + OlivandersHotel.changeAddress(user.getDni(), address) + "\n");
                         break;
                     }
                     case 6: {
@@ -115,7 +122,7 @@ public class MenuEditAccount {
                         System.out.print("Enter new telephone: ");
                         telephone = scan.next();
 
-                        System.out.println("\n" + OlivandersHotel.changeTelephone(user.getDni(), telephone + "\n"));
+                        System.out.println("\n" + OlivandersHotel.changeTelephone(user.getDni(), telephone) + "\n");
                         break;
                     }
                     case 7: {
@@ -142,6 +149,7 @@ public class MenuEditAccount {
                             System.out.println("\nEdit Receptionist Shift\n");
 
                             while (shiftOption == 0 || shiftOption > 3) {
+                                System.out.println("If you are not a receptionist, this change will not apply");
                                 System.out.print("Shift (1. Morning, 2. Afternoon, 3. Night): ");
                                 shiftOption = scan.nextInt();
                                 switch (shiftOption) {
