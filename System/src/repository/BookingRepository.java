@@ -23,7 +23,7 @@ public class BookingRepository implements IRepository<Booking, Integer> {
 
     public BookingRepository() {
         this.roomBookings = new ArrayList<>();
-        File file = new File(BOOKINGSFILE);
+        file = new File(BOOKINGSFILE);
     }
 
     public List<Booking> getRoomBookings() {
@@ -85,15 +85,18 @@ public class BookingRepository implements IRepository<Booking, Integer> {
     @Override
     public void readGson() throws IOException {
 
-        File file = new File(BOOKINGSFILE);
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-        Gson gson = gsonBuilder.create();
+        if(file.exists()){
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+            Gson gson = gsonBuilder.create();
 
-        this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
-        }.getType());
+            this.roomBookings = gson.fromJson(bufferedReader, new TypeToken<List<Booking>>() {
+            }.getType());
 
-        bufferedReader.close();
+            bufferedReader.close();
+
+        }
+
     }
 }

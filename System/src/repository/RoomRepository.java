@@ -15,10 +15,13 @@ import java.util.List;
 public class RoomRepository implements IRepository<Room, Integer> {
 
     private List<Room> rooms;
+    private File file;
     private static final String ROOMSFILE = "rooms.json";
 
     public RoomRepository() {
+
         this.rooms = new ArrayList<>();
+        file = new File(ROOMSFILE);
     }
 
     public List<Room> getRooms() {
@@ -61,43 +64,28 @@ public class RoomRepository implements IRepository<Room, Integer> {
     }
 
     @Override
-    public void writeGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
-        File file = new File(ROOMSFILE);
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public void writeGson() throws IOException {
+        if (this.rooms.size() > 0) {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        gson.toJson(this.rooms, bufferedWriter);
+            gson.toJson(this.rooms, bufferedWriter);
 
-        try {
             bufferedWriter.flush();
             bufferedWriter.close();
-        } catch (FileNotFoundException fileNotFound) {
-            throw new FileNotFoundException();
-        } catch (JsonIOException jsonIo) {
-            throw new JsonIOException(jsonIo);
-        } catch (JsonSyntaxException jsonSyntax) {
-            throw new JsonSyntaxException(jsonSyntax);
         }
     }
 
     @Override
-    public void readGson() throws FileNotFoundException, IOException, JsonIOException, JsonSyntaxException {
+    public void readGson() throws IOException {
 
-        try {
-            File file = new File(ROOMSFILE);
+        if (file.exists()) {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             Gson gson = new Gson();
             this.rooms = gson.fromJson(bufferedReader, new TypeToken<List<Room>>() {
             }.getType());
 
             bufferedReader.close();
-
-        } catch (FileNotFoundException fileNotFound) {
-            throw new FileNotFoundException();
-        } catch (JsonIOException jsonIo) {
-            throw new JsonIOException(jsonIo);
-        } catch (JsonSyntaxException jsonSyntax) {
-            throw new JsonSyntaxException(jsonSyntax);
         }
     }
 }
