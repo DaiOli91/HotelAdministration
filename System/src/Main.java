@@ -56,7 +56,7 @@ public class Main {
                         System.out.print("Age: ");
                         age = scan.nextInt();
 
-                        if (age >= 18) {
+                        if (age >= 18 && age < 100) {
 
                             while (genderOption <= 0 || genderOption > 4) {
                                 System.out.print("Gender --> | [1]. Male - [2]. Female - [3]. Other - [4]. N/A | --> Option: ");
@@ -117,7 +117,7 @@ public class Main {
                             }
                         } else {
 
-                            System.out.println("\nYou need to be at least 18 years old to register\n");
+                            System.out.println("\nYou need to be between 18 and 99 years old\n");
                         }
                         break;
                     }
