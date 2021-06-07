@@ -1,32 +1,19 @@
 [
   {
-    "employeeNumber": "c5e403d5-3793-4f49-a45b-b28007060985",
-    "dni": "35892293",
-    "firstName": "Daiana",
-    "lastName": "Olivera",
-    "age": 30,
+    "employeeNumber": "2f430f8d-02d5-4c6f-84a4-5d7a9fd5dd3e",
+    "dni": "11111111",
+    "firstName": "Super",
+    "lastName": "Admin",
+    "age": 100,
     "gender": "FEMALE",
-    "address": "Solis 5526",
-    "telephone": "2235566592",
-    "email": "oliveratup@gmail.com",
-    "password": "pass456",
+    "address": "Something 123",
+    "telephone": "111111111",
+    "email": "superadmin@mail.com",
+    "password": "superadmin123",
     "active": true
   },
   {
-    "employeeNumber": "20612216-2237-496b-8c50-8f74e4df18f7",
-    "dni": "39098436",
-    "firstName": "Walter",
-    "lastName": "Moretti",
-    "age": 25,
-    "gender": "MALE",
-    "address": "Dardo Rocha 70",
-    "telephone": "2235484378",
-    "email": "wally.moretti@gmail.com",
-    "password": "tuvieja",
-    "active": true
-  },
-  {
-    "employeeNumber": "b2cee611-0b26-474c-b979-156519feb54e",
+    "employeeNumber": "41f97a8b-0694-4421-85da-62e30a8cfeba",
     "dni": "13525252",
     "firstName": "Calos",
     "lastName": "Patriarcado",
@@ -36,10 +23,10 @@
     "telephone": "2235505065",
     "email": "carlos.patriarcado@gmail.com",
     "password": "patriarcado123",
-    "active": true
+    "active": false
   },
   {
-    "employeeNumber": "2d663ec2-d85b-4b3b-a33e-05e4daf4dbfb",
+    "employeeNumber": "cb267104-172d-4a4d-9e9e-4cab00ca9550",
     "dni": "25525252",
     "firstName": "Natalia",
     "lastName": "Bossy",
@@ -49,19 +36,6 @@
     "telephone": "2235235689",
     "email": "natybossy@gmail.com",
     "password": "bossy123",
-    "active": true
-  },
-  {
-    "employeeNumber": "6a19d76d-3905-4fc9-9746-5a0d8da22074",
-    "dni": "14671121",
-    "firstName": "Graciela",
-    "lastName": "Mirol",
-    "age": 60,
-    "gender": "FEMALE",
-    "address": "Dardo Rocha 70",
-    "telephone": "2235484378",
-    "email": "gracielammirol@gmail.com",
-    "password": "walterelmejor",
     "active": true
   }
 ]

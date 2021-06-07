@@ -1,7 +1,7 @@
 [
   {
     "shift": "MORNING",
-    "employeeNumber": "d2809498-b976-4dac-8bdb-b825b691b574",
+    "employeeNumber": "af1bc263-bf42-4c7b-a4d2-008448787b1d",
     "dni": "18956565",
     "firstName": "Sofia",
     "lastName": "Caceres",
@@ -14,8 +14,8 @@
     "active": true
   },
   {
-    "shift": "AFTERNOON",
-    "employeeNumber": "39ca852d-e1bf-4351-9753-cf50b78b3851",
+    "shift": "UNASIGNED",
+    "employeeNumber": "0ef1f556-05d2-44ba-bcee-5deb01c060c0",
     "dni": "18956323",
     "firstName": "Matias",
     "lastName": "Palacios",
@@ -25,11 +25,11 @@
     "telephone": "2235686323",
     "email": "matias@gmail.com",
     "password": "mati1966",
-    "active": true
+    "active": false
   },
   {
     "shift": "NIGHT",
-    "employeeNumber": "b2c4d885-c9db-4bce-8baf-91c182b95453",
+    "employeeNumber": "6947b87c-cb25-4755-9baf-74f2a95092f3",
     "dni": "35236598",
     "firstName": "Santiago",
     "lastName": "Gonzalez",
