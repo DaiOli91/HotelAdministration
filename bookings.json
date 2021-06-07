@@ -4,65 +4,76 @@
     "idRoom": 101,
     "idMainPassenger": "38530953",
     "idOptionalPassenger": "14874804",
-    "startDate": "2021-06-05",
-    "endDate": "2021-06-12",
-    "amountOfNights": 0,
+    "startDate": "2021-06-07",
+    "endDate": "2021-06-14",
+    "amountOfNights": 7,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 33600.0
   },
   {
     "id": 2,
     "idRoom": 101,
     "idMainPassenger": "14589623",
     "idOptionalPassenger": "14874804",
-    "startDate": "2021-07-05",
-    "endDate": "2021-07-12",
-    "amountOfNights": 0,
+    "startDate": "2021-07-07",
+    "endDate": "2021-07-17",
+    "amountOfNights": 10,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 48000.0
   },
   {
     "id": 3,
     "idRoom": 102,
     "idMainPassenger": "14874804",
     "idOptionalPassenger": "14589623",
-    "startDate": "2021-06-10",
-    "endDate": "2021-06-17",
-    "amountOfNights": 0,
-    "state": "ACTIVE",
-    "totalCost": 0.0
+    "startDate": "2021-06-12",
+    "endDate": "2021-06-21",
+    "amountOfNights": 9,
+    "state": "CANCELLED",
+    "totalCost": 10800.0
   },
   {
     "id": 4,
     "idRoom": 102,
     "idMainPassenger": "14589623",
     "idOptionalPassenger": "14874804",
-    "startDate": "2021-06-25",
-    "endDate": "2021-07-02",
-    "amountOfNights": 0,
+    "startDate": "2021-06-27",
+    "endDate": "2021-07-11",
+    "amountOfNights": 14,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 16800.0
   },
   {
     "id": 5,
     "idRoom": 103,
     "idMainPassenger": "14874804",
     "idOptionalPassenger": "38530953",
-    "startDate": "2021-06-05",
-    "endDate": "2021-06-12",
-    "amountOfNights": 0,
+    "startDate": "2021-06-07",
+    "endDate": "2021-06-15",
+    "amountOfNights": 8,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 22400.0
   },
   {
     "id": 6,
     "idRoom": 103,
     "idMainPassenger": "38530953",
     "idOptionalPassenger": "14874804",
-    "startDate": "2021-06-15",
-    "endDate": "2021-06-22",
-    "amountOfNights": 0,
+    "startDate": "2021-06-17",
+    "endDate": "2021-07-07",
+    "amountOfNights": 20,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 56000.0
+  },
+  {
+    "id": 7,
+    "idRoom": 135,
+    "idMainPassenger": "35892293",
+    "idOptionalPassenger": "",
+    "startDate": "2021-07-15",
+    "endDate": "2021-08-01",
+    "amountOfNights": 17,
+    "state": "ACTIVE",
+    "totalCost": 47600.0
   }
 ]
