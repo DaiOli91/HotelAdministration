@@ -72,9 +72,15 @@ public class Hotel {
     }
 
     public void saveData() throws IOException {
-        users.writeGson();
-        bookings.writeGson();
-        rooms.writeGson();
+        if(this.getUsers().size() > 0){
+            users.writeGson();
+        }
+        if(this.getBookings().size() > 0){
+            bookings.writeGson();
+        }
+        if(this.getRooms().size() > 0){
+            rooms.writeGson();
+        }
     }
 
     // ╠═══════════════════════════════ User Methods // 'ABML' order ═══════════════════════════════╣
