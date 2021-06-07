@@ -69,23 +69,20 @@ public class BookingRepository implements IRepository<Booking, Integer> {
     @Override
     public void writeGson() throws IOException {
 
-        if (roomBookings.size() > 0) {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        gson.toJson(this.roomBookings, bufferedWriter);
 
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-            Gson gson = gsonBuilder.setPrettyPrinting().create();
-            gson.toJson(this.roomBookings, bufferedWriter);
-
-            bufferedWriter.flush();
-            bufferedWriter.close();
-        }
+        bufferedWriter.flush();
+        bufferedWriter.close();
     }
 
     @Override
     public void readGson() throws IOException {
 
-        if(file.exists()){
+        if (file.exists()) {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());

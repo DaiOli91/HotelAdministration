@@ -25,11 +25,11 @@ public class UserRepository implements IRepository<User, String> {
 
     public UserRepository() {
         this.users = new ArrayList<>();
-        try{
+        try {
             filePassengers = new File(PASSENGERSFILE);
             fileReceptionists = new File(RECEPTIONISTSFILE);
             fileManagers = new File(MANAGERSFILE);
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             throw npe;
         }
     }
@@ -104,7 +104,6 @@ public class UserRepository implements IRepository<User, String> {
                 }
             }
 
-
             BufferedWriter bwPassengers = new BufferedWriter(new FileWriter(filePassengers));
             BufferedWriter bwReceptionists = new BufferedWriter(new FileWriter(fileReceptionists));
             BufferedWriter bwManagers = new BufferedWriter(new FileWriter(fileManagers));
@@ -124,22 +123,22 @@ public class UserRepository implements IRepository<User, String> {
     @Override
     public void readGson() throws IOException {
 
-       if(fileReceptionists.exists() && fileManagers.exists() && filePassengers.exists()){
-           BufferedReader brPassengers = new BufferedReader(new FileReader(filePassengers));
-           BufferedReader brReceptionists = new BufferedReader(new FileReader(fileReceptionists));
-           BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
-           Gson gson = new GsonBuilder().setPrettyPrinting().create();
-           this.users = gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
-           }.getType());
-           this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<Manager>>() {
-           }.getType()));
-           this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
-           }.getType()));
+        if (fileReceptionists.exists() && fileManagers.exists() && filePassengers.exists()) {
+            BufferedReader brPassengers = new BufferedReader(new FileReader(filePassengers));
+            BufferedReader brReceptionists = new BufferedReader(new FileReader(fileReceptionists));
+            BufferedReader brManagers = new BufferedReader(new FileReader(fileManagers));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            this.users = gson.fromJson(brPassengers, new TypeToken<List<Passenger>>() {
+            }.getType());
+            this.users.addAll(gson.fromJson(brManagers, new TypeToken<List<Manager>>() {
+            }.getType()));
+            this.users.addAll(gson.fromJson(brReceptionists, new TypeToken<List<Receptionist>>() {
+            }.getType()));
 
-           brManagers.close();
-           brPassengers.close();
-           brReceptionists.close();
-       }
+            brManagers.close();
+            brPassengers.close();
+            brReceptionists.close();
+        }
 
     }
 }
