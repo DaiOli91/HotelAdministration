@@ -28,9 +28,9 @@ public class Hotel {
         this.users = new UserRepository();
         this.bookings = new BookingRepository();
         this.rooms = new RoomRepository();
-        //this.userHC();
-        //this.roomHC();
-        //this.bookingHC();
+       // this.userHC();
+     //   this.roomHC();
+       // this.bookingHC();
     }
 
     public List<User> getUsers() {
@@ -1086,86 +1086,53 @@ public class Hotel {
                 , "santi30"
                 , Shift.NIGHT));
 
-        register(new Manager("13525252"
-                , "Calos"
-                , "Patriarcado"
-                , 61
-                , Gender.MALE
-                , "Patagones 6000"
-                , "2235505065"
-                , "carlos.patriarcado@gmail.com"
-                , "patriarcado123"));
-        try {
-            deactivateAccount("13525252");
-        } catch (ActiveBookingException e) {
-            e.printStackTrace();
-        }
-
-        register(new Manager("25525252"
-                , "Natalia"
-                , "Bossy"
-                , 40
+        register(new Manager("35892293"
+                , "Daiana"
+                , "Olivera"
+                , 30
                 , Gender.FEMALE
                 , "San Luis 4052"
+                , "2235506592"
+                , "daiolivera@gmail.com"
+                , "pass123"));
+
+        register(new Manager("39098436"
+                , "Walter"
+                , "Moretti"
+                , 25
+                , Gender.MALE
+                , "Dardo Rocha 70"
                 , "2235235689"
-                , "natybossy@gmail.com"
-                , "bossy123"));
+                , "wally.moretti@gmail.com"
+                , "pass123"));
     }
 
     public void roomHC() {
         if (getRooms().isEmpty()) {
-            createRoom(Category.EXECUTIVE, Availability.FREE);
-            createRoom(Category.GUEST, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.FREE);
-            createRoom(Category.GUEST, Availability.CLEANING);
-            createRoom(Category.GUEST, Availability.OCCUPIED);
-            createRoom(Category.GUEST, Availability.IN_DESINFECTION);
-            createRoom(Category.GUEST, Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE, Availability.FREE);
-            createRoom(Category.GUEST, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.CLEANING);
-            createRoom(Category.JUNIOR, Availability.OCCUPIED);
-            createRoom(Category.JUNIOR, Availability.IN_DESINFECTION);
-            createRoom(Category.JUNIOR, Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE, Availability.FREE);
-            createRoom(Category.GUEST, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.CLEANING);
-            createRoom(Category.PRESIDENTIAL, Availability.OCCUPIED);
-            createRoom(Category.PRESIDENTIAL, Availability.IN_DESINFECTION);
-            createRoom(Category.PRESIDENTIAL, Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE, Availability.FREE);
-            createRoom(Category.GUEST, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.FREE);
-            createRoom(Category.EXECUTIVE, Availability.CLEANING);
-            createRoom(Category.EXECUTIVE, Availability.OCCUPIED);
-            createRoom(Category.EXECUTIVE, Availability.IN_DESINFECTION);
-            createRoom(Category.EXECUTIVE, Availability.OUT_OF_SERVICE);
-            createRoom(Category.EXECUTIVE, Availability.FREE);
-            createRoom(Category.GUEST, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.FREE);
-            createRoom(Category.EXECUTIVE, Availability.FREE);
-            createRoom(Category.GUEST, Availability.FREE);
-            createRoom(Category.JUNIOR, Availability.FREE);
-            createRoom(Category.PRESIDENTIAL, Availability.FREE);
+            rooms.add(new Room(getLastRoomNumber()+1, Category.EXECUTIVE, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.JUNIOR, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.PRESIDENTIAL, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.CLEANING));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.OCCUPIED));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.IN_DESINFECTION));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.OUT_OF_SERVICE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.EXECUTIVE, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.JUNIOR, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber()+1, Category.PRESIDENTIAL, Availability.FREE));
         }
 
     }
 
     public void bookingHC() {
         if (getBookings().isEmpty()) {
-            createBooking(101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7));
-            createBooking(101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(10));
-            createBooking(102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(9));
-            createBooking(102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(14));
-            createBooking(103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(8));
-            createBooking(103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(20));
+            bookings.add(new Booking(getLastBookingId()+1, 101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7)));
+            bookings.add(new Booking(getLastBookingId()+1, 101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId()+1, 102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId()+1, 102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId()+1, 103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7)));
+            bookings.add(new Booking(getLastBookingId()+1, 103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7)));
             cancelBooking(3);
         }
     }
