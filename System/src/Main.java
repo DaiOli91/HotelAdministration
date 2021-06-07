@@ -19,7 +19,7 @@ public class Main {
         Hotel OllivandersHotel = null;
         try {
 
-            OllivandersHotel = new Hotel();
+            OllivandersHotel = new Hotel("Ollivanders", "Belgrano 3998", "4758996");
         } catch (IOException e) {
 
             System.out.println("\n" + e.getMessage() + "\n");
@@ -33,7 +33,7 @@ public class Main {
 
         while (z == 0) {
 
-            System.out.println("\nWelcome to Ollivanders Hotel\n===========================\n");
+            System.out.println("\nWelcome to hotel Ollivanders Hotel\n===========================\n");
             System.out.println("[1]. Register\n[2]. Log In\n");
             System.out.println("0. Exit");
             System.out.print("Option: ");
@@ -135,7 +135,7 @@ public class Main {
 
                             if (loggedUser instanceof Passenger) {
 
-                                System.out.println("\nPassenger found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + " to Hotel Olivanders!\n");
+                                System.out.println("\nPassenger found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + " to Hotel Ollivanders!\n");
                                 MenuPassenger.menuPassenger(scan, OllivandersHotel, loggedUser);
                             } else if (loggedUser instanceof Receptionist) {
 

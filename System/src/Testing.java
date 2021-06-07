@@ -21,7 +21,7 @@ public class Testing {
 
         Hotel newHotel = null;
         try {
-            newHotel = new Hotel();
+            newHotel = new Hotel("Ollivanders", "Belgrano 3998", "4758996");
         } catch (IOException e) {
             e.printStackTrace();
         }
