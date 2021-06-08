@@ -1,7 +1,6 @@
 package controller;
 
-import exception.ActiveBookingException;
-import exception.UserNotFoundException;
+import exception.*;
 import model.*;
 import repository.BookingRepository;
 import repository.RoomRepository;
@@ -60,33 +59,38 @@ public class Hotel {
         return telephone;
     }
 
-    public void loadData() throws IOException {
+    public void loadData() throws IOException, DateValidationException, BookingNotFoundException {
         users.readGson();
-        if(users.getUsers().size()== 0){ this.userHC();} //to make sure that the list always has data
+        if (users.getUsers().size() == 0) {
+            this.userHC();
+        } //to make sure that the list always has data
 
         bookings.readGson();
-        if(this.bookings.getRoomBookings().size() == 0) {   this.bookingHC();}
+        if (this.bookings.getRoomBookings().size() == 0) {
+            this.bookingHC();
+        }
 
         rooms.readGson();
-        if(this.rooms.getRooms().size() == 0) { this.roomHC();}
+        if (this.rooms.getRooms().size() == 0) {
+            this.roomHC();
+        }
     }
 
     public void saveData() throws IOException {
-        if(this.getUsers().size() > 0){
+        if (this.getUsers().size() > 0) {
             users.writeGson();
         }
-        if(this.getBookings().size() > 0){
+        if (this.getBookings().size() > 0) {
             bookings.writeGson();
         }
-        if(this.getRooms().size() > 0){
+        if (this.getRooms().size() > 0) {
             rooms.writeGson();
         }
     }
 
     // ╠═══════════════════════════════ User Methods // 'ABML' order ═══════════════════════════════╣
-    public String register(User user) throws IOException {
+    public void register(User user) throws IOException, UserAlreadyRegisteredException, DateValidationException, BookingNotFoundException {
 
-        String message;
         if (users.getUsers().isEmpty()) {
 
             this.loadData();
@@ -95,18 +99,16 @@ public class Hotel {
 
             users.add(user);
             this.saveData();
-            message = "User added successfully";
+
         } else {
 
-            message = "User already registered";
+            throw new UserAlreadyRegisteredException();
         }
 
-        return message;
     }
 
-    public String activateAccount(String dni) {
+    public void activateAccount(String dni) throws UserIsAlreadyActive, UserNotFoundException, ReceptionistShiftNeedsChange {
 
-        String message;
         User auxUser = this.users.search(dni);
 
         if (auxUser != null) {
@@ -117,26 +119,21 @@ public class Hotel {
                 users.edit(auxUser);
                 if (auxUser instanceof Receptionist) {
 
-                    message = "Receptionist Account was activated successfully. Please, change the receptionist's Shift";
-                } else {
-
-                    message = "Account was activated successfully";
+                    throw new ReceptionistShiftNeedsChange();
                 }
             } else {
 
-                message = "The account is active";
+                throw new UserIsAlreadyActive();
             }
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
 
-        return message;
     }
 
-    public String deactivateAccount(String dni) throws ActiveBookingException {
+    public void deactivateAccount(String dni) throws ActiveBookingException, UserNotFoundException, UserIsAlreadyActive {
 
-        String message;
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
 
         if (activeBookings.size() == 0) {
@@ -154,30 +151,26 @@ public class Hotel {
                     auxUser.setActive();
                     users.edit(auxUser);
 
-                    message = "The account has been deactivated. To activate it again, please reach one of our managers";
                 } else {
 
-                    message = "The account is already deactivated";
+                    throw new UserIsAlreadyActive();
                 }
             } else {
 
-                message = "User not found";
+                throw new UserNotFoundException();
             }
         } else {
 
             throw new ActiveBookingException();
         }
-
-        return message;
     }
 
     public User searchUserById(String idUser) {
         return users.search(idUser);
     }
 
-    public String changeFullName(String dni, String firstName, String lastName) throws UserNotFoundException {
+    public void changeFullName(String dni, String firstName, String lastName) throws UserNotFoundException, InvalidStringException, ActiveBookingException {
 
-        String message;
         List<Booking> activeBookings = getActiveBookingsByUser(dni);
 
         if (activeBookings.size() == 0) {
@@ -196,18 +189,17 @@ public class Hotel {
                             auxUser.setLastName(lastName);
                             users.edit(auxUser);
 
-                            message = "The changes were made successfully";
                         } else {
 
-                            message = "You do not enter a valid last name. Please try again";
+                            throw new InvalidStringException("You do not enter a valid last name. Please try again");
                         }
                     } else {
 
-                        message = "You do not enter a valid first name. Please try again";
+                        throw new InvalidStringException("You do not enter a valid first name. Please try again");
                     }
                 } else {
 
-                    message = "Your name can not contains numbers, spaces or special characters. Please try again";
+                    throw new InvalidStringException("Your name can not contains numbers, spaces or special characters. Please try again");
                 }
             } else {
 
@@ -215,10 +207,8 @@ public class Hotel {
             }
         } else {
 
-            message = "You can not change your name. There are active bookings";
+            throw new ActiveBookingException();
         }
-
-        return message;
     }
 
     public boolean ifStringContainsDigits(String firstName, String lastName) {
@@ -246,7 +236,7 @@ public class Hotel {
         return flag;
     }
 
-    public String changeAge(String dni, int age) {
+    public void changeAge(String dni, int age) throws UserNotFoundException, InvalidNumberValidationException {
 
         String message;
         User auxUser = users.search(dni);
@@ -260,24 +250,21 @@ public class Hotel {
                     auxUser.setAge(age);
                     users.edit(auxUser);
 
-                    message = "The changes were made successfully";
                 } else {
 
-                    message = "Sorry but the maximum allowed age is 100";
+                    throw new InvalidNumberValidationException("Sorry but the maximum allowed age is 100");
                 }
             } else {
-
-                message = "Sorry but you need to be at least 18 to change your age";
+                throw new InvalidNumberValidationException("Sorry but you need to be at least 18 to change your age");
             }
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
 
-        return message;
     }
 
-    public String changeGender(String dni, Gender gender) {
+    public void changeGender(String dni, Gender gender) throws UserNotFoundException {
 
         String message;
         User auxUser = users.search(dni);
@@ -287,18 +274,14 @@ public class Hotel {
             auxUser.setGender(gender);
             users.edit(auxUser);
 
-            message = "The changes were made successfully";
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
-
-        return message;
     }
 
-    public String changeAddress(String dni, String address) {
+    public void changeAddress(String dni, String address) throws UserNotFoundException {
 
-        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -306,39 +289,34 @@ public class Hotel {
             auxUser.setAddress(address);
             users.edit(auxUser);
 
-            message = "The changes were made successfully";
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
 
-        return message;
     }
 
-    public String changeTelephone(String dni, String telephone) {
+    public void changeTelephone(String dni, String telephone) throws UserNotFoundException, InvalidStringException {
 
-        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
 
             if (ifStringContainsLetters(telephone)) {
 
-                message = "Not a valid phone number. Please try again";
+                throw new InvalidStringException("Not a valid phone number. Please try again");
 
             } else {
 
                 auxUser.setTelephone(telephone);
                 users.edit(auxUser);
 
-                message = "The changes were made successfully";
             }
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
 
-        return message;
     }
 
     // TODO Check link Orellano sent.
@@ -359,9 +337,8 @@ public class Hotel {
         return flag;
     }
 
-    public String changeEmail(String dni, String email) {
+    public void changeEmail(String dni, String email) throws UserNotFoundException, InvalidStringException {
 
-        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -371,23 +348,18 @@ public class Hotel {
                 auxUser.setEmail(email);
                 users.edit(auxUser);
 
-                message = "The changes were made successfully";
-
             } else {
 
-                message = "Not a valid email. Please try again";
+                throw new InvalidStringException("Not a valid email. Please try again");
             }
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
-
-        return message;
     }
 
-    public String changePassword(String dni, String password) {
+    public void changePassword(String dni, String password) throws UserNotFoundException, InvalidStringException {
 
-        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -397,22 +369,19 @@ public class Hotel {
                 auxUser.setPassword(password);
                 users.edit(auxUser);
 
-                message = "The changes were made successfully";
             } else {
 
-                message = "Password too short. Please try again";
+                throw new InvalidStringException("Password too short. Please try again");
             }
         } else {
 
-            message = "User not found";
+            throw new UserNotFoundException();
         }
 
-        return message;
     }
 
-    public String changeReceptionistShift(String dni, Shift shift) {
+    public void changeReceptionistShift(String dni, Shift shift) throws UserNotFoundException {
 
-        String message = "";
         User auxRecep = users.search(dni);
 
         if (auxRecep != null) {
@@ -421,15 +390,12 @@ public class Hotel {
 
                 ((Receptionist) auxRecep).setShift(shift);
                 users.edit(auxRecep);
-
-                message = "The changes were made successfully";
             }
         } else {
 
-            message = "Receptionist not found";
+            throw new UserNotFoundException();
         }
 
-        return message;
     }
 
     public List<User> getAllEmployees() {
@@ -512,8 +478,7 @@ public class Hotel {
 
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
-    public String createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) {
-        String message;
+    public void createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) throws UnavailableRoomException, DateValidationException {
         if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
             int lastBookingId = getLastBookingId();
             Booking booking = new Booking(lastBookingId + 1, idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
@@ -524,24 +489,18 @@ public class Hotel {
                 booking.setAmountOfNights((int) DAYS.between(booking.getStartDate(), booking.getEndDate()));
                 booking.setTotalCost(aux_room.getCategory().getPrice() * booking.getAmountOfNights());
                 this.bookings.add(booking);
-
-                message = "Booking created successfully";
             } else {
-
-                message = "The room is not available for those dates. Please choose another room";
+                throw new UnavailableRoomException("The room is not available for those dates. Please choose another room");
             }
         } else {
 
-            message = "Booking should be at least seven days long. Please, try again";
+           throw new DateValidationException("Booking should be at least seven days long. Please, try again.");
         }
-
-        return message;
     }
 
-    public String cancelBooking(Integer idBooking) {
+    public void cancelBooking(Integer idBooking) throws BookingNotFoundException, DateValidationException {
 
         // TODO Maybe needs changes.
-        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -551,17 +510,14 @@ public class Hotel {
                 //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
                 aux_booking.setState(State.CANCELLED);
                 this.bookings.edit(aux_booking);
-                message = "Booking cancelled";
             } else {
 
-                message = "Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking";
+               throw new DateValidationException("Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking");
             }
         } else {
 
-            message = "Booking not found";
+            throw new BookingNotFoundException();
         }
-
-        return message;
     }
 
     // TODO Need to ask Orellano about this.
@@ -586,10 +542,9 @@ public class Hotel {
         return message;
     }
 
-    public String checkIn(String dniPassenger, Integer idBooking) {
+    public void checkIn(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException {
 
         //TODO Maybe needs changes.
-        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -598,33 +553,26 @@ public class Hotel {
                 changeStateBooking(idBooking, State.CHECKED);
                 this.bookings.edit(aux_booking);
 
-                message = "Booking found. Passenger Checked In";
-
                 Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
                 changeRoomAvailability(aux_room.getNumber(), Availability.OCCUPIED);
 
                 this.rooms.edit(aux_room);
             } else {
-                message = "Passenger's ID and Booking's Id do not match";
+               throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
             }
         } else {
 
-            message = "Booking not found";
+           throw new BookingNotFoundException();
         }
-
-        return message;
     }
 
-    public String checkOut(String dniPassenger, Integer idBooking) {
+    public void checkOut(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException {
 
         //TODO Maybe needs changes.
-        String message;
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
             if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
-
-                message = "Booking found. Passenger Checked Out";
                 changeStateBooking(idBooking, State.CHECK_OUT);
                 this.bookings.edit(aux_booking);
 
@@ -633,38 +581,31 @@ public class Hotel {
 
                 this.rooms.edit(aux_room);
             } else {
-                message = "Passenger's ID and Booking's Id do not match";
+               throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
             }
         } else {
 
-            message = "Booking not found";
+            throw new BookingNotFoundException();
         }
-
-        return message;
     }
 
-    public String changeStateBooking(Integer idBooking, State state) {
+    public void changeStateBooking(Integer idBooking, State state) throws BookingNotFoundException {
 
-        String message;
         Booking auxBooking = this.bookings.search(idBooking);
 
         if (auxBooking != null) {
 
             auxBooking.setState(state);
             bookings.edit(auxBooking);
-
-            message = "Booking's state successfully changed";
         } else {
 
-            message = "Booking not found";
+            throw new BookingNotFoundException();
         }
-
-        return message;
     }
 
-    public String cancelAllBookingsByRoom(Integer idRoom) {
+    //TODO if implemented, possible success message for the main> "All bookings have been cancelled";
+    public void cancelAllBookingsByRoom(Integer idRoom) throws DateValidationException, BookingNotFoundException {
 
-        String message;
         List<Booking> auxRoomBookings = getActiveBookingsByRoom(idRoom);
 
         if (auxRoomBookings != null) {
@@ -673,14 +614,10 @@ public class Hotel {
 
                 cancelBooking(b.getId());
             }
-
-            message = "All bookings have been cancelled";
         } else {
 
-            message = "Bookings not found";
+           throw new BookingNotFoundException();
         }
-
-        return message;
     }
 
     //TODO Get Orellano's approval
@@ -1026,130 +963,146 @@ public class Hotel {
     }
 
     public void userHC() throws IOException {
-        addSuperAdmin();
-        register(new Passenger("14874804"
-                , "Andrea"
-                , "Carrizo"
-                , 60
-                , Gender.FEMALE
-                , "Gaboto 5646"
-                , "4585858"
-                , "something@asomething.com"
-                , "pass123"
-                , "Mar del Plata"));
-
-        register(new Passenger("14589623"
-                , "Miguel"
-                , "Toyota"
-                , 60
-                , Gender.FEMALE
-                , "Gaboto 5646"
-                , "4585858"
-                , "something@asomething.com"
-                , "pass123"
-                , "Mar del Plata"));
         try {
-            deactivateAccount("14785972");
-        } catch (ActiveBookingException e) {
+            addSuperAdmin();
+            register(new Passenger("14874804"
+                    , "Andrea"
+                    , "Carrizo"
+                    , 60
+                    , Gender.FEMALE
+                    , "Gaboto 5646"
+                    , "4585858"
+                    , "something@asomething.com"
+                    , "pass123"
+                    , "Mar del Plata"));
+
+            register(new Passenger("14589623"
+                    , "Miguel"
+                    , "Toyota"
+                    , 60
+                    , Gender.FEMALE
+                    , "Gaboto 5646"
+                    , "4585858"
+                    , "something@asomething.com"
+                    , "pass123"
+                    , "Mar del Plata"));
+            try {
+                deactivateAccount("14785972");
+            } catch (ActiveBookingException e) {
+                e.printStackTrace();
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+            } catch (UserIsAlreadyActive userIsAlreadyActive) {
+                userIsAlreadyActive.printStackTrace();
+            }
+
+            register(new Passenger("38530953"
+                    , "Felipe"
+                    , "Graziano"
+                    , 25
+                    , Gender.MALE
+                    , "Mexico 3536"
+                    , "4651236"
+                    , "something@something.com"
+                    , "pass123"
+                    , "San Clemente"));
+
+            register(new Receptionist("18956565"
+                    , "Sofia"
+                    , "Caceres"
+                    , 58
+                    , Gender.FEMALE
+                    , "Bahia Blanca 123"
+                    , "2235686968"
+                    , "soficaceres@gmail.com"
+                    , "sofi1966"
+                    , Shift.MORNING));
+
+            register(new Receptionist("18956323"
+                    , "Matias"
+                    , "Palacios"
+                    , 58
+                    , Gender.MALE
+                    , "Chubut 123"
+                    , "2235686323"
+                    , "matias@gmail.com"
+                    , "mati1966"
+                    , Shift.AFTERNOON));
+            try {
+                deactivateAccount("18956323");
+            } catch (ActiveBookingException e) {
+                e.printStackTrace();
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+            } catch (UserIsAlreadyActive userIsAlreadyActive) {
+                userIsAlreadyActive.printStackTrace();
+            }
+
+            register(new Receptionist("35236598"
+                    , "Santiago"
+                    , "Gonzalez"
+                    , 30
+                    , Gender.MALE
+                    , "Rio Negro 456"
+                    , "2235456985"
+                    , "santig@gmail.com"
+                    , "santi30"
+                    , Shift.NIGHT));
+
+            register(new Manager("35892293"
+                    , "Daiana"
+                    , "Olivera"
+                    , 30
+                    , Gender.FEMALE
+                    , "San Luis 4052"
+                    , "2235506592"
+                    , "daiolivera@gmail.com"
+                    , "pass123"));
+
+            register(new Manager("39098436"
+                    , "Walter"
+                    , "Moretti"
+                    , 25
+                    , Gender.MALE
+                    , "Dardo Rocha 70"
+                    , "2235235689"
+                    , "wally.moretti@gmail.com"
+                    , "pass123"));
+        } catch (UserAlreadyRegisteredException e) {
+            e.printStackTrace();
+        } catch (BookingNotFoundException e) {
+            e.printStackTrace();
+        } catch (DateValidationException e) {
             e.printStackTrace();
         }
-
-        register(new Passenger("38530953"
-                , "Felipe"
-                , "Graziano"
-                , 25
-                , Gender.MALE
-                , "Mexico 3536"
-                , "4651236"
-                , "something@something.com"
-                , "pass123"
-                , "San Clemente"));
-
-        register(new Receptionist("18956565"
-                , "Sofia"
-                , "Caceres"
-                , 58
-                , Gender.FEMALE
-                , "Bahia Blanca 123"
-                , "2235686968"
-                , "soficaceres@gmail.com"
-                , "sofi1966"
-                , Shift.MORNING));
-
-        register(new Receptionist("18956323"
-                , "Matias"
-                , "Palacios"
-                , 58
-                , Gender.MALE
-                , "Chubut 123"
-                , "2235686323"
-                , "matias@gmail.com"
-                , "mati1966"
-                , Shift.AFTERNOON));
-        try {
-            deactivateAccount("18956323");
-        } catch (ActiveBookingException e) {
-            e.printStackTrace();
-        }
-
-        register(new Receptionist("35236598"
-                , "Santiago"
-                , "Gonzalez"
-                , 30
-                , Gender.MALE
-                , "Rio Negro 456"
-                , "2235456985"
-                , "santig@gmail.com"
-                , "santi30"
-                , Shift.NIGHT));
-
-        register(new Manager("35892293"
-                , "Daiana"
-                , "Olivera"
-                , 30
-                , Gender.FEMALE
-                , "San Luis 4052"
-                , "2235506592"
-                , "daiolivera@gmail.com"
-                , "pass123"));
-
-        register(new Manager("39098436"
-                , "Walter"
-                , "Moretti"
-                , 25
-                , Gender.MALE
-                , "Dardo Rocha 70"
-                , "2235235689"
-                , "wally.moretti@gmail.com"
-                , "pass123"));
     }
 
     public void roomHC() {
         if (getRooms().isEmpty()) {
-            rooms.add(new Room(getLastRoomNumber()+1, Category.EXECUTIVE, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.JUNIOR, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.PRESIDENTIAL, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.CLEANING));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.OCCUPIED));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.IN_DESINFECTION));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.OUT_OF_SERVICE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.EXECUTIVE, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.GUEST, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.JUNIOR, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber()+1, Category.PRESIDENTIAL, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.EXECUTIVE, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.JUNIOR, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.PRESIDENTIAL, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.CLEANING));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.OCCUPIED));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.IN_DESINFECTION));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.OUT_OF_SERVICE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.EXECUTIVE, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.JUNIOR, Availability.FREE));
+            rooms.add(new Room(getLastRoomNumber() + 1, Category.PRESIDENTIAL, Availability.FREE));
         }
 
     }
 
-    public void bookingHC() {
+    public void bookingHC() throws DateValidationException, BookingNotFoundException {
         if (getBookings().isEmpty()) {
-            bookings.add(new Booking(getLastBookingId()+1, 101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7)));
-            bookings.add(new Booking(getLastBookingId()+1, 101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7)));
-            bookings.add(new Booking(getLastBookingId()+1, 102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7)));
-            bookings.add(new Booking(getLastBookingId()+1, 102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7)));
-            bookings.add(new Booking(getLastBookingId()+1, 103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7)));
-            bookings.add(new Booking(getLastBookingId()+1, 103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId() + 1, 101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7)));
+            bookings.add(new Booking(getLastBookingId() + 1, 101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId() + 1, 102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId() + 1, 102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7)));
+            bookings.add(new Booking(getLastBookingId() + 1, 103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7)));
+            bookings.add(new Booking(getLastBookingId() + 1, 103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7)));
             cancelBooking(3);
         }
     }
