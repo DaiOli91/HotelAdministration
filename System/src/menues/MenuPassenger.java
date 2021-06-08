@@ -1,7 +1,7 @@
 package menues;
 
 import controller.Hotel;
-import exception.ActiveBookingException;
+import exception.*;
 import model.Room;
 import model.User;
 
@@ -128,10 +128,12 @@ public class MenuPassenger {
                                                 System.out.print("Enter the DNI of the added passenger: ");
                                                 String dniOptionalPassenger = scan.next();
 
-                                                System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate) + "\n");
+                                                OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate);
+                                                //TODO success message to create booking
                                             } else if (answer.equalsIgnoreCase("no")) {
 
-                                                System.out.println("\n" + OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate) + "\n");
+                                                OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate);
+                                                //TODO success message to create booking
                                             } else {
 
                                                 System.out.println("\nInvalid answer. Please try again\n");
@@ -147,6 +149,10 @@ public class MenuPassenger {
                                 } catch (DateTimeException dte) {
 
                                     System.out.println("\n" + dte.getMessage() + ", please try again\n");
+                                } catch (UnavailableRoomException e) {
+                                    e.printStackTrace();
+                                } catch (DateValidationException e) {
+                                    e.printStackTrace();
                                 }
                             } else {
 
@@ -178,10 +184,15 @@ public class MenuPassenger {
                     case 5: {
                         System.out.println("\nDeactivate Account\n");
                         try {
-                            System.out.println(OllivandersHotel.deactivateAccount(loggedUser.getDni()) + "\n");
+                            OllivandersHotel.deactivateAccount(loggedUser.getDni());
+                            //TODO possible message if everything goes OK: message = "The account has been deactivated. To activate it again, please reach one of our managers";
                         } catch (ActiveBookingException e) {
 
                             System.out.println("\n" + e.getMessage() + "\n");
+                        } catch (UserNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (UserIsAlreadyActive userIsAlreadyActive) {
+                            userIsAlreadyActive.printStackTrace();
                         }
                         z++;
                         break;

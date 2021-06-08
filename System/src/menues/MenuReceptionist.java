@@ -1,6 +1,9 @@
 package menues;
 
 import controller.Hotel;
+import exception.BookingNotFoundException;
+import exception.DateValidationException;
+import exception.InvalidStringException;
 import model.*;
 
 import java.io.IOException;
@@ -41,7 +44,8 @@ public class MenuReceptionist {
 
                         if (idBooking != -1) {
 
-                            System.out.println("\n" + OllivandersHotel.checkIn(dni, idBooking) + "\n");
+                            OllivandersHotel.checkIn(dni, idBooking);
+                            //TODO success message/ possibly "Booking found. Passenger Checked In"
                         }
                         break;
                     }
@@ -56,7 +60,8 @@ public class MenuReceptionist {
                         // TODO I say that I don't know wtf I did here :)
                         if (idBooking != -1) {
 
-                            System.out.println("\n" + OllivandersHotel.checkOut(dni, idBooking) + "\n");
+                           OllivandersHotel.checkOut(dni, idBooking);
+                           //TODO message, possibly "Booking found. Passenger Checked Out"
                         }
                         break;
                     }
@@ -195,7 +200,8 @@ public class MenuReceptionist {
                         System.out.print("Enter the Booking ID: ");
                         idBooking = scan.nextInt();
 
-                        System.out.println("\n" + OllivandersHotel.cancelBooking(idBooking) + "\n");
+                        OllivandersHotel.cancelBooking(idBooking);
+                        //TODO success booking for cancelling booking
                         break;
                     }
                     case 6: {
@@ -287,6 +293,12 @@ public class MenuReceptionist {
                 System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
+            } catch (BookingNotFoundException e) {
+                e.printStackTrace();
+            } catch (DateValidationException e) {
+                e.printStackTrace();
+            } catch (InvalidStringException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -1,4 +1,6 @@
 import controller.Hotel;
+import exception.DateValidationException;
+import exception.UnavailableRoomException;
 import model.*;
 
 import java.io.IOException;
@@ -69,7 +71,11 @@ public class Testing {
      //   System.err.println("AVAILABLE: \n" + getActiveBookingsInPeriod(LocalDate.of(2021, 06, 17), LocalDate.of(2021, 07, 3), newHotel.getBookings()));
        // System.err.println(ChronoUnit.DAYS.between(LocalDate.of(2021, 06, 21), LocalDate.of(2021, 05, 21)));
         System.out.println("Ultimo ID: " + newHotel.getLastRoomNumber());
-        newHotel.createBooking(135, "38530953", "", LocalDate.of(2021, 7, 15), LocalDate.of(2021, 8,1));
+        try {
+            newHotel.createBooking(135, "38530953", "", LocalDate.of(2021, 7, 15), LocalDate.of(2021, 8,1));
+        } catch (UnavailableRoomException | DateValidationException e) {
+            e.printStackTrace();
+        }
         System.out.println(newHotel.getBookings().toString());
         try {
             newHotel.saveData();

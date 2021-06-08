@@ -1,4 +1,7 @@
 import controller.Hotel;
+import exception.BookingNotFoundException;
+import exception.DateValidationException;
+import exception.UserAlreadyRegisteredException;
 import menues.MenuManager;
 import menues.MenuReceptionist;
 import model.*;
@@ -103,9 +106,17 @@ public class Main {
 
                                 try {
 
-                                    System.out.println("\n" + OllivandersHotel.register(user) + "\n");
+                                    OllivandersHotel.register(user);
+                                    //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
+
                                 } catch (IOException e) {
 
+                                    e.printStackTrace();
+                                } catch (UserAlreadyRegisteredException e) {
+                                    e.printStackTrace();
+                                } catch (BookingNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (DateValidationException e) {
                                     e.printStackTrace();
                                 }
                             } else {

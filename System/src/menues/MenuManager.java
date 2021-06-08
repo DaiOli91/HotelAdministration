@@ -1,8 +1,7 @@
 package menues;
 
 import controller.Hotel;
-import exception.ActiveBookingException;
-import exception.UserNotFoundException;
+import exception.*;
 import model.*;
 
 import java.io.IOException;
@@ -97,7 +96,8 @@ public class MenuManager {
                                     if (employeeOption == 1) {
 
                                         User mUser = new Manager(dni, firstName, lastName, age, gender, address, telephone, email, password);
-                                        System.out.println("\n" + OllivandersHotel.register(mUser));
+                                        OllivandersHotel.register(mUser);
+                                        //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
                                     } else if (employeeOption == 2) {
 
                                         System.out.print("Shift\n¯¯¯¯¯¯\n[1]. Morning\n[2]. Afternoon\n[3]. Night\n\nOption: ");
@@ -107,17 +107,20 @@ public class MenuManager {
 
                                             shift = Shift.MORNING;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
-                                            System.out.println("\n" + OllivandersHotel.register(rUser));
+                                            OllivandersHotel.register(rUser);
+                                            //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
                                         } else if (shiftOption == 2) {
 
                                             shift = Shift.AFTERNOON;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
-                                            System.out.println("\n" + OllivandersHotel.register(rUser));
+                                            OllivandersHotel.register(rUser);
+                                            //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
                                         } else if (shiftOption == 3) {
 
                                             shift = Shift.NIGHT;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
-                                            System.out.println("\n" + OllivandersHotel.register(rUser));
+                                            OllivandersHotel.register(rUser);
+                                            //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
                                         } else {
 
                                             System.out.println("\nNot a valid option. Please, try again later\n");
@@ -136,6 +139,12 @@ public class MenuManager {
                             }
                         } catch (IOException e) {
 
+                            e.printStackTrace();
+                        } catch (UserAlreadyRegisteredException e) {
+                            e.printStackTrace();
+                        } catch (BookingNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (DateValidationException e) {
                             e.printStackTrace();
                         }
                         break;
@@ -205,11 +214,14 @@ public class MenuManager {
 
                         if (activeDeactiveOption == 1) {
 
-                            System.out.println("\n" + OllivandersHotel.activateAccount(dni) + "\n");
+                           OllivandersHotel.activateAccount(dni);
+                           //TODO now this is void...if error, throws exceptions....if works nothing happens :) Do you want to show a message?
                         } else if (activeDeactiveOption == 2) {
 
                             try {
-                                System.out.println("\n" + OllivandersHotel.deactivateAccount(dni) + "\n");
+                                OllivandersHotel.deactivateAccount(loggedUser.getDni());
+                                //TODO possible message if everything goes OK: message = "The account has been deactivated. To activate it again, please reach one of our managers";
+
                             } catch (ActiveBookingException e) {
 
                                 System.out.println("\nThis user cannot be deactivated. " + e.getMessage() + "\n");
@@ -340,6 +352,12 @@ public class MenuManager {
                 System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
                 scan.next();
+            } catch (ReceptionistShiftNeedsChange receptionistShiftNeedsChange) {
+                receptionistShiftNeedsChange.printStackTrace();
+            } catch (UserIsAlreadyActive userIsAlreadyActive) {
+                userIsAlreadyActive.printStackTrace();
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -1,6 +1,9 @@
 package menues;
 
 import controller.Hotel;
+import exception.ActiveBookingException;
+import exception.InvalidNumberValidationException;
+import exception.InvalidStringException;
 import exception.UserNotFoundException;
 import model.Gender;
 import model.Manager;
@@ -55,10 +58,15 @@ public class MenuEditAccount {
                         lastName = scan.next();
 
                         try {
-                            System.out.println("\n" + OlivandersHotel.changeFullName(user.getDni(), firstName, lastName) + "\n");
+                            OlivandersHotel.changeFullName(user.getDni(), firstName, lastName);
+                            //TODO possibly add something like @you cannot change your name@ before active booking exception message
                         } catch (UserNotFoundException e) {
 
                             System.out.println("\n" + e.getMessage() + "\n");
+                        } catch (InvalidStringException e) {
+                            e.printStackTrace();
+                        } catch (ActiveBookingException e) {
+                            e.printStackTrace();
                         }
                         break;
                     }
@@ -68,7 +76,8 @@ public class MenuEditAccount {
                         System.out.print("Enter new age: ");
                         age = scan.nextInt();
 
-                        System.out.println("\n" + OlivandersHotel.changeAge(user.getDni(), age) + "\n");
+                        OlivandersHotel.changeAge(user.getDni(), age);
+                        //TODO probably show a message if everything is ok?
                         break;
                     }
                     case 4: {
@@ -103,7 +112,8 @@ public class MenuEditAccount {
                             }
                         }
                         genderOption = 0;
-                        System.out.println("\n" + OlivandersHotel.changeGender(user.getDni(), gender) + "\n");
+                        OlivandersHotel.changeGender(user.getDni(), gender);
+                        //TODO possibly print a message if everything went Ok?
                         break;
                     }
                     case 5: {
@@ -113,7 +123,8 @@ public class MenuEditAccount {
                         scan.nextLine();
                         address = scan.nextLine();
 
-                        System.out.println("\n" + OlivandersHotel.changeAddress(user.getDni(), address) + "\n");
+                        OlivandersHotel.changeAddress(user.getDni(), address);
+                        //TODO possibly show an OK message
                         break;
                     }
                     case 6: {
@@ -122,7 +133,8 @@ public class MenuEditAccount {
                         System.out.print("Enter new telephone: ");
                         telephone = scan.next();
 
-                        System.out.println("\n" + OlivandersHotel.changeTelephone(user.getDni(), telephone) + "\n");
+                        OlivandersHotel.changeTelephone(user.getDni(), telephone);
+                        //TODO success message
                         break;
                     }
                     case 7: {
@@ -131,7 +143,8 @@ public class MenuEditAccount {
                         System.out.print("Enter new email: ");
                         email = scan.next();
 
-                        System.out.println("\n" + OlivandersHotel.changeEmail(user.getDni(), email) + "\n");
+                        OlivandersHotel.changeEmail(user.getDni(), email);
+                        //TODO success message
                         break;
                     }
                     case 8: {
@@ -140,7 +153,8 @@ public class MenuEditAccount {
                         System.out.print("New Password: ");
                         password = scan.next();
 
-                        System.out.println("\n" + OlivandersHotel.changePassword(user.getDni(), password) + "\n");
+                        OlivandersHotel.changePassword(user.getDni(), password);
+                        //TODO success message
                         break;
                     }
                     case 9: {
@@ -172,7 +186,8 @@ public class MenuEditAccount {
                                 }
                             }
 
-                            System.out.println("\n" + OlivandersHotel.changeReceptionistShift(user.getDni(), shift) + "\n");
+                           OlivandersHotel.changeReceptionistShift(user.getDni(), shift);
+                            //TODO Success message
                         } else {
 
                             System.out.println("\nPlease, choose a valid option\n");
@@ -189,7 +204,7 @@ public class MenuEditAccount {
                         break;
                     }
                 }
-            } catch (InputMismatchException ime) {
+            } catch (InputMismatchException | UserNotFoundException | InvalidNumberValidationException | InvalidStringException ime) {
 
                 System.err.println("Validation Error.");
                 System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
