@@ -60,8 +60,8 @@ public class MenuReceptionist {
                         // TODO I say that I don't know wtf I did here :)
                         if (idBooking != -1) {
 
-                           OllivandersHotel.checkOut(dni, idBooking);
-                           //TODO message, possibly "Booking found. Passenger Checked Out"
+                            OllivandersHotel.checkOut(dni, idBooking);
+                            //TODO message, possibly "Booking found. Passenger Checked Out"
                         }
                         break;
                     }
@@ -273,13 +273,11 @@ public class MenuReceptionist {
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
-                        /*
                         try {
                             OllivandersHotel.saveData();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        */
                         z++;
                         break;
                     }
