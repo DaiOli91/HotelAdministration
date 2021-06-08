@@ -1,20 +1,5 @@
 [
   {
-    "number": 101,
-    "category": "EXECUTIVE",
-    "availability": "FREE"
-  },
-  {
-    "number": 102,
-    "category": "GUEST",
-    "availability": "FREE"
-  },
-  {
-    "number": 103,
-    "category": "JUNIOR",
-    "availability": "FREE"
-  },
-  {
     "number": 104,
     "category": "PRESIDENTIAL",
     "availability": "FREE"

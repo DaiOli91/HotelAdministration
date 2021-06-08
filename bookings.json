@@ -75,5 +75,25 @@
     "amountOfNights": 17,
     "state": "ACTIVE",
     "totalCost": 47600.0
+  },
+  {
+    "id": 8,
+    "idRoom": 135,
+    "idMainPassenger": "33333333",
+    "startDate": "2021-06-10",
+    "endDate": "2021-06-18",
+    "amountOfNights": 8,
+    "state": "CANCELLED",
+    "totalCost": 22400.0
+  },
+  {
+    "id": 9,
+    "idRoom": 135,
+    "idMainPassenger": "33333333",
+    "startDate": "2021-06-09",
+    "endDate": "2021-06-19",
+    "amountOfNights": 10,
+    "state": "ACTIVE",
+    "totalCost": 28000.0
   }
 ]

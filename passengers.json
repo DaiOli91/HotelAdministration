@@ -63,5 +63,18 @@
     "email": "test4@gmail.com",
     "password": "pass123",
     "active": true
+  },
+  {
+    "origin": "testing",
+    "dni": "33333333",
+    "firstName": "testing",
+    "lastName": "testing",
+    "age": 18,
+    "gender": "OTHER",
+    "address": "testing",
+    "telephone": "123456789",
+    "email": "testing@test.com",
+    "password": "pass123",
+    "active": true
   }
 ]
