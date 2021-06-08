@@ -129,11 +129,11 @@ public class MenuPassenger {
                                                 String dniOptionalPassenger = scan.next();
 
                                                 OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), dniOptionalPassenger, startDate, endDate);
-                                                //TODO success message to create booking
+                                                System.out.println("\nBooking created successfully\n");
                                             } else if (answer.equalsIgnoreCase("no")) {
 
                                                 OllivandersHotel.createBooking(numberRoom, loggedUser.getDni(), null, startDate, endDate);
-                                                //TODO success message to create booking
+                                                System.out.println("\nBooking created successfully\n");
                                             } else {
 
                                                 System.out.println("\nInvalid answer. Please try again\n");
@@ -185,27 +185,25 @@ public class MenuPassenger {
                         System.out.println("\nDeactivate Account\n");
                         try {
                             OllivandersHotel.deactivateAccount(loggedUser.getDni());
-                            //TODO possible message if everything goes OK: message = "The account has been deactivated. To activate it again, please reach one of our managers";
+                            System.out.println("\nThe account has been deactivated. To activate it again, please reach one of our managers\n");
                         } catch (ActiveBookingException e) {
 
                             System.out.println("\n" + e.getMessage() + "\n");
                         } catch (UserNotFoundException e) {
                             e.printStackTrace();
-                        } catch (UserIsAlreadyActive userIsAlreadyActive) {
-                            userIsAlreadyActive.printStackTrace();
+                        } catch (UserActiveDeactiveException userActiveDeactiveException) {
+                            userActiveDeactiveException.printStackTrace();
                         }
                         z++;
                         break;
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
-                        /*
                         try {
                             OllivandersHotel.saveData();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        */
                         z++;
                         break;
                     }
