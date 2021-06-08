@@ -107,7 +107,7 @@ public class Hotel {
 
     }
 
-    public void activateAccount(String dni) throws UserIsAlreadyActive, UserNotFoundException, ReceptionistShiftNeedsChange {
+    public void activateAccount(String dni) throws UserActiveDeactiveException, UserNotFoundException, ReceptionistShiftNeedsChange {
 
         User auxUser = this.users.search(dni);
 
@@ -121,26 +121,29 @@ public class Hotel {
 
                     throw new ReceptionistShiftNeedsChange();
                 }
+                try {
+                    saveData();
+                } catch (IOException e) {
+                    System.out.println("\n" + e.getMessage() + "\n");
+                }
+
             } else {
 
-                throw new UserIsAlreadyActive();
+                throw new UserActiveDeactiveException("User account is already Active");
             }
         } else {
 
             throw new UserNotFoundException();
         }
-
     }
 
-    public void deactivateAccount(String dni) throws ActiveBookingException, UserNotFoundException, UserIsAlreadyActive {
+    public void deactivateAccount(String dni) throws ActiveBookingException, UserNotFoundException, UserActiveDeactiveException {
 
-        List<Booking> activeBookings = getActiveBookingsByUser(dni);
+        User auxUser = this.users.search(dni);
+        if (auxUser != null) {
 
-        if (activeBookings.size() == 0) {
-
-
-            User auxUser = this.users.search(dni);
-            if (auxUser != null) {
+            List<Booking> activeBookings = getActiveBookingsByUser(dni);
+            if (activeBookings.size() == 0) {
 
                 if (auxUser.getActive()) {
 
@@ -150,18 +153,23 @@ public class Hotel {
                     }
                     auxUser.setActive();
                     users.edit(auxUser);
+                    try {
+                        saveData();
+                    } catch (IOException e) {
+                        System.out.println("\n" + e.getMessage() + "\n");
+                    }
 
                 } else {
 
-                    throw new UserIsAlreadyActive();
+                    throw new UserActiveDeactiveException("User account is already Deactive");
                 }
             } else {
 
-                throw new UserNotFoundException();
+                throw new ActiveBookingException();
             }
         } else {
 
-            throw new ActiveBookingException();
+            throw new UserNotFoundException();
         }
     }
 
@@ -479,7 +487,9 @@ public class Hotel {
 
     // ╠═══════════════════════════════ Booking Methods // 'ABML' order
     public void createBooking(int idRoom, String idMainPassenger, String idOptionalPassenger, LocalDate startDate, LocalDate endDate) throws UnavailableRoomException, DateValidationException {
+
         if (ChronoUnit.DAYS.between(startDate, endDate) >= 7) {
+
             int lastBookingId = getLastBookingId();
             Booking booking = new Booking(lastBookingId + 1, idRoom, idMainPassenger, idOptionalPassenger, startDate, endDate);
             List<Booking> checkBookings = this.getActiveBookingsByRoomAndDate(booking.getStartDate(), booking.getEndDate(), booking.getIdRoom());
@@ -494,7 +504,7 @@ public class Hotel {
             }
         } else {
 
-           throw new DateValidationException("Booking should be at least seven days long. Please, try again.");
+            throw new DateValidationException("Booking should be at least seven days long. Please, try again.");
         }
     }
 
@@ -505,14 +515,14 @@ public class Hotel {
 
         if (aux_booking != null) {
 
-            if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
-                    || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
-                //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
+            if ((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate()) >= 2) {
+                // (int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() >= 2)
+                // (LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate())) || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))
                 aux_booking.setState(State.CANCELLED);
                 this.bookings.edit(aux_booking);
             } else {
 
-               throw new DateValidationException("Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking");
+                throw new DateValidationException("Error. There should be at least 48hs before booking Start Date. You cannot cancel this booking");
             }
         } else {
 
@@ -558,11 +568,11 @@ public class Hotel {
 
                 this.rooms.edit(aux_room);
             } else {
-               throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
+                throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
             }
         } else {
 
-           throw new BookingNotFoundException();
+            throw new BookingNotFoundException();
         }
     }
 
@@ -581,7 +591,7 @@ public class Hotel {
 
                 this.rooms.edit(aux_room);
             } else {
-               throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
+                throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
             }
         } else {
 
@@ -616,7 +626,7 @@ public class Hotel {
             }
         } else {
 
-           throw new BookingNotFoundException();
+            throw new BookingNotFoundException();
         }
     }
 
@@ -737,7 +747,7 @@ public class Hotel {
         return "Room created successfully";
     }
 
-    public String activateRoom(int idRoom) {
+    public String activateRoom(int idRoom) throws RoomNotFoundException {
 
         String message = "";
         Room auxRoom = this.rooms.search(idRoom);
@@ -756,13 +766,13 @@ public class Hotel {
             }
         } else {
 
-            message = "Room not found";
+            throw new RoomNotFoundException();
         }
 
         return message;
     }
 
-    public String deactivateRoom(int idRoom) {
+    public String deactivateRoom(int idRoom) throws RoomNotFoundException {
 
         String message;
         Room auxRoom = rooms.search(idRoom);
@@ -770,7 +780,7 @@ public class Hotel {
         if (auxRoom != null) {
 
             List<Booking> checkActiveBookings = getActiveBookingsByRoom(idRoom);
-            if (checkActiveBookings == null) {
+            if (checkActiveBookings.size() == 0) {
 
                 if (auxRoom.getAvailability() != Availability.OCCUPIED) {
 
@@ -795,21 +805,21 @@ public class Hotel {
             }
         } else {
 
-            message = "Room not found";
+            throw new RoomNotFoundException();
         }
 
         return message;
     }
 
-    public String changeRoomCategory(int idRoom, Category category) {
+    public String changeRoomCategory(int idRoom, Category category) throws RoomNotFoundException {
 
         String message;
-        List<Booking> checkBooking = getActiveBookingsByRoom(idRoom);
+        Room auxRoom = rooms.search(idRoom);
 
-        if (checkBooking == null) {
+        if (auxRoom != null) {
 
-            Room auxRoom = rooms.search(idRoom);
-            if (auxRoom != null) {
+            List<Booking> checkBooking = getActiveBookingsByRoom(idRoom);
+            if (checkBooking.size() == 0) {
 
                 if (auxRoom.getAvailability() != Availability.OCCUPIED) {
 
@@ -824,11 +834,11 @@ public class Hotel {
 
             } else {
 
-                message = "Room not found";
+                message = "The room cannot change Category. There are active booking related to this room.\nPlease, cancel them first";
             }
         } else {
 
-            message = "The room cannot change Category. There are active booking related to this room.\nPlease, cancel them first";
+            throw new RoomNotFoundException();
         }
 
         return message;
@@ -992,8 +1002,8 @@ public class Hotel {
                 e.printStackTrace();
             } catch (UserNotFoundException e) {
                 e.printStackTrace();
-            } catch (UserIsAlreadyActive userIsAlreadyActive) {
-                userIsAlreadyActive.printStackTrace();
+            } catch (UserActiveDeactiveException userActiveDeactiveException) {
+                userActiveDeactiveException.printStackTrace();
             }
 
             register(new Passenger("38530953"
@@ -1034,8 +1044,8 @@ public class Hotel {
                 e.printStackTrace();
             } catch (UserNotFoundException e) {
                 e.printStackTrace();
-            } catch (UserIsAlreadyActive userIsAlreadyActive) {
-                userIsAlreadyActive.printStackTrace();
+            } catch (UserActiveDeactiveException userActiveDeactiveException) {
+                userActiveDeactiveException.printStackTrace();
             }
 
             register(new Receptionist("35236598"
