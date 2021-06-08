@@ -97,7 +97,7 @@ public class MenuManager {
 
                                         User mUser = new Manager(dni, firstName, lastName, age, gender, address, telephone, email, password);
                                         OllivandersHotel.register(mUser);
-                                        //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
+                                        System.out.println("\nUser added successfully\n");
                                     } else if (employeeOption == 2) {
 
                                         System.out.print("Shift\n¯¯¯¯¯¯\n[1]. Morning\n[2]. Afternoon\n[3]. Night\n\nOption: ");
@@ -108,19 +108,19 @@ public class MenuManager {
                                             shift = Shift.MORNING;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
                                             OllivandersHotel.register(rUser);
-                                            //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
+                                            System.out.println("\nUser added successfully\n");
                                         } else if (shiftOption == 2) {
 
                                             shift = Shift.AFTERNOON;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
                                             OllivandersHotel.register(rUser);
-                                            //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
+                                            System.out.println("\nUser added successfully\n");
                                         } else if (shiftOption == 3) {
 
                                             shift = Shift.NIGHT;
                                             User rUser = new Receptionist(dni, firstName, lastName, age, gender, address, telephone, email, password, shift);
                                             OllivandersHotel.register(rUser);
-                                            //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
+                                            System.out.println("\nUser added successfully\n");
                                         } else {
 
                                             System.out.println("\nNot a valid option. Please, try again later\n");
@@ -214,14 +214,21 @@ public class MenuManager {
 
                         if (activeDeactiveOption == 1) {
 
-                           OllivandersHotel.activateAccount(dni);
-                           //TODO now this is void...if error, throws exceptions....if works nothing happens :) Do you want to show a message?
+                            OllivandersHotel.activateAccount(dni);
+                            User auxUser = OllivandersHotel.searchUserById(dni);
+                            if (auxUser.getActive()) {
+
+                                System.out.println("\nThe account has been activated\n");
+                            }
                         } else if (activeDeactiveOption == 2) {
 
                             try {
-                                OllivandersHotel.deactivateAccount(loggedUser.getDni());
-                                //TODO possible message if everything goes OK: message = "The account has been deactivated. To activate it again, please reach one of our managers";
+                                OllivandersHotel.deactivateAccount(dni);
+                                User auxUser = OllivandersHotel.searchUserById(dni);
+                                if (!auxUser.getActive()) {
 
+                                    System.out.println("\nThe account has been deactivated\n");
+                                }
                             } catch (ActiveBookingException e) {
 
                                 System.out.println("\nThis user cannot be deactivated. " + e.getMessage() + "\n");
@@ -306,8 +313,14 @@ public class MenuManager {
                                 }
                             }
                         }
+                        categoryOption = 0;
+                        try {
+                            System.out.println("\n" + OllivandersHotel.changeRoomCategory(idRoom, category) + "\n");
+                            System.out.println("\nThe changes were made successfully\n");
 
-                        System.out.println("\n" + OllivandersHotel.changeRoomCategory(idRoom, category) + "\n");
+                        } catch (RoomNotFoundException e) {
+                            System.out.println("\n" + e.getMessage() + "\n");
+                        }
                         break;
                     }
                     case 8: {
@@ -320,10 +333,18 @@ public class MenuManager {
 
                         if (activeDeactiveOption == 1) {
 
-                            System.out.println("\n" + OllivandersHotel.activateRoom(idRoom) + "\n");
+                            try {
+                                System.out.println("\n" + OllivandersHotel.activateRoom(idRoom) + "\n");
+                            } catch (RoomNotFoundException e) {
+                                System.out.println("\n" + e.getMessage() + "\n");
+                            }
                         } else if (activeDeactiveOption == 2) {
 
-                            System.out.println("\n" + OllivandersHotel.deactivateRoom(idRoom) + "\n");
+                            try {
+                                System.out.println("\n" + OllivandersHotel.deactivateRoom(idRoom) + "\n");
+                            } catch (RoomNotFoundException e) {
+                                System.out.println("\n" + e.getMessage() + "\n");
+                            }
                         } else {
 
                             System.out.println("\nNot a valid option\n");
@@ -332,13 +353,11 @@ public class MenuManager {
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
-                        /*
                         try {
                             OllivandersHotel.saveData();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        */
                         z++;
                         break;
                     }
@@ -354,8 +373,8 @@ public class MenuManager {
                 scan.next();
             } catch (ReceptionistShiftNeedsChange receptionistShiftNeedsChange) {
                 receptionistShiftNeedsChange.printStackTrace();
-            } catch (UserIsAlreadyActive userIsAlreadyActive) {
-                userIsAlreadyActive.printStackTrace();
+            } catch (UserActiveDeactiveException userActiveDeactiveException) {
+                userActiveDeactiveException.printStackTrace();
             } catch (UserNotFoundException e) {
                 e.printStackTrace();
             }
