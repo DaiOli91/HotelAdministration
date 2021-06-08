@@ -65,13 +65,16 @@ public class RoomRepository implements IRepository<Room, Integer> {
 
     @Override
     public void writeGson() throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        if (file.exists()) {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        gson.toJson(this.rooms, bufferedWriter);
+            gson.toJson(this.rooms, bufferedWriter);
 
-        bufferedWriter.flush();
-        bufferedWriter.close();
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        }
+
     }
 
     @Override

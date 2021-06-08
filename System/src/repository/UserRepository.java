@@ -72,7 +72,6 @@ public class UserRepository implements IRepository<User, String> {
     @Override
     public void edit(User user) {
 
-
         if (!this.users.isEmpty()) {
 
             for (User aux_user : users) {
@@ -88,36 +87,39 @@ public class UserRepository implements IRepository<User, String> {
     @Override
     public void writeGson() throws IOException {
 
-        if (users.size() > 0) {
+        if(filePassengers.exists() && fileManagers.exists() && fileReceptionists.exists()){
+            if (users.size() > 0) {
 
-            List<User> passengers = new ArrayList<>();
-            List<User> managers = new ArrayList<>();
-            List<User> receptionists = new ArrayList<>();
+                List<User> passengers = new ArrayList<>();
+                List<User> managers = new ArrayList<>();
+                List<User> receptionists = new ArrayList<>();
 
-            for (User user : users) {
-                if (user instanceof Passenger) {
-                    passengers.add(user);
-                } else if (user instanceof Receptionist) {
-                    receptionists.add(user);
-                } else if (user instanceof Manager) {
-                    managers.add(user);
+                for (User user : users) {
+                    if (user instanceof Passenger) {
+                        passengers.add(user);
+                    } else if (user instanceof Receptionist) {
+                        receptionists.add(user);
+                    } else if (user instanceof Manager) {
+                        managers.add(user);
+                    }
                 }
+
+                BufferedWriter bwPassengers = new BufferedWriter(new FileWriter(filePassengers));
+                BufferedWriter bwReceptionists = new BufferedWriter(new FileWriter(fileReceptionists));
+                BufferedWriter bwManagers = new BufferedWriter(new FileWriter(fileManagers));
+
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                gson.toJson(passengers, bwPassengers);
+                gson.toJson(receptionists, bwReceptionists);
+                gson.toJson(managers, bwManagers);
+
+
+                bwManagers.close();
+                bwPassengers.close();
+                bwReceptionists.close();
             }
-
-            BufferedWriter bwPassengers = new BufferedWriter(new FileWriter(filePassengers));
-            BufferedWriter bwReceptionists = new BufferedWriter(new FileWriter(fileReceptionists));
-            BufferedWriter bwManagers = new BufferedWriter(new FileWriter(fileManagers));
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(passengers, bwPassengers);
-            gson.toJson(receptionists, bwReceptionists);
-            gson.toJson(managers, bwManagers);
-
-
-            bwManagers.close();
-            bwPassengers.close();
-            bwReceptionists.close();
         }
+
     }
 
     @Override
