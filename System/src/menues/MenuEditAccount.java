@@ -59,7 +59,7 @@ public class MenuEditAccount {
 
                         try {
                             OlivandersHotel.changeFullName(user.getDni(), firstName, lastName);
-                            //TODO possibly add something like @you cannot change your name@ before active booking exception message
+                            System.out.println("\nChanges successfully made.\n");
                         } catch (UserNotFoundException e) {
 
                             System.out.println("\n" + e.getMessage() + "\n");
@@ -77,7 +77,7 @@ public class MenuEditAccount {
                         age = scan.nextInt();
 
                         OlivandersHotel.changeAge(user.getDni(), age);
-                        //TODO probably show a message if everything is ok?
+                        System.out.println("\nChanges successfully made.\n");
                         break;
                     }
                     case 4: {
@@ -113,7 +113,7 @@ public class MenuEditAccount {
                         }
                         genderOption = 0;
                         OlivandersHotel.changeGender(user.getDni(), gender);
-                        //TODO possibly print a message if everything went Ok?
+                        System.out.println("\nChanges successfully made.\n");
                         break;
                     }
                     case 5: {
@@ -124,7 +124,7 @@ public class MenuEditAccount {
                         address = scan.nextLine();
 
                         OlivandersHotel.changeAddress(user.getDni(), address);
-                        //TODO possibly show an OK message
+                        System.out.println("\nChanges successfully made.\n");
                         break;
                     }
                     case 6: {
@@ -134,7 +134,7 @@ public class MenuEditAccount {
                         telephone = scan.next();
 
                         OlivandersHotel.changeTelephone(user.getDni(), telephone);
-                        //TODO success message
+                        System.out.println("\nChanges successfully made.\n");
                         break;
                     }
                     case 7: {
@@ -144,7 +144,7 @@ public class MenuEditAccount {
                         email = scan.next();
 
                         OlivandersHotel.changeEmail(user.getDni(), email);
-                        //TODO success message
+                        System.out.println("\nChanges successfully made.\n");
                         break;
                     }
                     case 8: {
@@ -154,7 +154,7 @@ public class MenuEditAccount {
                         password = scan.next();
 
                         OlivandersHotel.changePassword(user.getDni(), password);
-                        //TODO success message
+                        System.out.println("\nChanges successfully made.\n");
                         break;
                     }
                     case 9: {
@@ -186,8 +186,8 @@ public class MenuEditAccount {
                                 }
                             }
 
-                           OlivandersHotel.changeReceptionistShift(user.getDni(), shift);
-                            //TODO Success message
+                            OlivandersHotel.changeReceptionistShift(user.getDni(), shift);
+                            System.out.println("\nChanges successfully made.\n");
                         } else {
 
                             System.out.println("\nPlease, choose a valid option\n");

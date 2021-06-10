@@ -107,8 +107,7 @@ public class Main {
                                 try {
 
                                     OllivandersHotel.register(user);
-                                    //TODO Register now is void....only prints message if an exception is thrown... would you like to show a message in case that the user is added successfully?
-
+                                    System.out.println("\nUser successfully registered. To operate, please, log in.\n");
                                 } catch (IOException e) {
 
                                     e.printStackTrace();

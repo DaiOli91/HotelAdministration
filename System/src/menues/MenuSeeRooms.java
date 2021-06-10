@@ -37,7 +37,6 @@ public class MenuSeeRooms {
                     case 1: {
                         System.out.println("\nAll Rooms\n");
 
-                        // TODO Check if we need to add toString or not.
                         System.out.println("\n" + OllivandersHotel.getRooms().toString() + "\n");
                         break;
                     }

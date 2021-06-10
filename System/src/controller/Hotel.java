@@ -327,7 +327,6 @@ public class Hotel {
 
     }
 
-    // TODO Check link Orellano sent.
     public boolean ifStringContainsLetters(String telephone) {
 
         boolean flag = false;
@@ -510,7 +509,6 @@ public class Hotel {
 
     public void cancelBooking(Integer idBooking) throws BookingNotFoundException, DateValidationException {
 
-        // TODO Maybe needs changes.
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -530,31 +528,8 @@ public class Hotel {
         }
     }
 
-    // TODO Need to ask Orellano about this.
-    public String deleteBooking(Integer idBooking) {
-
-        String message;
-        Booking aux_booking = this.bookings.search(idBooking);
-
-        if (aux_booking != null) {
-            if ((LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate()))
-                    || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))) {
-                //also: if((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() <= 2)
-                this.bookings.delete(idBooking);
-                message = "Booking successfully deleted";
-
-            } else {
-                message = "Error. There should be at least 48hs before booking Start Date. You cannot delete this booking";
-            }
-        } else {
-            message = "Booking not found";
-        }
-        return message;
-    }
-
     public void checkIn(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException {
 
-        //TODO Maybe needs changes.
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -578,7 +553,6 @@ public class Hotel {
 
     public void checkOut(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException {
 
-        //TODO Maybe needs changes.
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
@@ -630,7 +604,6 @@ public class Hotel {
         }
     }
 
-    //TODO Get Orellano's approval
     public int getLastBookingId() {
         Optional<Booking> auxBooking = getBookings().stream().max(Comparator.comparing(booking -> booking.getId()));
         if (!auxBooking.isEmpty() && auxBooking != null) {
@@ -863,7 +836,6 @@ public class Hotel {
         return message;
     }
 
-    //TODO Get Orellano's approval
     public int getLastRoomNumber() {
         Optional<Room> auxRoom = getRooms().stream().max(Comparator.comparing(room -> room.getNumber()));
 

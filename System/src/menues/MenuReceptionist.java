@@ -45,7 +45,7 @@ public class MenuReceptionist {
                         if (idBooking != -1) {
 
                             OllivandersHotel.checkIn(dni, idBooking);
-                            //TODO success message/ possibly "Booking found. Passenger Checked In"
+                            System.out.println("\nBooking found. Passenger Checked In\n");
                         }
                         break;
                     }
@@ -61,7 +61,7 @@ public class MenuReceptionist {
                         if (idBooking != -1) {
 
                             OllivandersHotel.checkOut(dni, idBooking);
-                            //TODO message, possibly "Booking found. Passenger Checked Out"
+                            System.out.println("\nBooking found. Passenger Checked Out.\n");
                         }
                         break;
                     }
@@ -201,7 +201,7 @@ public class MenuReceptionist {
                         idBooking = scan.nextInt();
 
                         OllivandersHotel.cancelBooking(idBooking);
-                        //TODO success booking for cancelling booking
+                        System.out.println("\nBooking successfully cancelled.\n");
                         break;
                     }
                     case 6: {
@@ -244,14 +244,11 @@ public class MenuReceptionist {
                             }
                         }
 
-                        // TODO Maybe needs more validations.
                         System.out.println("\n" + OllivandersHotel.changeRoomAvailability(idRoom, availability) + "\n");
                         break;
                     }
                     case 8: {
                         System.out.println("\nEdit Account\n");
-
-                        // TODO Maybe needs changes.
 
                         System.out.print("[1]. Edit my Account\n[2]. Edit Passenger Account\n\nOption: ");
                         int editOption = scan.nextInt();
