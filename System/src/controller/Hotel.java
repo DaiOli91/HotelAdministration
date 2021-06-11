@@ -9,6 +9,7 @@ import repository.UserRepository;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -59,21 +60,23 @@ public class Hotel {
         return telephone;
     }
 
-    public void loadData() throws IOException, DateValidationException, BookingNotFoundException {
+    public void loadData() throws IOException, DateValidationException, BookingNotFoundException, UnavailableRoomException {
         users.readGson();
         if (users.getUsers().size() == 0) {
             this.userHC();
         } //to make sure that the list always has data
+
+        rooms.readGson();
+        if (this.rooms.getRooms().size() == 0) {
+            this.roomHC();
+        }
 
         bookings.readGson();
         if (this.bookings.getRoomBookings().size() == 0) {
             this.bookingHC();
         }
 
-        rooms.readGson();
-        if (this.rooms.getRooms().size() == 0) {
-            this.roomHC();
-        }
+
     }
 
     public void saveData() throws IOException {
@@ -89,17 +92,9 @@ public class Hotel {
     }
 
     // ╠═══════════════════════════════ User Methods // 'ABML' order ═══════════════════════════════╣
-    public void register(User user) throws IOException, UserAlreadyRegisteredException, DateValidationException, BookingNotFoundException {
-
-        if (users.getUsers().isEmpty()) {
-
-            this.loadData();
-        }
+    public void register(User user) throws UserAlreadyRegisteredException {
         if (this.users.search(user.getDni()) == null) {
-
-            users.add(user);
-            this.saveData();
-
+            this.users.add(user);
         } else {
 
             throw new UserAlreadyRegisteredException();
@@ -121,12 +116,6 @@ public class Hotel {
 
                     throw new ReceptionistShiftNeedsChange();
                 }
-                try {
-                    saveData();
-                } catch (IOException e) {
-                    System.out.println("\n" + e.getMessage() + "\n");
-                }
-
             } else {
 
                 throw new UserActiveDeactiveException("User account is already Active");
@@ -153,12 +142,6 @@ public class Hotel {
                     }
                     auxUser.setActive();
                     users.edit(auxUser);
-                    try {
-                        saveData();
-                    } catch (IOException e) {
-                        System.out.println("\n" + e.getMessage() + "\n");
-                    }
-
                 } else {
 
                     throw new UserActiveDeactiveException("User account is already Deactive");
@@ -246,14 +229,13 @@ public class Hotel {
 
     public void changeAge(String dni, int age) throws UserNotFoundException, InvalidNumberValidationException {
 
-        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
 
             if (age > 18) {
 
-                if (age <= 100) {
+                if (age <= 99) {
 
                     auxUser.setAge(age);
                     users.edit(auxUser);
@@ -274,7 +256,6 @@ public class Hotel {
 
     public void changeGender(String dni, Gender gender) throws UserNotFoundException {
 
-        String message;
         User auxUser = users.search(dni);
 
         if (auxUser != null) {
@@ -324,7 +305,6 @@ public class Hotel {
 
             throw new UserNotFoundException();
         }
-
     }
 
     public boolean ifStringContainsLetters(String telephone) {
@@ -350,7 +330,7 @@ public class Hotel {
 
         if (auxUser != null) {
 
-            if (email.contains("@") && email.contains(".com")) {
+            if (email.contains("@") && email.contains(".co")) {
 
                 auxUser.setEmail(email);
                 users.edit(auxUser);
@@ -514,8 +494,7 @@ public class Hotel {
         if (aux_booking != null) {
 
             if ((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate()) >= 2) {
-                // (int) DAYS.between(LocalDate.now(), aux_booking.getStartDate() >= 2)
-                // (LocalDate.now().plusDays(2).isEqual(aux_booking.getStartDate())) || ((LocalDate.now().plusDays(2).isBefore(aux_booking.getStartDate())))
+
                 aux_booking.setState(State.CANCELLED);
                 this.bookings.edit(aux_booking);
             } else {
@@ -528,20 +507,32 @@ public class Hotel {
         }
     }
 
-    public void checkIn(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException {
+    public void checkIn(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException, DateValidationException, BookingStateException, RoomNotFoundException {
 
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
-            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
+            if (aux_booking.getIdMainPassenger().equals(dniPassenger)) {
 
-                changeStateBooking(idBooking, State.CHECKED);
-                this.bookings.edit(aux_booking);
+                if ((int) DAYS.between(LocalDate.now(), aux_booking.getStartDate()) >= 0 && (int) DAYS.between(LocalDate.now(), aux_booking.getStartDate()) <= 2) {
 
-                Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
-                changeRoomAvailability(aux_room.getNumber(), Availability.OCCUPIED);
+                    if (aux_booking.getState().equals(State.ACTIVE)) {
 
-                this.rooms.edit(aux_room);
+                        changeStateBooking(idBooking, State.CHECKED);
+                        this.bookings.edit(aux_booking);
+
+                        Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
+                        changeRoomAvailability(aux_room.getNumber(), Availability.OCCUPIED);
+
+                        this.rooms.edit(aux_room);
+                    } else {
+
+                        throw new BookingStateException("The State of the Booking is not active");
+                    }
+                } else {
+
+                    throw new DateValidationException("Check In should be done within the first 48hr of the Booking");
+                }
             } else {
                 throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
             }
@@ -551,19 +542,26 @@ public class Hotel {
         }
     }
 
-    public void checkOut(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException {
+    public void checkOut(String dniPassenger, Integer idBooking) throws InvalidStringException, BookingNotFoundException, BookingStateException, RoomNotFoundException {
 
         Booking aux_booking = this.bookings.search(idBooking);
 
         if (aux_booking != null) {
-            if ((aux_booking.getIdMainPassenger().equals(dniPassenger)) || (aux_booking.getIdOptionalPassenger().equals(dniPassenger))) {
-                changeStateBooking(idBooking, State.CHECK_OUT);
-                this.bookings.edit(aux_booking);
+            if (aux_booking.getIdMainPassenger().equals(dniPassenger)) {
 
-                Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
-                changeRoomAvailability(aux_room.getNumber(), Availability.CLEANING);
+                if (aux_booking.getState().equals(State.CHECKED)) {
 
-                this.rooms.edit(aux_room);
+                    changeStateBooking(idBooking, State.CHECK_OUT);
+                    this.bookings.edit(aux_booking);
+
+                    Room aux_room = this.rooms.search(aux_booking.getIdRoom()); //change the availability of the current list of rooms
+                    changeRoomAvailability(aux_room.getNumber(), Availability.CLEANING);
+
+                    this.rooms.edit(aux_room);
+                } else {
+
+                    throw new BookingStateException("The passenger never Checked In");
+                }
             } else {
                 throw new InvalidStringException("Passenger's ID and Booking's Id do not match");
             }
@@ -587,47 +585,18 @@ public class Hotel {
         }
     }
 
-    //TODO if implemented, possible success message for the main> "All bookings have been cancelled";
-    public void cancelAllBookingsByRoom(Integer idRoom) throws DateValidationException, BookingNotFoundException {
-
-        List<Booking> auxRoomBookings = getActiveBookingsByRoom(idRoom);
-
-        if (auxRoomBookings != null) {
-
-            for (Booking b : auxRoomBookings) {
-
-                cancelBooking(b.getId());
-            }
-        } else {
-
-            throw new BookingNotFoundException();
-        }
-    }
-
     public int getLastBookingId() {
         Optional<Booking> auxBooking = getBookings().stream().max(Comparator.comparing(booking -> booking.getId()));
-        if (!auxBooking.isEmpty() && auxBooking != null) {
+        if (auxBooking != null && !auxBooking.isEmpty()) {
             return auxBooking.get().getId();
         } else {
             return 0;
         }
-
     }
 
     public List<Booking> getCheckedBookings() {
 
         return getBookings().stream().filter(booking -> booking.getState().equals(State.CHECKED)).collect(Collectors.toList());
-    }
-
-
-    /***
-     *
-     * @param idRoom to filter
-     * @return a list with all bookings with checked state for a room- double purpose, to verify that the system is working fine
-     */
-    public List<Booking> getCheckedBookingsByRoom(Integer idRoom) {
-
-        return getCheckedBookings().stream().filter(booking -> booking.getIdRoom() == idRoom).collect(Collectors.toList());
     }
 
 
@@ -665,15 +634,6 @@ public class Hotel {
                 .filter(b -> b.getState().equals(state))
                 .collect(Collectors.toList());
     }
-
-    public List<Booking> getActiveBookingByPassenger(String dni) {
-
-        return getBookings().stream()
-                .filter(booking -> booking.getIdMainPassenger().equals(dni))
-                .filter(booking -> booking.getState().equals(State.ACTIVE))
-                .collect(Collectors.toList());
-    }
-
 
     /**
      * @return List of all active bookings for a Specific room- to validate
@@ -720,9 +680,8 @@ public class Hotel {
         return "Room created successfully";
     }
 
-    public String activateRoom(int idRoom) throws RoomNotFoundException {
+    public void activateRoom(int idRoom) throws RoomNotFoundException, ActiveRoomException {
 
-        String message = "";
         Room auxRoom = this.rooms.search(idRoom);
 
         if (auxRoom != null) {
@@ -732,22 +691,19 @@ public class Hotel {
                 auxRoom.setAvailability(Availability.CLEANING);
                 rooms.edit(auxRoom);
 
-                message = "The room was activated successfully. Needs to be cleaned";
             } else {
 
-                message = "Room is already active";
+                throw new ActiveRoomException("Room is already active");
             }
         } else {
 
             throw new RoomNotFoundException();
         }
 
-        return message;
     }
 
-    public String deactivateRoom(int idRoom) throws RoomNotFoundException {
+    public void deactivateRoom(int idRoom) throws RoomNotFoundException, ActiveRoomException, ActiveBookingException {
 
-        String message;
         Room auxRoom = rooms.search(idRoom);
 
         if (auxRoom != null) {
@@ -762,31 +718,27 @@ public class Hotel {
                         changeRoomAvailability(idRoom, Availability.OUT_OF_SERVICE);
                         rooms.edit(auxRoom);
 
-                        message = "Room successfully deactivated";
                     } else {
 
-                        message = "Room already deactivated";
+                        throw new ActiveRoomException("Room already deactivated");
                     }
                 } else {
 
-                    message = "Room is occupied. Please, try later";
+                    throw new ActiveRoomException("Room is occupied. Please, try later");
                 }
 
             } else {
 
-                message = "The room cannot be deactivated because there are current bookings on";
+               throw new ActiveBookingException();
             }
         } else {
 
             throw new RoomNotFoundException();
         }
-
-        return message;
     }
 
-    public String changeRoomCategory(int idRoom, Category category) throws RoomNotFoundException {
+    public void changeRoomCategory(int idRoom, Category category) throws RoomNotFoundException, ActiveRoomException, ActiveBookingException {
 
-        String message;
         Room auxRoom = rooms.search(idRoom);
 
         if (auxRoom != null) {
@@ -799,41 +751,33 @@ public class Hotel {
                     auxRoom.setCategory(category);
                     rooms.edit(auxRoom);
 
-                    message = "Room's category was changed";
                 } else {
 
-                    message = "Room is occupied. Please, try later";
+                    throw new ActiveRoomException("Room is occupied. Please, try later");
                 }
 
             } else {
 
-                message = "The room cannot change Category. There are active booking related to this room.\nPlease, cancel them first";
+                throw new ActiveBookingException();
             }
         } else {
 
             throw new RoomNotFoundException();
         }
 
-        return message;
     }
 
-    public String changeRoomAvailability(int idRoom, Availability availability) {
-
-        String message;
+    public void changeRoomAvailability(int idRoom, Availability availability) throws RoomNotFoundException {
         Room auxRoom = rooms.search(idRoom);
 
         if (auxRoom != null) {
 
             auxRoom.setAvailability(availability);
             rooms.edit(auxRoom);
-
-            message = "Room's availability was changed";
         } else {
 
-            message = "Room not found";
+            throw new RoomNotFoundException();
         }
-
-        return message;
     }
 
     public int getLastRoomNumber() {
@@ -849,7 +793,8 @@ public class Hotel {
 
     public List<Room> getAvailableRooms(LocalDate startDate, LocalDate endDate) {
 
-        List<Room> auxRooms = getRooms();
+        List<Room> auxRooms = new ArrayList<>();
+        auxRooms.addAll(getRooms());
         List<Booking> activeBookings = getActiveBookingsByDate(startDate, endDate);
         for (int r = 0; r < auxRooms.size(); r++) {
 
@@ -878,75 +823,72 @@ public class Hotel {
         }
     }
 
-    public List<Room> getAllFreeRooms(Availability availability) {
+    public List<Room> getAllFreeRooms() {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.FREE)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllOccupiedRooms(Availability availability) {
+    public List<Room> getAllOccupiedRooms() {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.OCCUPIED)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllCleaningRooms(Availability availability) {
+    public List<Room> getAllCleaningRooms() {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.CLEANING)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllInDesinfectionRooms(Availability availability) {
+    public List<Room> getAllInDesinfectionRooms() {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.IN_DESINFECTION)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllUnderRepairRooms(Availability availability) {
+    public List<Room> getAllUnderRepairRooms() {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.UNDER_REPAIR)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllOutOfServiceRooms(Availability availability) {
+    public List<Room> getAllOutOfServiceRooms() {
 
         return getRooms().stream().filter(room -> room.getAvailability().equals(Availability.OUT_OF_SERVICE)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllGuestRooms(Category category) {
+    public List<Room> getAllGuestRooms() {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.GUEST)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllJuniorRooms(Category category) {
+    public List<Room> getAllJuniorRooms() {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.JUNIOR)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllPresidentialRooms(Category category) {
+    public List<Room> getAllPresidentialRooms() {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.PRESIDENTIAL)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllExecutiveRooms(Category category) {
+    public List<Room> getAllExecutiveRooms() {
 
         return getRooms().stream().filter(room -> room.getCategory().equals(Category.EXECUTIVE)).collect(Collectors.toList());
     }
 
 
     // ╚═══════════════════════════════ HC Methods
-    public void addSuperAdmin() {
-        User superAdmin = new Manager("11111111"
-                , "Super"
-                , "Admin"
-                , 100
-                , Gender.FEMALE
-                , "Something 123"
-                , "111111111"
-                , "superadmin@mail.com"
-                , "superadmin123");
-
-        this.users.add(superAdmin);
-    }
 
     public void userHC() throws IOException {
         try {
-            addSuperAdmin();
+            register(new Passenger("14785972"
+                    , "Juan Pablo"
+                    , "Castellares"
+                    , 60
+                    , Gender.MALE
+                    , "Juramento 5646"
+                    , "4585838"
+                    , "something@something.com"
+                    , "pass123"
+                    , "Mar del Plata"));
+
             register(new Passenger("14874804"
                     , "Andrea"
                     , "Carrizo"
@@ -1052,40 +994,38 @@ public class Hotel {
                     , "pass123"));
         } catch (UserAlreadyRegisteredException e) {
             e.printStackTrace();
-        } catch (BookingNotFoundException e) {
-            e.printStackTrace();
-        } catch (DateValidationException e) {
-            e.printStackTrace();
         }
     }
 
     public void roomHC() {
-        if (getRooms().isEmpty()) {
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.EXECUTIVE, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.JUNIOR, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.PRESIDENTIAL, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.CLEANING));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.OCCUPIED));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.IN_DESINFECTION));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.OUT_OF_SERVICE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.EXECUTIVE, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.GUEST, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.JUNIOR, Availability.FREE));
-            rooms.add(new Room(getLastRoomNumber() + 1, Category.PRESIDENTIAL, Availability.FREE));
-        }
-
+        createRoom(Category.EXECUTIVE, Availability.FREE);
+        createRoom(Category.PRESIDENTIAL, Availability.FREE);
+        createRoom(Category.JUNIOR, Availability.FREE);
+        createRoom(Category.GUEST, Availability.FREE);
+        createRoom(Category.EXECUTIVE, Availability.IN_DESINFECTION);
+        createRoom(Category.PRESIDENTIAL, Availability.OCCUPIED);
+        createRoom(Category.JUNIOR, Availability.CLEANING);
+        createRoom(Category.GUEST, Availability.CLEANING);
+        createRoom(Category.EXECUTIVE, Availability.CLEANING);
+        createRoom(Category.PRESIDENTIAL, Availability.CLEANING);
+        createRoom(Category.JUNIOR, Availability.CLEANING);
+        createRoom(Category.GUEST, Availability.CLEANING);
+        createRoom(Category.EXECUTIVE, Availability.FREE);
+        createRoom(Category.PRESIDENTIAL, Availability.FREE);
+        createRoom(Category.JUNIOR, Availability.FREE);
+        createRoom(Category.GUEST, Availability.FREE);
+        createRoom(Category.GUEST, Availability.FREE);
     }
 
-    public void bookingHC() throws DateValidationException, BookingNotFoundException {
-        if (getBookings().isEmpty()) {
-            bookings.add(new Booking(getLastBookingId() + 1, 101, "38530953", "14874804", LocalDate.now(), LocalDate.now().plusDays(7)));
-            bookings.add(new Booking(getLastBookingId() + 1, 101, "14589623", "14874804", LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1).plusDays(7)));
-            bookings.add(new Booking(getLastBookingId() + 1, 102, "14874804", "14589623", LocalDate.now().plusDays(5), LocalDate.now().plusDays(5).plusDays(7)));
-            bookings.add(new Booking(getLastBookingId() + 1, 102, "14589623", "14874804", LocalDate.now().plusDays(20), LocalDate.now().plusDays(20).plusDays(7)));
-            bookings.add(new Booking(getLastBookingId() + 1, 103, "14874804", "38530953", LocalDate.now(), LocalDate.now().plusDays(7)));
-            bookings.add(new Booking(getLastBookingId() + 1, 103, "38530953", "14874804", LocalDate.now().plusDays(10), LocalDate.now().plusDays(10).plusDays(7)));
-            cancelBooking(3);
-        }
+    public void bookingHC() throws DateValidationException, BookingNotFoundException, UnavailableRoomException {
+
+        createBooking(101, "38530953", "14874804", LocalDate.of(2021, 6, 11), LocalDate.of(2021, 6, 19));
+        createBooking(101, "14589623", "14874804", LocalDate.of(2021, 7, 3), LocalDate.of(2021, 7, 13));
+        createBooking(101, "14589623", "14874804", LocalDate.of(2021, 8, 3), LocalDate.of(2021, 8, 13));
+        createBooking(102, "14874804", "14589623", LocalDate.of(2021, 6, 14), LocalDate.of(2021, 6, 22));
+        createBooking(110, "14589623", "14874804", LocalDate.of(2021, 6, 17), LocalDate.of(2021, 6, 30));
+        createBooking(103, "14874804", "38530953", LocalDate.of(2021, 6, 14), LocalDate.of(2021, 6, 25));
+        createBooking(112, "38530953", "14874804", LocalDate.of(2021, 6, 17), LocalDate.of(2021, 6, 28));
+        cancelBooking(3);
     }
 }
