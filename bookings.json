@@ -4,96 +4,76 @@
     "idRoom": 101,
     "idMainPassenger": "38530953",
     "idOptionalPassenger": "14874804",
-    "startDate": "2021-06-07",
-    "endDate": "2021-06-14",
-    "amountOfNights": 0,
-    "state": "ACTIVE",
-    "totalCost": 0.0
+    "startDate": "2021-06-10",
+    "endDate": "2021-06-19",
+    "amountOfNights": 8,
+    "state": "CHECKED",
+    "totalCost": 38400.0
   },
   {
     "id": 2,
     "idRoom": 101,
     "idMainPassenger": "14589623",
     "idOptionalPassenger": "14874804",
-    "startDate": "2021-07-07",
-    "endDate": "2021-07-14",
-    "amountOfNights": 0,
+    "startDate": "2021-07-03",
+    "endDate": "2021-07-13",
+    "amountOfNights": 10,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 48000.0
   },
   {
     "id": 3,
-    "idRoom": 102,
-    "idMainPassenger": "14874804",
-    "idOptionalPassenger": "14589623",
-    "startDate": "2021-06-12",
-    "endDate": "2021-06-19",
-    "amountOfNights": 0,
-    "state": "ACTIVE",
-    "totalCost": 0.0
+    "idRoom": 101,
+    "idMainPassenger": "14589623",
+    "idOptionalPassenger": "14874804",
+    "startDate": "2021-08-03",
+    "endDate": "2021-08-13",
+    "amountOfNights": 10,
+    "state": "CANCELLED",
+    "totalCost": 48000.0
   },
   {
     "id": 4,
     "idRoom": 102,
-    "idMainPassenger": "14589623",
-    "idOptionalPassenger": "14874804",
-    "startDate": "2021-06-27",
-    "endDate": "2021-07-04",
-    "amountOfNights": 0,
+    "idMainPassenger": "14874804",
+    "idOptionalPassenger": "14589623",
+    "startDate": "2021-06-14",
+    "endDate": "2021-06-22",
+    "amountOfNights": 8,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 28000.0
   },
   {
     "id": 5,
-    "idRoom": 103,
-    "idMainPassenger": "14874804",
-    "idOptionalPassenger": "38530953",
-    "startDate": "2021-06-07",
-    "endDate": "2021-06-14",
-    "amountOfNights": 0,
+    "idRoom": 110,
+    "idMainPassenger": "14589623",
+    "idOptionalPassenger": "14874804",
+    "startDate": "2021-06-17",
+    "endDate": "2021-06-30",
+    "amountOfNights": 13,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 45500.0
   },
   {
     "id": 6,
     "idRoom": 103,
-    "idMainPassenger": "38530953",
-    "idOptionalPassenger": "14874804",
-    "startDate": "2021-06-17",
-    "endDate": "2021-06-24",
-    "amountOfNights": 0,
+    "idMainPassenger": "14874804",
+    "idOptionalPassenger": "38530953",
+    "startDate": "2021-06-14",
+    "endDate": "2021-06-25",
+    "amountOfNights": 11,
     "state": "ACTIVE",
-    "totalCost": 0.0
+    "totalCost": 30800.0
   },
   {
     "id": 7,
-    "idRoom": 135,
+    "idRoom": 112,
     "idMainPassenger": "38530953",
-    "idOptionalPassenger": "",
-    "startDate": "2021-07-15",
-    "endDate": "2021-08-01",
-    "amountOfNights": 17,
+    "idOptionalPassenger": "14874804",
+    "startDate": "2021-06-17",
+    "endDate": "2021-06-28",
+    "amountOfNights": 11,
     "state": "ACTIVE",
-    "totalCost": 47600.0
-  },
-  {
-    "id": 8,
-    "idRoom": 135,
-    "idMainPassenger": "33333333",
-    "startDate": "2021-06-10",
-    "endDate": "2021-06-18",
-    "amountOfNights": 8,
-    "state": "CANCELLED",
-    "totalCost": 22400.0
-  },
-  {
-    "id": 9,
-    "idRoom": 135,
-    "idMainPassenger": "33333333",
-    "startDate": "2021-06-09",
-    "endDate": "2021-06-19",
-    "amountOfNights": 10,
-    "state": "ACTIVE",
-    "totalCost": 28000.0
+    "totalCost": 13200.0
   }
 ]

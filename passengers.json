@@ -1,6 +1,19 @@
 [
   {
     "origin": "Mar del Plata",
+    "dni": "14785972",
+    "firstName": "Juan Pablo",
+    "lastName": "Castellares",
+    "age": 60,
+    "gender": "MALE",
+    "address": "Juramento 5646",
+    "telephone": "4585838",
+    "email": "something@something.com",
+    "password": "pass123",
+    "active": false
+  },
+  {
+    "origin": "Mar del Plata",
     "dni": "14874804",
     "firstName": "Andrea",
     "lastName": "Carrizo",
@@ -32,48 +45,9 @@
     "lastName": "Graziano",
     "age": 25,
     "gender": "MALE",
-    "address": "Mexico 3536",
+    "address": "Mexico 3710",
     "telephone": "4651236",
     "email": "something@something.com",
-    "password": "pass123",
-    "active": true
-  },
-  {
-    "origin": "Quilmes",
-    "dni": "44555666",
-    "firstName": "test",
-    "lastName": "test3",
-    "age": 50,
-    "gender": "MALE",
-    "address": "test 333",
-    "telephone": "2235556633",
-    "email": "test3@gmail.com",
-    "password": "pass123",
-    "active": true
-  },
-  {
-    "origin": "Varela",
-    "dni": "77888999",
-    "firstName": "test4",
-    "lastName": "test4",
-    "age": 60,
-    "gender": "FEMALE",
-    "address": "test 444",
-    "telephone": "2235696969",
-    "email": "test4@gmail.com",
-    "password": "pass123",
-    "active": true
-  },
-  {
-    "origin": "testing",
-    "dni": "33333333",
-    "firstName": "testing",
-    "lastName": "testing",
-    "age": 18,
-    "gender": "OTHER",
-    "address": "testing",
-    "telephone": "123456789",
-    "email": "testing@test.com",
     "password": "pass123",
     "active": true
   }

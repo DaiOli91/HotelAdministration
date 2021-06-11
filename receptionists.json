@@ -1,7 +1,7 @@
 [
   {
     "shift": "MORNING",
-    "employeeNumber": "58652de5-f5fb-4312-b826-f4c12238807d",
+    "employeeNumber": "37d43348-58be-4f73-a179-bba28c5fafda",
     "dni": "18956565",
     "firstName": "Sofia",
     "lastName": "Caceres",
@@ -14,8 +14,8 @@
     "active": true
   },
   {
-    "shift": "AFTERNOON",
-    "employeeNumber": "4c1f5b1e-f2f9-4d3f-9eb0-d32b47d87500",
+    "shift": "UNASIGNED",
+    "employeeNumber": "96b318e4-ea26-4a2d-8490-a6b3c01cff27",
     "dni": "18956323",
     "firstName": "Matias",
     "lastName": "Palacios",
@@ -25,11 +25,11 @@
     "telephone": "2235686323",
     "email": "matias@gmail.com",
     "password": "mati1966",
-    "active": true
+    "active": false
   },
   {
     "shift": "NIGHT",
-    "employeeNumber": "f11d952b-d98a-40dd-9b6b-a3c8e4f8cc69",
+    "employeeNumber": "db0428fa-e755-447e-952b-c68ea2275a87",
     "dni": "35236598",
     "firstName": "Santiago",
     "lastName": "Gonzalez",
@@ -39,6 +39,20 @@
     "telephone": "2235456985",
     "email": "santig@gmail.com",
     "password": "santi30",
+    "active": true
+  },
+  {
+    "shift": "MORNING",
+    "employeeNumber": "b87b6e56-f406-4df3-a396-bdd2d4c4fe72",
+    "dni": "22111333",
+    "firstName": "Clara",
+    "lastName": "Andrade",
+    "age": 38,
+    "gender": "FEMALE",
+    "address": "Francia 2376",
+    "telephone": "2235506536",
+    "email": "mail@gmail.com",
+    "password": "pass123",
     "active": true
   }
 ]
