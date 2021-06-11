@@ -1,6 +1,7 @@
 import controller.Hotel;
 import exception.BookingNotFoundException;
 import exception.DateValidationException;
+import exception.UnavailableRoomException;
 import exception.UserAlreadyRegisteredException;
 import menues.MenuManager;
 import menues.MenuReceptionist;
@@ -23,20 +24,30 @@ public class Main {
         try {
 
             OllivandersHotel = new Hotel("Ollivanders", "Belgrano 3998", "4758996");
+            OllivandersHotel.loadData();
         } catch (IOException e) {
+
+            System.out.println("\n" + e.getMessage() + "\n");
+        } catch (BookingNotFoundException e) {
+            System.out.println("\n" + e.getMessage() + "\n");
+        } catch (DateValidationException e) {
+            System.out.println("\n" + e.getMessage() + "\n");
+        } catch (UnavailableRoomException e) {
 
             System.out.println("\n" + e.getMessage() + "\n");
         }
 
         int z = 0, option;
 
-        String dni, firstName, lastName, address, telephone, email, password, origin;
+        String dni, firstName, lastName, address, telephone, email, password, password2, origin;
         int age, genderOption = 0;
         Gender gender = null;
 
         while (z == 0) {
 
-            System.out.println("\nWelcome to hotel Ollivanders Hotel\n===========================\n");
+            System.out.println("\n===========================");
+            System.out.println("Welcome to " + OllivandersHotel.getName() + " Hotel\n\nLocated in " + OllivandersHotel.getAddress() + "\nContact: " + OllivandersHotel.getTelephone());
+            System.out.println("===========================\n");
             System.out.println("[1]. Register\n[2]. Log In\n");
             System.out.println("0. Exit");
             System.out.print("Option: ");
@@ -91,36 +102,43 @@ public class Main {
                             address = scan.nextLine();
                             System.out.print("Telephone: ");
                             telephone = scan.next();
-                            System.out.print("Email: ");
-                            email = scan.next();
-                            if (email.contains("@")) {
+                            if (!OllivandersHotel.ifStringContainsLetters(telephone)) {
 
-                                System.out.print("Password: ");
-                                password = scan.next();
-                                System.out.print("Origin (City): ");
-                                scan.nextLine();
-                                origin = scan.nextLine();
+                                System.out.print("Email: ");
+                                email = scan.next();
+                                if (email.contains("@") && email.contains(".co")) {
+
+                                    System.out.print("Password: ");
+                                    password = scan.next();
+                                    System.out.print("Enter your password again: ");
+                                    password2 = scan.next();
+                                    if (password.equals(password2)) {
+
+                                        System.out.print("Origin (City): ");
+                                        scan.nextLine();
+                                        origin = scan.nextLine();
 
 
-                                User user = new Passenger(dni, firstName, lastName, age, gender, address, telephone, email, password, origin);
+                                        User user = new Passenger(dni, firstName, lastName, age, gender, address, telephone, email, password, origin);
 
-                                try {
+                                        try {
 
-                                    OllivandersHotel.register(user);
-                                    System.out.println("\nUser successfully registered. To operate, please, log in.\n");
-                                } catch (IOException e) {
+                                            OllivandersHotel.register(user);
+                                            System.out.println("\nUser successfully registered. To operate, please, log in.\n");
+                                        } catch (UserAlreadyRegisteredException e) {
+                                            System.out.println("\n" + e.getMessage() + "\n");
+                                        }
+                                    } else {
 
-                                    e.printStackTrace();
-                                } catch (UserAlreadyRegisteredException e) {
-                                    e.printStackTrace();
-                                } catch (BookingNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (DateValidationException e) {
-                                    e.printStackTrace();
+                                        System.out.println("\nThe passwords do not match\n");
+                                    }
+                                } else {
+
+                                    System.out.println("\nNot a valid email\n");
                                 }
                             } else {
 
-                                System.out.println("\nNot a valid email\n");
+                                System.out.println("\nNot a valid phone number\n");
                             }
                         } else {
 
@@ -139,7 +157,7 @@ public class Main {
                         try {
                             loggedUser = Log.logIn(dni, password, OllivandersHotel);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            System.out.println("\n" + e.getMessage() + "\n");
                         }
                         if (loggedUser != null) {
 
@@ -150,11 +168,11 @@ public class Main {
                             } else if (loggedUser instanceof Receptionist) {
 
                                 System.out.println("User found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + "\n");
-                                MenuReceptionist.menuReceptionist(scan, OllivandersHotel, loggedUser);
+                                OllivandersHotel = MenuReceptionist.menuReceptionist(scan, OllivandersHotel, loggedUser);
                             } else {
 
                                 System.out.println("User found. Welcome " + loggedUser.getFirstName() + " " + loggedUser.getLastName() + "\n");
-                                MenuManager.menuManager(scan, OllivandersHotel, loggedUser);
+                                OllivandersHotel = MenuManager.menuManager(scan, OllivandersHotel, loggedUser);
                             }
                         } else {
 
@@ -180,9 +198,7 @@ public class Main {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Validation Error.");
-                System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-                scan.next();
+                System.out.println("\n" + ime.getMessage() + "\n");
             }
         }
         scan.close();

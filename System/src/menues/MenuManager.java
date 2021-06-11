@@ -4,13 +4,12 @@ import controller.Hotel;
 import exception.*;
 import model.*;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuManager {
 
-    public static void menuManager(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
+    public static Hotel menuManager(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
         int z = 0, option;
 
@@ -137,14 +136,7 @@ public class MenuManager {
 
                                 System.out.println("\nNeeds to be at least 18 years old to add a new employee\n");
                             }
-                        } catch (IOException e) {
-
-                            e.printStackTrace();
                         } catch (UserAlreadyRegisteredException e) {
-                            e.printStackTrace();
-                        } catch (BookingNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (DateValidationException e) {
                             e.printStackTrace();
                         }
                         break;
@@ -157,38 +149,20 @@ public class MenuManager {
                     case 3: {
                         System.out.println("\nEdit Account\n");
 
-                        System.out.print("[1]. Edit my Account\n[2]. Edit Receptionist Account\n[3]. Edit Passenger Account\n\nOption: ");
+                        System.out.print("[1]. Edit my Account or Receptionist Shift\n[2]. Edit User Account\n\nOption: ");
                         int editOption = scan.nextInt();
 
                         if (editOption == 1) {
 
-                            MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
+                            OllivandersHotel = MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
                         } else if (editOption == 2) {
-
-
-                            System.out.print("Enter the Receptionist DNI: ");
-                            dni = scan.next();
-                            User rUser = OllivandersHotel.searchUserById(dni);
-                            if (rUser != null) {
-
-                                MenuEditAccount.menuEditAccount(scan, OllivandersHotel, rUser);
-                            } else {
-
-                                try {
-                                    throw new UserNotFoundException();
-                                } catch (UserNotFoundException e) {
-
-                                    System.out.println("\n" + e.getMessage() + "\n");
-                                }
-                            }
-                        } else if (editOption == 3) {
 
                             System.out.print("Enter the Passenger DNI: ");
                             dni = scan.next();
                             User pUser = OllivandersHotel.searchUserById(dni);
                             if (pUser != null) {
 
-                                MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
+                                OllivandersHotel = MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
                             } else {
 
                                 try {
@@ -285,7 +259,7 @@ public class MenuManager {
                         System.out.print("Enter ID Room: ");
                         idRoom = scan.nextInt();
 
-                        while (categoryOption == 0 || categoryOption > 4) {
+                        while (categoryOption <= 0 || categoryOption > 4) {
 
                             System.out.print("Category\n¯¯¯¯¯¯¯¯¯\n[1]. Guest\n[2]. Junior\n[3]. Presidential\n[4]. Executive\n\nOption: ");
                             categoryOption = scan.nextInt();
@@ -315,7 +289,7 @@ public class MenuManager {
                         }
                         categoryOption = 0;
                         try {
-                            System.out.println("\n" + OllivandersHotel.changeRoomCategory(idRoom, category) + "\n");
+                            OllivandersHotel.changeRoomCategory(idRoom, category);
                             System.out.println("\nThe changes were made successfully\n");
 
                         } catch (RoomNotFoundException e) {
@@ -333,31 +307,17 @@ public class MenuManager {
 
                         if (activeDeactiveOption == 1) {
 
-                            try {
-                                System.out.println("\n" + OllivandersHotel.activateRoom(idRoom) + "\n");
-                            } catch (RoomNotFoundException e) {
-                                System.out.println("\n" + e.getMessage() + "\n");
-                            }
+                            OllivandersHotel.activateRoom(idRoom);
+                            System.out.println("\nRoom activated\n");
+
                         } else if (activeDeactiveOption == 2) {
-
-                            try {
-                                System.out.println("\n" + OllivandersHotel.deactivateRoom(idRoom) + "\n");
-                            } catch (RoomNotFoundException e) {
-                                System.out.println("\n" + e.getMessage() + "\n");
-                            }
-                        } else {
-
-                            System.out.println("\nNot a valid option\n");
+                            OllivandersHotel.deactivateRoom(idRoom);
+                            System.out.println("\nRoom deactivated\n");
                         }
                         break;
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
-                        try {
-                            OllivandersHotel.saveData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                         z++;
                         break;
                     }
@@ -368,16 +328,21 @@ public class MenuManager {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Validation Error.");
-                System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-                scan.next();
-            } catch (ReceptionistShiftNeedsChange receptionistShiftNeedsChange) {
-                receptionistShiftNeedsChange.printStackTrace();
-            } catch (UserActiveDeactiveException userActiveDeactiveException) {
-                userActiveDeactiveException.printStackTrace();
+                System.out.println("\n" + ime.getMessage() + "\n");
+            } catch (ReceptionistShiftNeedsChange e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (UserActiveDeactiveException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
             } catch (UserNotFoundException e) {
-                e.printStackTrace();
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (RoomNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (ActiveRoomException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (ActiveBookingException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
             }
         }
+        return OllivandersHotel;
     }
 }

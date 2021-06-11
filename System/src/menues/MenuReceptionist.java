@@ -1,19 +1,16 @@
 package menues;
 
 import controller.Hotel;
-import exception.BookingNotFoundException;
-import exception.DateValidationException;
-import exception.InvalidStringException;
+import exception.*;
 import model.*;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuReceptionist {
 
-    public static void menuReceptionist(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
+    public static Hotel menuReceptionist(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
         int z = 0, option;
 
@@ -39,10 +36,11 @@ public class MenuReceptionist {
                         System.out.println("\nCheck In\n");
                         System.out.print("Enter the Passenger DNI: ");
                         dni = scan.next();
+                        System.out.println("If you do not remember the Booking ID, press '0' to exit this menu.");
                         System.out.print("Enter the Booking ID: ");
                         idBooking = scan.nextInt();
 
-                        if (idBooking != -1) {
+                        if (idBooking != 0) {
 
                             OllivandersHotel.checkIn(dni, idBooking);
                             System.out.println("\nBooking found. Passenger Checked In\n");
@@ -53,12 +51,11 @@ public class MenuReceptionist {
                         System.out.println("\nCheck Out\n");
                         System.out.print("Enter the Passenger DNI: ");
                         dni = scan.next();
+                        System.out.println("If you do not remember the Booking ID, press '0' to exit this menu.");
                         System.out.print("Enter the Booking ID: ");
                         idBooking = scan.nextInt();
 
-                        // TODO Check wtf I tried to do here. Dai said that I need to put "idBooking > 0" because I am checking that the user put a valid ID Booking number.
-                        // TODO I say that I don't know wtf I did here :)
-                        if (idBooking != -1) {
+                        if (idBooking != 0) {
 
                             OllivandersHotel.checkOut(dni, idBooking);
                             System.out.println("\nBooking found. Passenger Checked Out.\n");
@@ -197,11 +194,15 @@ public class MenuReceptionist {
                     case 5: {
                         System.out.println("\nCancel Booking\n");
 
+                        System.out.println("If you do not remember the Booking ID, press '0' to exit this menu.");
                         System.out.print("Enter the Booking ID: ");
                         idBooking = scan.nextInt();
 
-                        OllivandersHotel.cancelBooking(idBooking);
-                        System.out.println("\nBooking successfully cancelled.\n");
+                        if (idBooking != 0) {
+
+                            OllivandersHotel.cancelBooking(idBooking);
+                            System.out.println("\nBooking successfully cancelled.\n");
+                        }
                         break;
                     }
                     case 6: {
@@ -215,7 +216,7 @@ public class MenuReceptionist {
                         System.out.print("Enter ID Room: ");
                         idRoom = scan.nextInt();
 
-                        while (availabilityOption == 0 || availabilityOption > 4) {
+                        while (availabilityOption <= 0 || availabilityOption > 4) {
                             System.out.print("Availability\n¯¯¯¯¯¯¯¯¯¯¯¯\n[1]. Free\n[2]. Cleaning\n[3]. In Desinfection\n[4]. Under repair\n\nOption: ");
                             availabilityOption = scan.nextInt();
                             switch (availabilityOption) {
@@ -243,8 +244,9 @@ public class MenuReceptionist {
                                 }
                             }
                         }
-
-                        System.out.println("\n" + OllivandersHotel.changeRoomAvailability(idRoom, availability) + "\n");
+                        availabilityOption = 0;
+                        OllivandersHotel.changeRoomAvailability(idRoom, availability);
+                        System.out.println("\nRoom's availability successfully changed.\n");
                         break;
                     }
                     case 8: {
@@ -254,14 +256,18 @@ public class MenuReceptionist {
                         int editOption = scan.nextInt();
                         if (editOption == 1) {
 
-                            MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
+                            OllivandersHotel = MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
                         } else if (editOption == 2) {
 
                             System.out.print("Enter the Passenger DNI: ");
                             dni = scan.next();
-                            User pUser = new Passenger(dni, "xxxx", "xxxx", 18, Gender.NA, "xxxx", "1234", "email@gmail.com", "1234", "xxxx");
+                            User auxUser = OllivandersHotel.getUserByID(dni);
+                            if (auxUser != null) {
 
-                            MenuEditAccount.menuEditAccount(scan, OllivandersHotel, pUser);
+                                OllivandersHotel = MenuEditAccount.menuEditAccount(scan, OllivandersHotel, auxUser);
+                            } else {
+                                throw new UserNotFoundException();
+                            }
                         } else {
 
                             System.out.println("\nPlease, choose a valid option\n");
@@ -270,11 +276,6 @@ public class MenuReceptionist {
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
-                        try {
-                            OllivandersHotel.saveData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                         z++;
                         break;
                     }
@@ -285,16 +286,21 @@ public class MenuReceptionist {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Validation Error.");
-                System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-                scan.next();
+                System.out.println("\n" + ime.getMessage() + "\n");
             } catch (BookingNotFoundException e) {
-                e.printStackTrace();
+                System.out.println("\n" + e.getMessage() + "\n");
             } catch (DateValidationException e) {
-                e.printStackTrace();
+                System.out.println("\n" + e.getMessage() + "\n");
             } catch (InvalidStringException e) {
-                e.printStackTrace();
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (BookingStateException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (UserNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (RoomNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
             }
         }
+        return OllivandersHotel;
     }
 }

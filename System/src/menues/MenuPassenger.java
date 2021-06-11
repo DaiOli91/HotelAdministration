@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class MenuPassenger {
 
-    public static void menuPassenger(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
+    public static Hotel menuPassenger(Scanner scan, Hotel OllivandersHotel, User loggedUser) {
 
         int z = 0, option;
 
@@ -150,9 +150,9 @@ public class MenuPassenger {
 
                                     System.out.println("\n" + dte.getMessage() + ", please try again\n");
                                 } catch (UnavailableRoomException e) {
-                                    e.printStackTrace();
+                                    System.out.println("\n" + e.getMessage() + "\n");
                                 } catch (DateValidationException e) {
-                                    e.printStackTrace();
+                                    System.out.println("\n" + e.getMessage() + "\n");
                                 }
                             } else {
 
@@ -178,7 +178,7 @@ public class MenuPassenger {
                     }
                     case 4: {
                         System.out.println("\nEdit Account\n");
-                        MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
+                        OllivandersHotel = MenuEditAccount.menuEditAccount(scan, OllivandersHotel, loggedUser);
                         break;
                     }
                     case 5: {
@@ -190,20 +190,16 @@ public class MenuPassenger {
 
                             System.out.println("\n" + e.getMessage() + "\n");
                         } catch (UserNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (UserActiveDeactiveException userActiveDeactiveException) {
-                            userActiveDeactiveException.printStackTrace();
+                            System.out.println("\n" + e.getMessage() + "\n");
+                        } catch (UserActiveDeactiveException e) {
+                            System.out.println("\n" + e.getMessage() + "\n");
                         }
                         z++;
                         break;
                     }
                     case 0: {
                         System.out.println("\nLogged out successfully\n");
-                        try {
-                            OllivandersHotel.saveData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
                         z++;
                         break;
                     }
@@ -214,10 +210,9 @@ public class MenuPassenger {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Validation Error.");
-                System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-                scan.next();
+                System.out.println("\n" + ime.getMessage() + "\n");
             }
         }
+        return OllivandersHotel;
     }
 }

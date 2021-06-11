@@ -161,9 +161,7 @@ public class MenuSeeUsers {
                 }
             } catch (InputMismatchException ime) {
 
-                System.err.println("Validation Error.");
-                System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-                scan.next();
+                System.out.println("\n" + ime.getMessage() + "\n");
             }
         }
     }

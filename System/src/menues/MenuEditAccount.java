@@ -5,21 +5,17 @@ import exception.ActiveBookingException;
 import exception.InvalidNumberValidationException;
 import exception.InvalidStringException;
 import exception.UserNotFoundException;
-import model.Gender;
-import model.Manager;
-import model.Shift;
-import model.User;
+import model.*;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuEditAccount {
 
-    public static void menuEditAccount(Scanner scan, Hotel OlivandersHotel, User user) {
+    public static Hotel menuEditAccount(Scanner scan, Hotel OllivandersHotel, User user) {
 
         int z = 0, option = 0;
 
-        String dni, firstName, lastName, address, telephone, email, password, origin;
+        String dni, firstName, lastName, address, telephone, email, password, password2;
         int age = 0, genderOption = 0, shiftOption = 0;
         Gender gender = null;
         Shift shift = null;
@@ -58,15 +54,15 @@ public class MenuEditAccount {
                         lastName = scan.next();
 
                         try {
-                            OlivandersHotel.changeFullName(user.getDni(), firstName, lastName);
+                            OllivandersHotel.changeFullName(user.getDni(), firstName, lastName);
                             System.out.println("\nChanges successfully made.\n");
                         } catch (UserNotFoundException e) {
 
                             System.out.println("\n" + e.getMessage() + "\n");
                         } catch (InvalidStringException e) {
-                            e.printStackTrace();
+                            System.out.println("\n" + e.getMessage() + "\n");
                         } catch (ActiveBookingException e) {
-                            e.printStackTrace();
+                            System.out.println("\n" + e.getMessage() + "\n");
                         }
                         break;
                     }
@@ -76,7 +72,7 @@ public class MenuEditAccount {
                         System.out.print("Enter new age: ");
                         age = scan.nextInt();
 
-                        OlivandersHotel.changeAge(user.getDni(), age);
+                        OllivandersHotel.changeAge(user.getDni(), age);
                         System.out.println("\nChanges successfully made.\n");
                         break;
                     }
@@ -112,7 +108,7 @@ public class MenuEditAccount {
                             }
                         }
                         genderOption = 0;
-                        OlivandersHotel.changeGender(user.getDni(), gender);
+                        OllivandersHotel.changeGender(user.getDni(), gender);
                         System.out.println("\nChanges successfully made.\n");
                         break;
                     }
@@ -123,7 +119,7 @@ public class MenuEditAccount {
                         scan.nextLine();
                         address = scan.nextLine();
 
-                        OlivandersHotel.changeAddress(user.getDni(), address);
+                        OllivandersHotel.changeAddress(user.getDni(), address);
                         System.out.println("\nChanges successfully made.\n");
                         break;
                     }
@@ -133,7 +129,7 @@ public class MenuEditAccount {
                         System.out.print("Enter new telephone: ");
                         telephone = scan.next();
 
-                        OlivandersHotel.changeTelephone(user.getDni(), telephone);
+                        OllivandersHotel.changeTelephone(user.getDni(), telephone);
                         System.out.println("\nChanges successfully made.\n");
                         break;
                     }
@@ -143,7 +139,7 @@ public class MenuEditAccount {
                         System.out.print("Enter new email: ");
                         email = scan.next();
 
-                        OlivandersHotel.changeEmail(user.getDni(), email);
+                        OllivandersHotel.changeEmail(user.getDni(), email);
                         System.out.println("\nChanges successfully made.\n");
                         break;
                     }
@@ -152,9 +148,16 @@ public class MenuEditAccount {
 
                         System.out.print("New Password: ");
                         password = scan.next();
+                        System.out.print("Enter your password again: ");
+                        password2 = scan.next();
+                        if (password.equals(password2)) {
 
-                        OlivandersHotel.changePassword(user.getDni(), password);
-                        System.out.println("\nChanges successfully made.\n");
+                            OllivandersHotel.changePassword(user.getDni(), password);
+                            System.out.println("\nChanges successfully made.\n");
+                        } else {
+
+                            System.out.println("\nThe passwords do not match\n");
+                        }
                         break;
                     }
                     case 9: {
@@ -162,32 +165,41 @@ public class MenuEditAccount {
 
                             System.out.println("\nEdit Receptionist Shift\n");
 
-                            while (shiftOption == 0 || shiftOption > 3) {
-                                System.out.println("If you are not a receptionist, this change will not apply");
-                                System.out.print("Shift\n¯¯¯¯¯¯\n[1]. Morning\n[2]. Afternoon\n[3]. Night\n\nOption: ");
-                                shiftOption = scan.nextInt();
-                                switch (shiftOption) {
-                                    case 1: {
-                                        shift = Shift.MORNING;
-                                        break;
-                                    }
-                                    case 2: {
-                                        shift = Shift.AFTERNOON;
-                                        break;
-                                    }
-                                    case 3: {
-                                        shift = Shift.NIGHT;
-                                        break;
-                                    }
-                                    default: {
-                                        System.out.println("\nPlease select a valid option number\n");
-                                        break;
+                            System.out.print("Enter the Receptionist DNI: ");
+                            dni = scan.next();
+                            User rUser = OllivandersHotel.searchUserById(dni);
+                            if (rUser != null && rUser instanceof Receptionist) {
+
+                                while (shiftOption <= 0 || shiftOption > 3) {
+                                    System.out.println("If you are not a receptionist, this change will not apply");
+
+                                    System.out.print("Shift\n¯¯¯¯¯¯\n[1]. Morning\n[2]. Afternoon\n[3]. Night\n\nOption: ");
+                                    shiftOption = scan.nextInt();
+                                    switch (shiftOption) {
+                                        case 1: {
+                                            shift = Shift.MORNING;
+                                            break;
+                                        }
+                                        case 2: {
+                                            shift = Shift.AFTERNOON;
+                                            break;
+                                        }
+                                        case 3: {
+                                            shift = Shift.NIGHT;
+                                            break;
+                                        }
+                                        default: {
+                                            System.out.println("\nPlease select a valid option number\n");
+                                            break;
+                                        }
                                     }
                                 }
+                                shiftOption = 0;
+                                OllivandersHotel.changeReceptionistShift(rUser.getDni(), shift);
+                                System.out.println("\nChanges successfully made.\n");
+                            } else {
+                                throw new UserNotFoundException();
                             }
-
-                            OlivandersHotel.changeReceptionistShift(user.getDni(), shift);
-                            System.out.println("\nChanges successfully made.\n");
                         } else {
 
                             System.out.println("\nPlease, choose a valid option\n");
@@ -204,12 +216,14 @@ public class MenuEditAccount {
                         break;
                     }
                 }
-            } catch (InputMismatchException | UserNotFoundException | InvalidNumberValidationException | InvalidStringException ime) {
-
-                System.err.println("Validation Error.");
-                System.err.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
-                scan.next();
+            } catch (InvalidStringException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (UserNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+            } catch (InvalidNumberValidationException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
             }
         }
+        return OllivandersHotel;
     }
 }
