@@ -13,14 +13,6 @@ public class Log {
 
     public static User logIn(String dni, String Password, Hotel hotel) throws IOException {
 
-        try {
-            hotel.loadData();
-        } catch (DateValidationException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-        } catch (BookingNotFoundException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-        }
-
         User user = new Passenger(dni, Password);
         User returnUser = null;
 
