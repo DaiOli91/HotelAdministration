@@ -65,7 +65,7 @@ public class RoomRepository implements IRepository<Room, Integer> {
 
     @Override
     public void writeGson() throws IOException {
-        if (file.exists()) {
+
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -73,7 +73,6 @@ public class RoomRepository implements IRepository<Room, Integer> {
 
             bufferedWriter.flush();
             bufferedWriter.close();
-        }
 
     }
 
